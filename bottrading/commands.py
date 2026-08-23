@@ -28,10 +28,16 @@ def ayuda():
     )
 
 
-def _fmt_level(lv):
+def _fmt_level(lv, ind=None):
     flecha = "🔻cae a" if lv["direction"] == "cae" else "🚀sube a"
     nota = (" — %s" % lv["note"]) if lv.get("note") else ""
-    return "   #%s %s %s%s" % (lv["id"], flecha, fx.fmt_usd_eur(lv["price"]), nota)
+    target = ind_mod.resolve_level_price(lv, ind)
+    if target is None:
+        precio = "%s (aún sin calcular)" % lv["ma"].upper()
+    else:
+        etiqueta = " (%s hoy)" % lv["ma"].upper() if lv.get("ma") else ""
+        precio = "%s%s" % (fx.fmt_usd_eur(target), etiqueta)
+    return "   #%s %s %s%s" % (lv["id"], flecha, precio, nota)
 
 
 def _analisis_text(symbol, kind, source_id, name=None):
@@ -78,8 +84,11 @@ def handle_text(text, chat_id, engine):
             lines.append("\n<b>%s</b> (%s)" % (a["name"], a["kind"]))
             if not a["levels"]:
                 lines.append("   sin niveles")
+                continue
+            needs_ind = any(lv.get("ma") for lv in a["levels"])
+            ind = engine.get_indicators(a) if needs_ind else None
             for lv in a["levels"]:
-                lines.append(_fmt_level(lv))
+                lines.append(_fmt_level(lv, ind))
         return "\n".join(lines), False
 
     if cmd == "precio":
@@ -129,24 +138,26 @@ def handle_text(text, chat_id, engine):
     if cmd == "vigilar":
         parts = [p.strip() for p in rest.split(";")]
         if len(parts) < 4:
-            return ("Formato:\n<code>/vigilar SYMBOL; cripto|accion; PRECIO; cae|sube; "
-                    "[nota]</code>\n\nMira /ayuda para ejemplos."), False
+            return ("Formato:\n<code>/vigilar SYMBOL; cripto|accion; PRECIO|sma20|sma50|sma200; "
+                    "cae|sube; [nota]</code>\n\nMira /ayuda para ejemplos."), False
         try:
             symbol, kind_raw, price_raw, dir_raw = parts[0], parts[1].lower(), parts[2], parts[3].lower()
             kind = "crypto" if kind_raw in ("cripto", "crypto") else "stock"
-            price = float(price_raw.replace(",", "."))
+            ma = price_raw.lower() if price_raw.lower() in ("sma20", "sma50", "sma200") else None
+            price = None if ma else float(price_raw.replace(",", "."))
             direction = "cae" if dir_raw in ("cae", "baja", "abajo") else "sube"
             note = parts[4] if len(parts) > 4 and parts[4] else ""
         except Exception as e:
             return "❌ Error: %s" % e, False
         try:
-            asset, level = engine.add_level(symbol, kind, price, direction, note, chat_id=chat_id)
+            asset, level = engine.add_level(symbol, kind, price, direction, note, chat_id=chat_id, ma=ma)
         except Exception as e:
             return "❌ No pude añadir el nivel: %s" % e, False
+        objetivo = ma.upper() + " (se recalcula cada vez, no un precio fijo)" if ma else fx.fmt_usd_eur(price)
         return ("✅ Vigilando <b>#%s</b> en <b>%s</b>: aviso cuando %s %s\n%s" % (
             level["id"], asset["name"],
             "caiga a" if direction == "cae" else "supere",
-            fx.fmt_usd_eur(price),
+            objetivo,
             ("📌 %s" % note) if note else "")), True
 
     if cmd == "borrar":

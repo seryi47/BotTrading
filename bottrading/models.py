@@ -6,21 +6,31 @@ from typing import Optional
 
 @dataclass
 class Level:
-    """Un nivel de precio a vigilar dentro de un activo."""
+    """Un nivel a vigilar dentro de un activo. Es UNO de los dos:
+    - price: un precio fijo en USD (soporte/resistencia de acción del precio).
+    - ma: una media móvil en vivo ("sma20"|"sma50"|"sma200") que se recalcula
+      en cada sondeo — usarla siempre que el nivel sea conceptualmente "cuando
+      recupere/pierda tal media", para que no se quede con un número
+      congelado a medida que la media se mueve con el tiempo."""
 
     id: int
-    price: float                 # nivel en USD (divisa nativa del mercado)
-    direction: str                # "cae" (avisa al cruzar hacia abajo) | "sube" (al cruzar hacia arriba)
-    note: str = ""                # comentario de lectura técnica
-    created_by: str = "config"    # "config" (watches.yaml) | chat_id que lo creó por /vigilar
+    direction: str                 # "cae" (avisa al cruzar hacia abajo) | "sube" (al cruzar hacia arriba)
+    price: Optional[float] = None
+    ma: Optional[str] = None
+    note: str = ""                 # comentario de lectura técnica
+    created_by: str = "config"     # "config" (watches.yaml) | chat_id que lo creó por /vigilar
 
     def to_dict(self):
-        return {"id": self.id, "price": self.price, "direction": self.direction,
-                "note": self.note, "created_by": self.created_by}
+        d = {"id": self.id, "direction": self.direction, "note": self.note,
+            "created_by": self.created_by}
+        d["ma"] = self.ma if self.ma else None
+        d["price"] = self.price if not self.ma else None
+        return {k: v for k, v in d.items() if v is not None or k in ("note",)}
 
     @staticmethod
     def from_dict(d):
-        return Level(id=d["id"], price=float(d["price"]), direction=d["direction"],
+        return Level(id=d["id"], direction=d["direction"], ma=d.get("ma"),
+                     price=float(d["price"]) if d.get("price") is not None else None,
                      note=d.get("note", ""), created_by=d.get("created_by", "config"))
 
 

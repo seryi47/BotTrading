@@ -75,6 +75,17 @@ def read(closes):
     )
 
 
+def resolve_level_price(level, ind):
+    """Precio "vivo" de un nivel: si el nivel referencia una media (level["ma"]
+    = "sma20"|"sma50"|"sma200"), se recalcula con el indicador de hoy en vez de
+    quedarse congelado en el precio que tenía esa media el día que se definió
+    el nivel. Si el nivel lleva un precio fijo ("price"), ese no cambia nunca
+    (para soportes/resistencias de acción del precio, que no son una media)."""
+    if level.get("ma"):
+        return getattr(ind, level["ma"], None) if ind else None
+    return level.get("price")
+
+
 def nearest_levels(price, levels):
     """De los niveles configurados de un activo, el soporte (cae) y la
     resistencia (sube) más cercanos al precio actual — para el resumen diario."""

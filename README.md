@@ -101,6 +101,18 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now bottrading
 ```
 
+## Dos tipos de nivel: precio fijo o media en vivo
+Un nivel en `watches.yaml` (o creado con `/vigilar`) es **uno de los dos**:
+- `price: 26` — un precio fijo. Para soportes/resistencias de acción del
+  precio, máximos/mínimos de 52 semanas, niveles psicológicos.
+- `ma: sma20|sma50|sma200` — una **media móvil en vivo**: se recalcula en
+  cada sondeo con `indicators.resolve_level_price()`, no se queda congelada
+  en el número que tenía el día que se definió. Úsalo siempre que el nivel
+  sea conceptualmente "cuando recupere/pierda tal media" — si se pusiera
+  como precio fijo, en unas semanas ese número ya no coincidiría con dónde
+  está esa media de verdad. `/vigilar SYMBOL; accion; sma200; sube; nota`
+  también acepta este tipo desde Telegram.
+
 ## Cómo decide "cruce de nivel"
 Cada activo guarda el último precio conocido (`last_price`). En cada sondeo
 compara el precio nuevo contra cada nivel:

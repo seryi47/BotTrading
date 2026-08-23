@@ -101,8 +101,10 @@ class Engine:
             self._save()
             return a
 
-    def add_level(self, symbol, kind, price, direction, note="", chat_id=None, source_id=None):
-        """Añade un nivel a un activo; crea el activo si no existía todavía."""
+    def add_level(self, symbol, kind, price, direction, note="", chat_id=None, source_id=None, ma=None):
+        """Añade un nivel a un activo; crea el activo si no existía todavía.
+        Un nivel es o bien un precio fijo (`price`) o una media en vivo (`ma`
+        = "sma20"|"sma50"|"sma200") que se recalcula sola en cada sondeo."""
         with self._lock:
             asset = self.find_asset(symbol)
             if asset is None:
@@ -112,9 +114,12 @@ class Engine:
                     else:
                         source_id = symbol.upper()
                 asset = self.add_asset(symbol, kind, source_id)
-            level = {"id": self._next_level_id(), "price": float(price),
-                    "direction": direction, "note": note,
+            level = {"id": self._next_level_id(), "direction": direction, "note": note,
                     "created_by": str(chat_id) if chat_id else "config"}
+            if ma:
+                level["ma"] = ma
+            else:
+                level["price"] = float(price)
             asset["levels"].append(level)
             if chat_id:
                 asset["chat_id"] = str(chat_id)
@@ -139,16 +144,20 @@ class Engine:
                 asset = self.find_asset(symbol)
                 if asset is None:
                     asset = self.add_asset(symbol, ca["kind"], ca["source_id"], ca.get("name"))
-                existing_prices = {(lv["direction"], round(lv["price"], 2)) for lv in asset["levels"]}
+                def dedup_key(lv):
+                    return (lv["direction"], lv.get("ma") or round(float(lv["price"]), 2))
+                existing = {dedup_key(lv) for lv in asset["levels"]}
                 for lv in ca.get("levels", []):
-                    key = (lv["direction"], round(float(lv["price"]), 2))
-                    if key in existing_prices:
+                    key = dedup_key(lv)
+                    if key in existing:
                         continue
-                    asset["levels"].append({
-                        "id": self._next_level_id(), "price": float(lv["price"]),
-                        "direction": lv["direction"], "note": lv.get("note", ""),
-                        "created_by": "config",
-                    })
+                    new_lv = {"id": self._next_level_id(), "direction": lv["direction"],
+                             "note": lv.get("note", ""), "created_by": "config"}
+                    if lv.get("ma"):
+                        new_lv["ma"] = lv["ma"]
+                    else:
+                        new_lv["price"] = float(lv["price"])
+                    asset["levels"].append(new_lv)
             self._save()
 
     def list_assets(self):
@@ -191,14 +200,15 @@ class Engine:
     def _chat_for(self, asset):
         return asset.get("chat_id") or self.default_chat_id
 
-    def _level_alert_text(self, asset, level, price, ind):
+    def _level_alert_text(self, asset, level, target, price, ind):
         arrow = "🔻" if level["direction"] == "cae" else "🚀"
         tag = ind_mod.classify_alert(level["direction"], ind) if ind else "🟡 Sin lectura técnica disponible"
+        etiqueta = (" (%s)" % level["ma"].upper()) if level.get("ma") else ""
         lines = [
-            "%s <b>%s</b> ha %s <b>%s</b>" % (
+            "%s <b>%s</b> ha %s <b>%s</b>%s" % (
                 arrow, asset["name"],
                 "caído a" if level["direction"] == "cae" else "superado",
-                fx.fmt_usd_eur(level["price"])),
+                fx.fmt_usd_eur(target), etiqueta),
             "Precio actual: %s" % fx.fmt_usd_eur(price),
         ]
         if level.get("note"):
@@ -237,7 +247,15 @@ class Engine:
                 continue
             ind = self.get_indicators(asset)
             emoji, motivo = ind_mod.overall_signal(ind)
-            support, resistance = ind_mod.nearest_levels(price, asset["levels"])
+            # resuelve cada nivel (fijo o "ma") a su precio vivo antes de buscar
+            # el más cercano — si no hay indicador todavía, los niveles "ma" se
+            # descartan de esta pasada (no se puede saber dónde está la SMA)
+            resolved = []
+            for lv in asset["levels"]:
+                target = ind_mod.resolve_level_price(lv, ind)
+                if target is not None:
+                    resolved.append({**lv, "price": target})
+            support, resistance = ind_mod.nearest_levels(price, resolved)
 
             card = ["%s <b>%s</b> · %s" % (emoji, asset["name"], asset["symbol"]),
                    "<code>%s</code>" % fx.fmt_usd_eur(price)]
@@ -289,20 +307,28 @@ class Engine:
                 print("  [%s] error al consultar precio: %s" % (asset["symbol"], e))
                 continue
             prev = asset.get("last_price")
+            # las medias (SMA20/50/200) hay que resolverlas en vivo, no cachearlas
+            # como precio fijo — si el activo tiene algún nivel "ma", nos hace
+            # falta el indicador ya en esta pasada, no solo al disparar el aviso
+            needs_ind = any(lv.get("ma") for lv in asset["levels"])
+            ind_now = self.get_indicators(asset) if needs_ind else None
             fired = []
             if prev is not None:
                 for lv in asset["levels"]:
-                    if lv["direction"] == "cae" and prev > lv["price"] >= price:
-                        fired.append(lv)
-                    elif lv["direction"] == "sube" and prev < lv["price"] <= price:
-                        fired.append(lv)
+                    target = ind_mod.resolve_level_price(lv, ind_now)
+                    if target is None:
+                        continue
+                    if lv["direction"] == "cae" and prev > target >= price:
+                        fired.append((lv, target))
+                    elif lv["direction"] == "sube" and prev < target <= price:
+                        fired.append((lv, target))
             asset["last_price"] = price
             if fired:
                 ind = self.get_indicators(asset, force=True)
                 chat = self._chat_for(asset)
-                for lv in fired:
-                    self.notifier.telegram(chat, self._level_alert_text(asset, lv, price, ind))
-                    self.notifier.mac("BotTrading", "%s cruzó %s" % (asset["symbol"], lv["price"]))
+                for lv, target in fired:
+                    self.notifier.telegram(chat, self._level_alert_text(asset, lv, target, price, ind))
+                    self.notifier.mac("BotTrading", "%s cruzó %s" % (asset["symbol"], target))
             stamp = time.strftime("%H:%M:%S")
             print("[%s] %s -> %s%s" % (stamp, asset["symbol"], price,
                                        "  (%d aviso/s)" % len(fired) if fired else ""))
