@@ -237,11 +237,11 @@ class Engine:
             support, resistance = ind_mod.nearest_levels(price, asset["levels"])
             loc = []
             if support:
-                loc.append("soporte %s (%+.1f%%)" % (fx.fmt_usd_eur(support["price"]),
-                                                      (support["price"] / price - 1) * 100))
+                pct = ("%+.1f" % ((support["price"] / price - 1) * 100)).replace(".", ",")
+                loc.append("soporte %s (%s%%)" % (fx.fmt_usd_eur(support["price"]), pct))
             if resistance:
-                loc.append("resistencia %s (%+.1f%%)" % (fx.fmt_usd_eur(resistance["price"]),
-                                                          (resistance["price"] / price - 1) * 100))
+                pct = ("%+.1f" % ((resistance["price"] / price - 1) * 100)).replace(".", ",")
+                loc.append("resistencia %s (%s%%)" % (fx.fmt_usd_eur(resistance["price"]), pct))
             if loc:
                 lines.append("📍 " + " · ".join(loc))
             lines.append("➜ %s" % motivo)
