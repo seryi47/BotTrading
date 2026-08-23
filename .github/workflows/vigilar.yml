@@ -1,0 +1,43 @@
+name: Vigilar precios
+
+# Igual que BotViajes: un job LARGO que sondea en bucle y se releva solo,
+# gratis en GitHub Actions (requiere repo público para minutos ilimitados).
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # respaldo/relevo (el mínimo que permite GitHub)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  actions: write   # para que /apagar pueda desactivar el workflow
+
+concurrency:
+  group: vigilar-loop
+  cancel-in-progress: false
+
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install requests PyYAML
+
+      - name: Vigilar en bucle
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BOTTRADING_CONFIG: watches.yaml
+          MAC_ALERTS: "0"
+          LOOP_INTERVAL: "300"          # 5 min entre sondeos de precio
+          MAX_RUNTIME_SECONDS: "20000"  # ~5h33m; luego releva el siguiente run
+          HANDLE_COMMANDS: "1"          # atiende /vigilar, /lista... desde Telegram
+        run: python run.py --loop

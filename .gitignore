@@ -1,0 +1,12 @@
+# Secretos y estado runtime
+.env
+watches.json
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.log
+
+# macOS
+.DS_Store

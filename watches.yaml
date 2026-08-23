@@ -1,0 +1,103 @@
+# Watchlist de BotTrading — se sube al repo (no lleva secretos: el chat_id de
+# Telegram va siempre en .env / secret de Actions, nunca aquí).
+#
+# Los precios de los niveles están en USD (la divisa nativa de estos mercados);
+# el bot los muestra también en euros al avisar. Direction: "cae" avisa al
+# cruzar hacia abajo, "sube" al cruzar hacia arriba.
+#
+# Niveles calculados el 23-ago-2026 con SMA/EMA/RSI/MACD sobre ~1 año de
+# velas diarias (CoinGecko / Yahoo Finance) — revísalos de vez en cuando,
+# el mercado se mueve y estos números se quedan viejos.
+
+poll_interval: 300      # segundos entre sondeos de precio (5 min)
+digest_hour: 9          # hora (Europe/Madrid) del resumen diario por Telegram
+mac_alerts: true        # solo tiene efecto en local/macOS
+paused: false
+
+assets:
+  - symbol: "BTC"
+    kind: "crypto"
+    source_id: "bitcoin"
+    name: "Bitcoin"
+    levels:
+      - price: 75800
+        direction: "cae"
+        note: "Soporte inmediato. Si aguanta con rebote, primera señal de continuidad alcista."
+      - price: 69000
+        direction: "cae"
+        note: "Soporte estructural (SMA/EMA200). Zona de compra SOLO si rebota con volumen, no por tocarlo."
+      - price: 78400
+        direction: "sube"
+        note: "Resistencia — máximo reciente (llegó a rozar 79.500 intradía antes de un flash crash)."
+      - price: 80000
+        direction: "sube"
+        note: "Resistencia mayor — entrada en la zona pesada 80-82k. No perseguir con RSI muy alto."
+
+  - symbol: "ETH"
+    kind: "crypto"
+    source_id: "ethereum"
+    name: "Ethereum"
+    levels:
+      - price: 2360
+        direction: "cae"
+        note: "Rompe el soporte de 2.400. Si cae con fuerza, siguiente parada 2.100-2.130."
+      - price: 2400
+        direction: "sube"
+        note: "Nivel de decisión. Si aguanta y hace máximo más alto, confirma el primer giro alcista en más de un año."
+      - price: 2519
+        direction: "sube"
+        note: "Rompe el máximo reciente — objetivo intermedio."
+      - price: 2800
+        direction: "sube"
+        note: "Objetivo mayor si la tendencia se confirma."
+
+  - symbol: "MA"
+    kind: "stock"
+    source_id: "MA"
+    name: "Mastercard"
+    levels:
+      - price: 536
+        direction: "cae"
+        note: "Rompe la SMA50 — invalida la estructura alcista limpia. Salir/evitar."
+      - price: 566
+        direction: "cae"
+        note: "Toca la SMA20 — zona de entrada dentro de la tendencia si rebota."
+      - price: 601
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — continuación."
+
+  - symbol: "ORCL"
+    kind: "stock"
+    source_id: "ORCL"
+    name: "Oracle"
+    levels:
+      - price: 137
+        direction: "cae"
+        note: "Pierde soporte — riesgo de volver a probar el mínimo de 52 semanas."
+      - price: 115
+        direction: "cae"
+        note: "Test del mínimo de 52 semanas — nivel crítico, muy especulativo."
+      - price: 150
+        direction: "sube"
+        note: "Rompe la SMA50 — primera confirmación real de rebote tras el -59% desde el ATH."
+      - price: 174
+        direction: "sube"
+        note: "Recupera la SMA200 — cambiaría la tendencia de fondo, no solo un rebote."
+
+  - symbol: "AOSL"
+    kind: "stock"
+    source_id: "AOSL"
+    name: "Alpha and Omega Semiconductor"
+    levels:
+      - price: 26
+        direction: "cae"
+        note: "Test de mínimos recientes tras el susto de resultados. Muy especulativa — sin beneficios, solo entra con gestión de riesgo estricta."
+      - price: 17.5
+        direction: "cae"
+        note: "Test del mínimo de 52 semanas — nivel de capitulación."
+      - price: 31
+        direction: "sube"
+        note: "Recupera la SMA20 — primera señal de estabilización."
+      - price: 36
+        direction: "sube"
+        note: "Recupera la SMA50 — confirma el rebote. Objetivo analistas: ~43,75$."

@@ -1,0 +1,95 @@
+"""Indicadores técnicos — la misma aritmética que hemos usado a mano en el chat
+(SMA/EMA/RSI de Wilder/MACD 12-26-9), aquí convertida en código reutilizable."""
+
+from .models import Indicators
+
+
+def sma(values, window):
+    if len(values) < window:
+        return None
+    return sum(values[-window:]) / window
+
+
+def ema_series(values, window):
+    if not values:
+        return []
+    k = 2 / (window + 1)
+    out = [values[0]]
+    for v in values[1:]:
+        out.append(v * k + out[-1] * (1 - k))
+    return out
+
+
+def ema(values, window):
+    if len(values) < window:
+        return None
+    return ema_series(values, window)[-1]
+
+
+def rsi(values, period=14):
+    if len(values) < period + 1:
+        return None
+    gains, losses = [], []
+    for i in range(1, len(values)):
+        diff = values[i] - values[i - 1]
+        gains.append(max(diff, 0))
+        losses.append(max(-diff, 0))
+    avg_gain = sum(gains[:period]) / period
+    avg_loss = sum(losses[:period]) / period
+    for i in range(period, len(gains)):
+        avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+        avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+    if avg_loss == 0:
+        return 100.0
+    rs = avg_gain / avg_loss
+    return 100 - (100 / (1 + rs))
+
+
+def macd(values, fast=12, slow=26, signal=9):
+    if len(values) < slow + signal:
+        return None, None, None
+    ema_fast = ema_series(values, fast)
+    ema_slow = ema_series(values, slow)
+    macd_line = [f - s for f, s in zip(ema_fast, ema_slow)]
+    signal_line = ema_series(macd_line, signal)
+    return macd_line[-1], signal_line[-1], macd_line[-1] - signal_line[-1]
+
+
+def read(closes):
+    """Calcula el snapshot técnico completo a partir de una serie de cierres
+    diarios (cronológica, el último es el más reciente)."""
+    if not closes:
+        return None
+    price = closes[-1]
+    _m, _s, hist = macd(closes)
+    window30 = closes[-30:] if len(closes) >= 30 else closes
+    return Indicators(
+        price=price,
+        sma20=sma(closes, 20),
+        sma50=sma(closes, 50),
+        sma200=sma(closes, 200),
+        rsi14=rsi(closes, 14),
+        macd_hist=hist,
+        high_30d=max(window30),
+        low_30d=min(window30),
+    )
+
+
+def classify_alert(direction, ind: "Indicators"):
+    """Etiqueta de trader para un cruce de nivel: compra / evitar / vigilar.
+
+    Es la regla que hemos aplicado todo el rato en el chat: no perseguir en
+    sobrecompra, y un soporte solo vale si el RSI ya se ha enfriado."""
+    rsi14 = ind.rsi14 if ind else None
+    if direction == "cae":
+        if rsi14 is not None and rsi14 <= 45:
+            return "🟢 Posible zona de compra (RSI ya enfriado)"
+        if rsi14 is not None and rsi14 >= 65:
+            return "🟡 Toca soporte pero el RSI (%.0f) sigue alto — esperar confirmación, no comprar solo por el nivel" % rsi14
+        return "🟡 Soporte tocado — vigilar si rebota antes de entrar"
+    else:  # "sube"
+        if rsi14 is not None and rsi14 >= 75:
+            return "🔴 Rompe resistencia pero con RSI en sobrecompra extrema (%.0f) — no perseguir" % rsi14
+        if rsi14 is not None and rsi14 <= 55:
+            return "🟢 Rompe resistencia con margen de RSI (%.0f) — continuación con más credibilidad" % rsi14
+        return "🟡 Resistencia rota — vigilar que aguante antes de sumar"
