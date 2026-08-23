@@ -9,7 +9,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write  # para poder commitear state/last_digest.json (sin datos personales)
   actions: write   # para que /apagar pueda desactivar el workflow
 
 concurrency:
@@ -40,4 +40,6 @@ jobs:
           LOOP_INTERVAL: "300"          # 5 min entre sondeos de precio
           MAX_RUNTIME_SECONDS: "20000"  # ~5h33m; luego releva el siguiente run
           HANDLE_COMMANDS: "1"          # atiende /vigilar, /lista... desde Telegram
-        run: python run.py --loop
+          PYTHONUNBUFFERED: "1"         # sin esto, los print() se quedan en el búfer y no
+                                        # se ven en el log hasta que el proceso termina limpio
+        run: python -u run.py --loop

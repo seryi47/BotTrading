@@ -17,17 +17,24 @@ MADRID = ZoneInfo("Europe/Madrid")
 
 class Engine:
     def __init__(self, notifier, poll_interval=300, default_chat_id=None,
-                 state_file="watches.json", history_ttl=14400, digest_hour=9):
+                 state_file="watches.json", history_ttl=14400, digest_hour=9,
+                 digest_state_file=None):
         self.notifier = notifier
         self.poll_interval = poll_interval      # cada cuánto se consulta precio (s)
         self.default_chat_id = default_chat_id
         self.state_file = state_file
         self.history_ttl = history_ttl          # cada cuánto se refresca el histórico (s)
         self.digest_hour = digest_hour           # hora (Europe/Madrid) del resumen diario
+        # Archivo aparte para "ya mandé el resumen de hoy" (sin datos personales),
+        # pensado para poder commitearse a un repo PÚBLICO en modo nube: en
+        # GitHub Actions cada relevo del job arranca de cero y, sin esto, el
+        # resumen diario se repetiría en cada relevo posterior a digest_hour.
+        self.digest_state_file = digest_state_file
         self._lock = threading.RLock()
         self.assets = []                        # persistente: lista de dicts
         self.paused = False
         self.last_digest_date = None
+        self.digest_just_sent = False           # runtime: para que run.py sepa si debe commitear
         self.shutdown_requested = False
         self._stop = threading.Event()
         self._ind_cache = {}                    # runtime: {asset_id: {"ts", "ind"}}
@@ -44,6 +51,15 @@ class Engine:
                 self.last_digest_date = data.get("last_digest_date")
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.state_file, e))
+        if self.digest_state_file and os.path.exists(self.digest_state_file):
+            try:
+                with open(self.digest_state_file, "r", encoding="utf-8") as fh:
+                    d = json.load(fh)
+                # el archivo compartido (git) manda si es igual o más reciente
+                if d.get("last_digest_date"):
+                    self.last_digest_date = d["last_digest_date"]
+            except Exception as e:
+                print("[engine] no se pudo leer %s: %s" % (self.digest_state_file, e))
 
     def _save(self):
         try:
@@ -53,6 +69,13 @@ class Engine:
                          fh, ensure_ascii=False, indent=2)
         except Exception as e:
             print("[engine] no se pudo guardar %s: %s" % (self.state_file, e))
+        if self.digest_state_file:
+            try:
+                os.makedirs(os.path.dirname(self.digest_state_file) or ".", exist_ok=True)
+                with open(self.digest_state_file, "w", encoding="utf-8") as fh:
+                    json.dump({"last_digest_date": self.last_digest_date}, fh)
+            except Exception as e:
+                print("[engine] no se pudo guardar %s: %s" % (self.digest_state_file, e))
 
     # ---- gestión de activos y niveles -----------------------------------
     def _next_asset_id(self):
@@ -203,6 +226,7 @@ class Engine:
         return "\n".join(lines)
 
     def _maybe_send_digest(self):
+        self.digest_just_sent = False
         now = datetime.now(MADRID)
         today = now.strftime("%Y-%m-%d")
         if now.hour < self.digest_hour or self.last_digest_date == today:
@@ -211,6 +235,7 @@ class Engine:
             return
         self.notifier.telegram(self.default_chat_id, self._digest_text())
         self.last_digest_date = today
+        self.digest_just_sent = True
         self._save()
 
     # ---- bucle --------------------------------------------------------------

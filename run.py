@@ -30,6 +30,34 @@ def load_config(path=None):
         return yaml.safe_load(fh) or {}
 
 
+def save_and_commit_digest_state(engine):
+    """En GitHub Actions cada relevo del job arranca de cero: sin esto, el
+    resumen diario se repetiría en cada relevo posterior a digest_hour. El
+    archivo no lleva datos personales (solo la fecha), así que es seguro
+    commitearlo a un repo público."""
+    if os.environ.get("GITHUB_ACTIONS") != "true" or not engine.digest_state_file:
+        return
+    import subprocess
+
+    def run(*a):
+        return subprocess.run(a, capture_output=True, text=True)
+
+    branch = os.environ.get("GITHUB_REF_NAME", "master")
+    run("git", "config", "user.email", "bot@users.noreply.github.com")
+    run("git", "config", "user.name", "BotTrading")
+    run("git", "add", "-f", engine.digest_state_file)
+    if run("git", "commit", "-m", "chore: resumen diario enviado (%s)" % engine.last_digest_date).returncode != 0:
+        return
+    run("git", "fetch", "origin", branch)
+    if run("git", "rebase", "origin/" + branch).returncode != 0:
+        run("git", "rebase", "--abort")
+        print("  [git] conflicto al rebasar; no subo el estado del resumen (se reintenta mañana)")
+        return
+    p = run("git", "push", "origin", "HEAD:" + branch)
+    if p.returncode != 0:
+        print("  [git] push falló:", (p.stderr or "").strip()[:200])
+
+
 def main():
     cfg = load_config()
     chat_id = str(cfg.get("telegram_chat_id") or os.environ.get("TELEGRAM_CHAT_ID", "")).strip()
@@ -39,6 +67,7 @@ def main():
         poll_interval=int(cfg.get("poll_interval", 300)),
         default_chat_id=chat_id or None,
         digest_hour=int(cfg.get("digest_hour", 9)),
+        digest_state_file=os.environ.get("DIGEST_STATE_FILE", "state/last_digest.json"),
     )
     engine.seed_from_config(cfg.get("assets"))
     engine.set_paused(bool(cfg.get("paused", False)))
@@ -89,6 +118,8 @@ def main():
             if _t.time() - last_check >= interval:
                 try:
                     engine.tick()
+                    if engine.digest_just_sent:
+                        save_and_commit_digest_state(engine)
                 except Exception as e:
                     print("  error en pasada:", e)
                 last_check = _t.time()
