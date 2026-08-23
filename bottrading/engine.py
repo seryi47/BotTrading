@@ -212,17 +212,39 @@ class Engine:
         lines += ["", tag]
         return "\n".join(lines)
 
+    MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+            "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+
     def _digest_text(self):
-        lines = ["📋 <b>Resumen diario — BotTrading</b>", ""]
-        for asset in self.assets:
+        now = datetime.now(MADRID)
+        fecha = "%d de %s, %02d:%02d" % (now.day, self.MESES[now.month - 1], now.hour, now.minute)
+        lines = ["📊 <b>BotTrading</b> — resumen de hoy, %s" % fecha]
+        for i, asset in enumerate(self.assets):
+            if i > 0:
+                time.sleep(1.2)
+            lines.append("")
             try:
                 price = self.get_price(asset)
             except Exception as e:
-                lines.append("• <b>%s</b>: error al consultar precio (%s)" % (asset["symbol"], e))
+                lines.append("⚪ <b>%s</b> — no pude consultar el precio (%s)" % (asset["name"], e))
                 continue
             ind = self.get_indicators(asset)
-            rsi_txt = ind.rsi_desc() if ind else "sin dato"
-            lines.append("• <b>%s</b>: %s | RSI %s" % (asset["symbol"], fx.fmt_usd_eur(price), rsi_txt))
+            emoji, motivo = ind_mod.overall_signal(ind)
+            lines.append("%s <b>%s</b> (%s)" % (emoji, asset["name"], asset["symbol"]))
+            lines.append(fx.fmt_usd_eur(price))
+            if ind and ind.rsi14 is not None:
+                lines.append("RSI %.0f — %s · %s" % (ind.rsi14, ind.rsi_desc().split(" (")[0], ind.trend_desc()))
+            support, resistance = ind_mod.nearest_levels(price, asset["levels"])
+            loc = []
+            if support:
+                loc.append("soporte %s (%+.1f%%)" % (fx.fmt_usd_eur(support["price"]),
+                                                      (support["price"] / price - 1) * 100))
+            if resistance:
+                loc.append("resistencia %s (%+.1f%%)" % (fx.fmt_usd_eur(resistance["price"]),
+                                                          (resistance["price"] / price - 1) * 100))
+            if loc:
+                lines.append("📍 " + " · ".join(loc))
+            lines.append("➜ %s" % motivo)
         return "\n".join(lines)
 
     def _maybe_send_digest(self):

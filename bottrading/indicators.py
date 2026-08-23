@@ -75,6 +75,39 @@ def read(closes):
     )
 
 
+def nearest_levels(price, levels):
+    """De los niveles configurados de un activo, el soporte (cae) y la
+    resistencia (sube) más cercanos al precio actual — para el resumen diario."""
+    supports = [lv for lv in levels if lv["direction"] == "cae"]
+    resistances = [lv for lv in levels if lv["direction"] == "sube"]
+
+    def closest(cands, want_below):
+        if not cands:
+            return None
+        side = [lv for lv in cands if (lv["price"] <= price) == want_below]
+        pool = side or cands
+        return min(pool, key=lambda lv: abs(lv["price"] - price))
+
+    return closest(supports, True), closest(resistances, False)
+
+
+def overall_signal(ind: "Indicators"):
+    """Semáforo de "¿compro o no?" para el resumen diario, a partir del RSI.
+    Misma regla de siempre: sobrecompra no se persigue, sobreventa se vigila."""
+    if ind is None or ind.rsi14 is None:
+        return "⚪", "Sin datos suficientes ahora mismo — reintento en el próximo sondeo."
+    r = ind.rsi14
+    if r >= 75:
+        return "🔴", "No comprar — sobrecompra extrema, alto riesgo de vela de vuelta."
+    if r >= 65:
+        return "🟠", "Cuidado, sobrecompra — mejor esperar una corrección antes de entrar."
+    if r <= 30:
+        return "🟢", "Sobreventa — posible zona de rebote, vigilar confirmación."
+    if r <= 45:
+        return "🟢", "RSI enfriado — zona razonable si el resto del cuadro acompaña."
+    return "🟡", "Neutral — sin señal clara, ni para entrar ni para salir."
+
+
 def classify_alert(direction, ind: "Indicators"):
     """Etiqueta de trader para un cruce de nivel: compra / evitar / vigilar.
 
