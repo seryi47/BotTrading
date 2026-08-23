@@ -117,3 +117,24 @@ assets:
       - ma: "sma50"
         direction: "sube"
         note: "Recupera su SMA50 — confirma el rebote de verdad. Objetivo de analistas más conservador: ~$34 (B. Riley); más optimista: ~$45 (Needham)."
+
+  - symbol: "SONO"
+    kind: "stock"
+    source_id: "SONO"
+    name: "Sonos"
+    levels:
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su SMA50 — el impulso de las últimas semanas se agota, vigilar que no siga cayendo."
+      - price: 12.44
+        direction: "cae"
+        note: "Mínimo de 52 semanas — nivel crítico, invalidaría el relato de recuperación."
+      - price: 16.59
+        direction: "sube"
+        note: "Rompe el máximo de las últimas semanas — continuación del tramo alcista reciente."
+      - price: 17.52
+        direction: "sube"
+        note: "Techo recurrente de este año, tocado y rechazado varias veces — romperlo de verdad sería la señal fuerte."
+      - price: 19.7
+        direction: "sube"
+        note: "Iguala el máximo de 52 semanas y el objetivo de consenso de analistas (~$19,67) — objetivo final del escenario alcista."
