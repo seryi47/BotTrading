@@ -41,4 +41,3 @@ jobs:
           MAX_RUNTIME_SECONDS: "20000"  # ~5h33m; luego releva el siguiente run
           HANDLE_COMMANDS: "1"          # atiende /vigilar, /lista... desde Telegram
         run: python run.py --loop
-# trigger reindex 1787492002
