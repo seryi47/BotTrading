@@ -215,36 +215,48 @@ class Engine:
     MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
             "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
 
+    @staticmethod
+    def _pct(a, b):
+        return ("%+.1f" % ((a / b - 1) * 100)).replace(".", ",")
+
     def _digest_text(self):
         now = datetime.now(MADRID)
         fecha = "%d de %s, %02d:%02d" % (now.day, self.MESES[now.month - 1], now.hour, now.minute)
-        lines = ["📊 <b>BotTrading</b> — resumen de hoy, %s" % fecha]
+        lines = [
+            "📊 <b>BotTrading</b> — resumen de hoy",
+            "🗓 %s (hora de Madrid)" % fecha,
+            "🟢 entra · 🟠 cuidado · 🟡 neutral · 🔴 no compres · ⚪ sin datos",
+        ]
         for i, asset in enumerate(self.assets):
             if i > 0:
                 time.sleep(1.2)
-            lines.append("")
             try:
                 price = self.get_price(asset)
             except Exception as e:
-                lines.append("⚪ <b>%s</b> — no pude consultar el precio (%s)" % (asset["name"], e))
+                lines.append("\n⚪ <b>%s</b> — no pude consultar el precio (%s)" % (asset["name"], e))
                 continue
             ind = self.get_indicators(asset)
             emoji, motivo = ind_mod.overall_signal(ind)
-            lines.append("%s <b>%s</b> (%s)" % (emoji, asset["name"], asset["symbol"]))
-            lines.append(fx.fmt_usd_eur(price))
-            if ind and ind.rsi14 is not None:
-                lines.append("RSI %.0f — %s · %s" % (ind.rsi14, ind.rsi_desc().split(" (")[0], ind.trend_desc()))
             support, resistance = ind_mod.nearest_levels(price, asset["levels"])
+
+            card = ["%s <b>%s</b> · %s" % (emoji, asset["name"], asset["symbol"]),
+                   "<code>%s</code>" % fx.fmt_usd_eur(price)]
+            if ind and ind.rsi14 is not None:
+                card.append("RSI %.0f · %s" % (ind.rsi14, ind.trend_desc()))
             loc = []
             if support:
-                pct = ("%+.1f" % ((support["price"] / price - 1) * 100)).replace(".", ",")
-                loc.append("soporte %s (%s%%)" % (fx.fmt_usd_eur(support["price"]), pct))
+                loc.append("Soporte %s (%s%%)" % (fx.fmt_usd_eur(support["price"]), self._pct(support["price"], price)))
             if resistance:
-                pct = ("%+.1f" % ((resistance["price"] / price - 1) * 100)).replace(".", ",")
-                loc.append("resistencia %s (%s%%)" % (fx.fmt_usd_eur(resistance["price"]), pct))
+                loc.append("Resistencia %s (%s%%)" % (fx.fmt_usd_eur(resistance["price"]), self._pct(resistance["price"], price)))
             if loc:
-                lines.append("📍 " + " · ".join(loc))
-            lines.append("➜ %s" % motivo)
+                card.append("📍 " + " · ".join(loc))
+            card.append("")
+            card.append("🚦 <b>Ahora:</b> %s" % motivo)
+            plan = ind_mod.buy_plan(ind.rsi14 if ind else None, support, resistance, fx.fmt_usd_eur)
+            card.append("🎯 <b>Compraría si:</b> %s" % plan)
+            if support and support.get("note"):
+                card.append("<i>%s</i>" % support["note"])
+            lines.append("\n<blockquote>%s</blockquote>" % "\n".join(card))
         return "\n".join(lines)
 
     def _maybe_send_digest(self):

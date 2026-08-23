@@ -108,6 +108,25 @@ def overall_signal(ind: "Indicators"):
     return "🟡", "Neutral — sin señal clara, ni para entrar ni para salir."
 
 
+def buy_plan(rsi14, support, resistance, fmt):
+    """Condición concreta de entrada para el resumen diario — "cuándo comprar",
+    no solo "cómo está ahora". `fmt` formatea un precio (para no acoplar esto
+    a fx aquí)."""
+    if rsi14 is None:
+        return "Sin RSI todavía — reintento en el próximo sondeo."
+    if rsi14 >= 65:
+        if support:
+            return "que caiga a %s Y el RSI baje de 45 — no antes, aunque tenga buena pinta." % fmt(support["price"])
+        return "que el RSI baje de 45 (ahora está en sobrecompra)."
+    if rsi14 <= 45:
+        if support:
+            return "ya está en zona razonable (RSI %.0f) — confírmalo con un rebote sin perder %s." % (rsi14, fmt(support["price"]))
+        return "ya está en zona razonable (RSI %.0f)." % rsi14
+    if support and resistance:
+        return "rebota en %s manteniendo el RSI por debajo de 65, o rompe %s con volumen." % (fmt(support["price"]), fmt(resistance["price"]))
+    return "aparezca una señal más clara — el RSI está neutral ahora mismo."
+
+
 def classify_alert(direction, ind: "Indicators"):
     """Etiqueta de trader para un cruce de nivel: compra / evitar / vigilar.
 
