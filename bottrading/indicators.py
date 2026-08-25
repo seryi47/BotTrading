@@ -67,6 +67,7 @@ def read(closes):
         price=price,
         sma20=sma(closes, 20),
         sma50=sma(closes, 50),
+        sma100=sma(closes, 100),
         sma200=sma(closes, 200),
         rsi14=rsi(closes, 14),
         macd_hist=hist,
@@ -77,7 +78,7 @@ def read(closes):
 
 def resolve_level_price(level, ind):
     """Precio "vivo" de un nivel: si el nivel referencia una media (level["ma"]
-    = "sma20"|"sma50"|"sma200"), se recalcula con el indicador de hoy en vez de
+    = "sma20"|"sma50"|"sma100"|"sma200"), se recalcula con el indicador de hoy en vez de
     quedarse congelado en el precio que tenía esa media el día que se definió
     el nivel. Si el nivel lleva un precio fijo ("price"), ese no cambia nunca
     (para soportes/resistencias de acción del precio, que no son una media)."""

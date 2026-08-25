@@ -41,6 +41,7 @@ class Indicators:
     price: float
     sma20: Optional[float] = None
     sma50: Optional[float] = None
+    sma100: Optional[float] = None
     sma200: Optional[float] = None
     rsi14: Optional[float] = None
     macd_hist: Optional[float] = None

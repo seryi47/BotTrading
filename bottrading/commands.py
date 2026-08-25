@@ -49,9 +49,9 @@ def _analisis_text(symbol, kind, source_id, name=None):
         "🔎 <b>%s</b> — análisis técnico ahora mismo" % (name or symbol.upper()),
         "",
         "Precio: %s" % fx.fmt_usd_eur(price),
-        "SMA20/50/200: %s / %s / %s" % tuple(
+        "SMA20/50/100/200: %s / %s / %s / %s" % tuple(
             fx.fmt_usd_eur(v) if v is not None else "—"
-            for v in (ind.sma20, ind.sma50, ind.sma200)
+            for v in (ind.sma20, ind.sma50, ind.sma100, ind.sma200)
         ),
         "RSI(14): %s" % ind.rsi_desc(),
         "Tendencia: %s" % ind.trend_desc(),
@@ -138,12 +138,12 @@ def handle_text(text, chat_id, engine):
     if cmd == "vigilar":
         parts = [p.strip() for p in rest.split(";")]
         if len(parts) < 4:
-            return ("Formato:\n<code>/vigilar SYMBOL; cripto|accion; PRECIO|sma20|sma50|sma200; "
+            return ("Formato:\n<code>/vigilar SYMBOL; cripto|accion; PRECIO|sma20|sma50|sma100|sma200; "
                     "cae|sube; [nota]</code>\n\nMira /ayuda para ejemplos."), False
         try:
             symbol, kind_raw, price_raw, dir_raw = parts[0], parts[1].lower(), parts[2], parts[3].lower()
             kind = "crypto" if kind_raw in ("cripto", "crypto") else "stock"
-            ma = price_raw.lower() if price_raw.lower() in ("sma20", "sma50", "sma200") else None
+            ma = price_raw.lower() if price_raw.lower() in ("sma20", "sma50", "sma100", "sma200") else None
             price = None if ma else float(price_raw.replace(",", "."))
             direction = "cae" if dir_raw in ("cae", "baja", "abajo") else "sube"
             note = parts[4] if len(parts) > 4 and parts[4] else ""

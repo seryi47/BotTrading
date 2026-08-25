@@ -138,3 +138,24 @@ assets:
       - price: 19.7
         direction: "sube"
         note: "Iguala el máximo de 52 semanas y el objetivo de consenso de analistas (~$19,67) — objetivo final del escenario alcista."
+
+  - symbol: "TSLA"
+    kind: "stock"
+    source_id: "TSLA"
+    name: "Tesla"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su SMA20 — el rebote de las últimas semanas se agota, vigilar más caída hacia el mínimo de 52 semanas."
+      - price: 298.32
+        direction: "cae"
+        note: "Mínimo de 52 semanas (tocado hace muy poco). Si lo rompe, la tesis de 'ya tocó fondo' queda invalidada del todo."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su SMA50 — primera confirmación real de que el rebote es más que un respiro dentro de la caída."
+      - ma: "sma100"
+        direction: "sube"
+        note: "Recupera su SMA100 — segundo hito, cada vez más creíble."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su SMA200 — confirmación completa del cambio de tendencia de fondo (no solo el rebote de corto plazo). Objetivo de consenso de analistas: ~$395; rango extremo $145 (JPMorgan, vender) a $600 (Wedbush, comprar)."
