@@ -19,6 +19,37 @@ def chat_ids(value):
     return [str(i).strip() for i in items if str(i).strip()]
 
 
+TELEGRAM_MAX_LEN = 3000  # margen AMPLIO bajo el límite real (4096): mientras
+# una tarjeta está "abierta" (dentro de un <blockquote>) no se puede cortar
+# sin romper el HTML, así que el trozo puede crecer una tarjeta entera más
+# allá de este umbral antes de encontrar el siguiente punto seguro — dejar
+# ~1000 caracteres de colchón evita que esa tarjeta de propina se pase de 4096.
+
+
+def split_message(text, max_len=TELEGRAM_MAX_LEN):
+    """Parte un mensaje largo en trozos que quepan en un mensaje de Telegram.
+    NUNCA corta mientras haya un <blockquote> abierto sin cerrar — el
+    resumen diario mete una línea en blanco dentro de cada tarjeta (antes de
+    "Ahora:"), así que partir por "línea en blanco" a secas rompía el HTML a
+    mitad de etiqueta. Corte PROACTIVO: en cuanto se vuelve a un punto seguro
+    (balance de <blockquote> a cero) habiendo ya alcanzado max_len, se corta
+    ahí — no se espera a que la siguiente línea desborde, porque para entonces
+    ya podría ser demasiado tarde para cortar sin romper una etiqueta."""
+    if len(text) <= max_len:
+        return [text]
+    lines = text.split("\n")
+    parts, current, depth = [], "", 0
+    for line in lines:
+        current = (current + "\n" + line) if current else line
+        depth += line.count("<blockquote") - line.count("</blockquote>")
+        if depth == 0 and len(current) >= max_len:
+            parts.append(current)
+            current = ""
+    if current:
+        parts.append(current)
+    return parts
+
+
 class Notifier:
     def __init__(self, tg_token=None, mac_alerts=True):
         self.tg_token = tg_token or os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
@@ -28,9 +59,13 @@ class Notifier:
         ids = chat_ids(chat_id)
         if not self.tg_token or not ids:
             return False
+        chunks = split_message(text)
         ok = True
         for cid in ids:
-            ok = self._send_one(cid, text) and ok
+            for i, chunk in enumerate(chunks):
+                if len(chunks) > 1:
+                    chunk = "%s\n\n<i>(%d/%d)</i>" % (chunk, i + 1, len(chunks))
+                ok = self._send_one(cid, chunk) and ok
         return ok
 
     def _send_one(self, chat_id, text):

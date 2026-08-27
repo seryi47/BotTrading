@@ -177,3 +177,48 @@ assets:
       - price: 305
         direction: "sube"
         note: "Objetivo de consenso de analistas a 12 meses (~$305-316, 61 analistas, rating medio 'Comprar fuerte')."
+
+  - symbol: "CCJ"
+    kind: "stock"
+    source_id: "CCJ"
+    name: "Cameco"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Primera corrección real desde la subida vertical de este mes (+26,6% en 4 semanas, RSI 67-70). El enfriamiento del RSI empieza aquí — no es zona de compra todavía, solo el primer aviso."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Corrección más seria — con el RSI ya por debajo de 50-55, esta sí sería una zona de entrada razonable dentro de la tesis nuclear (reversión de la UE, contratos de IA con energía nuclear)."
+      - price: 135.24
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas pese a ya estar sobrecomprado — momentum extremo, solo para quien gestione el riesgo muy estrictamente, no para perseguir a ciegas."
+
+  - symbol: "UEC"
+    kind: "stock"
+    source_id: "UEC"
+    name: "Uranium Energy Corp"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Primera corrección desde el +45,2% del último mes — el más vertical de todo lo que vigilamos. Aviso de enfriamiento, no de compra."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Corrección más profunda — con RSI ya enfriado, zona de entrada razonable dentro de la tesis del uranio (déficit crónico de producción + renacimiento nuclear)."
+      - price: 20.34
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — el mercado sigue comprando la historia pese a la sobrecompra."
+
+  - symbol: "FCX"
+    kind: "stock"
+    source_id: "FCX"
+    name: "Freeport-McMoRan"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Primera corrección tras un +79,8% en el último año (+31,5% solo este mes) — la más extendida de las tres (+31,6% sobre su SMA200). Aviso de enfriamiento."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Corrección más profunda — con el RSI ya fuera de sobrecompra, zona de entrada razonable dentro de la tesis del cobre (déficit de oferta, demanda de IA/electrificación, interrupciones en Grasberg y Kamoa-Kakula)."
+      - price: 80.24
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas (está a un suspiro, +1,7%) — confirmaría que el mercado sigue comprando pese a estar ya muy estirada."
