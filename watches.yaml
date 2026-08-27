@@ -159,3 +159,21 @@ assets:
       - ma: "sma200"
         direction: "sube"
         note: "Recupera su SMA200 — confirmación completa del cambio de tendencia de fondo (no solo el rebote de corto plazo). Objetivo de consenso de analistas: ~$395; rango extremo $145 (JPMorgan, vender) a $600 (Wedbush, comprar)."
+
+  - symbol: "NVDA"
+    kind: "stock"
+    source_id: "NVDA"
+    name: "NVIDIA"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su SMA20 — el hueco alcista de resultados (26-ago-2026, +106% de ingresos interanual) empieza a cerrarse, el mercado duda del resultado."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su SMA50 — el hueco se cierra del todo, la reacción inicial a resultados no se sostiene."
+      - price: 236.54
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — el mercado compra la historia sin reservas tras el resultado."
+      - price: 305
+        direction: "sube"
+        note: "Objetivo de consenso de analistas a 12 meses (~$305-316, 61 analistas, rating medio 'Comprar fuerte')."
