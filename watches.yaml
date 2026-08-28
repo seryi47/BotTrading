@@ -222,3 +222,18 @@ assets:
       - price: 80.24
         direction: "sube"
         note: "Rompe el máximo de 52 semanas (está a un suspiro, +1,7%) — confirmaría que el mercado sigue comprando pese a estar ya muy estirada."
+
+  - symbol: "LINK"
+    kind: "crypto"
+    source_id: "chainlink"
+    name: "Chainlink"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Primera corrección tras el +42,5% del último mes (RSI llegó a 70,8) — enfriamiento, no señal de compra todavía."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Corrección más profunda, con el RSI ya fuera de sobrecompra — zona de entrada razonable dentro de la tesis fundamental: CCIP +1.972% en transferencias anuales, partnership con SWIFT, Coinbase usa CCIP en exclusiva para sus activos envueltos, y la SEC/CFTC ya lo clasifican como 'commodity digital'."
+      - price: 11.99
+        direction: "sube"
+        note: "Rompe el máximo reciente — confirma que el mercado sigue comprando pese a la sobrecompra."
