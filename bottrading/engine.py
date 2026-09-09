@@ -144,6 +144,8 @@ class Engine:
                 asset = self.find_asset(symbol)
                 if asset is None:
                     asset = self.add_asset(symbol, ca["kind"], ca["source_id"], ca.get("name"))
+                if ca.get("dca"):
+                    asset["dca"] = True
                 def dedup_key(lv):
                     return (lv["direction"], lv.get("ma") or round(float(lv["price"]), 2))
                 existing = {dedup_key(lv) for lv in asset["levels"]}
@@ -246,6 +248,25 @@ class Engine:
                 lines.append("\n⚪ <b>%s</b> — no pude consultar el precio (%s)" % (asset["name"], e))
                 continue
             ind = self.get_indicators(asset)
+
+            if asset.get("dca"):
+                # Fondos de aportación periódica (MyInvestor): aquí no aplican
+                # señales de "compra/no compra" — cronometrar una aportación
+                # mensual a un fondo indexado no tiene la misma lógica que
+                # comprar una acción suelta. Solo contexto informativo.
+                card = ["📊 <b>%s</b> · %s" % (asset["name"], asset["symbol"]),
+                       "<code>%s</code>" % fx.fmt_usd_eur(price)]
+                if ind and ind.rsi14 is not None:
+                    card.append("RSI %.0f · %s" % (ind.rsi14, ind.trend_desc()))
+                if ind and ind.high_30d and ind.low_30d:
+                    rango = ind.high_30d - ind.low_30d
+                    posicion = ((price - ind.low_30d) / rango * 100) if rango > 0 else 50
+                    card.append("Rango 30d: %s — %s (al %.0f%% del rango)" %
+                               (fx.fmt_usd_eur(ind.low_30d), fx.fmt_usd_eur(ind.high_30d), posicion))
+                card.append("<i>Fondo de aportación periódica — información, no señal de compra/venta.</i>")
+                lines.append("\n<blockquote>%s</blockquote>" % "\n".join(card))
+                continue
+
             emoji, motivo = ind_mod.overall_signal(ind)
             # resuelve cada nivel (fijo o "ma") a su precio vivo antes de buscar
             # el más cercano — si no hay indicador todavía, los niveles "ma" se

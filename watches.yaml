@@ -237,3 +237,44 @@ assets:
       - price: 11.99
         direction: "sube"
         note: "Rompe el máximo reciente — confirma que el mercado sigue comprando pese a la sobrecompra."
+
+  # --- Cartera de MyInvestor (aportación periódica, 150€/mes) ---
+  # A diferencia de todo lo de arriba, estos 5 NO llevan niveles de compra/venta
+  # a propósito: cronometrar una aportación mensual a un fondo indexado no tiene
+  # la misma lógica que una acción suelta. Solo aparecen en el resumen diario
+  # con precio + contexto, sin señal de "compra/no compra" (ver dca=true en el motor).
+
+  - symbol: "IWDA-MI"
+    kind: "stock"
+    source_id: "0P0001XF40.F"
+    name: "iShares Developed World (MyInvestor)"
+    dca: true
+    levels: []
+
+  - symbol: "EM-MI"
+    kind: "stock"
+    source_id: "0P0001XF3Z.F"
+    name: "iShares Emerging Markets (MyInvestor)"
+    dca: true
+    levels: []
+
+  - symbol: "IUSN"
+    kind: "stock"
+    source_id: "IUSN.DE"
+    name: "iShares MSCI World Small Cap"
+    dca: true
+    levels: []
+
+  - symbol: "BOND-MI"
+    kind: "stock"
+    source_id: "0P00012I69.F"
+    name: "Vanguard Global Bond (MyInvestor)"
+    dca: true
+    levels: []
+
+  - symbol: "SGLD"
+    kind: "stock"
+    source_id: "SGLD.L"
+    name: "Invesco Physical Gold"
+    dca: true
+    levels: []
