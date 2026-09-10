@@ -238,6 +238,217 @@ assets:
         direction: "sube"
         note: "Rompe el máximo reciente — confirma que el mercado sigue comprando pese a la sobrecompra."
 
+  # --- Ampliación 10-sept-2026: análisis a fondo de 12 valores más (semis,
+  # los 4 grandes de la nube, momentum de alto riesgo, cripto-equity y dos
+  # sectores fuera de tecnología) ---
+
+  - symbol: "AMD"
+    kind: "stock"
+    source_id: "AMD"
+    name: "Advanced Micro Devices"
+    levels:
+      - price: 470
+        direction: "cae"
+        note: "Corrección hacia una zona de entrada más razonable tras el rally reciente (RSI >70, sobrecomprado a 10-sept)."
+      - price: 460
+        direction: "cae"
+        note: "Rompe la estructura de la ruptura reciente — invalidaría el impulso de corto plazo."
+      - price: 584.73
+        direction: "sube"
+        note: "Rompe el máximo histórico — continuación tras el acuerdo con OpenAI (6GW de GPUs, +$100.000M de ingresos proyectados en 4 años)."
+      - price: 600
+        direction: "sube"
+        note: "Precio al que se activa el warrant que AMD le dio a OpenAI (hasta ~10% de las acciones) — nivel psicológico y fundamental clave."
+
+  - symbol: "AVGO"
+    kind: "stock"
+    source_id: "AVGO"
+    name: "Broadcom"
+    levels:
+      - price: 350
+        direction: "cae"
+        note: "Pierde la zona de consolidación — cuestionaría la tesis de entrada pese al PER barato a futuro (~19-23x)."
+      - price: 340
+        direction: "cae"
+        note: "Corrección más seria, cerca del mínimo del rango de los últimos meses."
+      - price: 495
+        direction: "sube"
+        note: "Recupera el máximo de 52 semanas — confirmaría la guía de ingresos de IA (duplicando a $115.000M en FY27, $230.000M en FY28)."
+      - price: 525
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (~$525-533, +41-49% desde los niveles de sept-2026) — de los mejores riesgo/beneficio del análisis del 10-sept."
+
+  - symbol: "MSFT"
+    kind: "stock"
+    source_id: "MSFT"
+    name: "Microsoft"
+    levels:
+      - price: 480
+        direction: "cae"
+        note: "Corrección desde máximos (RSI 76-84, sobrecomprado a 10-sept) — primera zona de enfriamiento."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su SMA50 — cuestionaría la tendencia alcista de fondo."
+      - price: 553.72
+        direction: "sube"
+        note: "Rompe el máximo histórico — continuación con Azure ya en +43% de crecimiento y superando $100.000M anualizados."
+      - price: 593
+        direction: "sube"
+        note: "Objetivo alto de consenso de analistas (rango $569-593)."
+
+  - symbol: "GOOGL"
+    kind: "stock"
+    source_id: "GOOGL"
+    name: "Alphabet"
+    levels:
+      - price: 320
+        direction: "cae"
+        note: "Pierde soporte reciente — cuestionaría el rebote tras cortar la peor racha mensual en más de una década."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su SMA200 — confirmación técnica del rebote, apoyado por la resolución favorable del caso antimonopolio de ad-tech (sept-2026)."
+      - price: 379
+        direction: "sube"
+        note: "Rompe el máximo reciente."
+      - price: 430
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (~$426-430, +26%) — PER a futuro el más barato de los 4 grandes de la nube (~16-17x vs sector ~29x)."
+
+  - symbol: "META"
+    kind: "stock"
+    source_id: "META"
+    name: "Meta Platforms"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su SMA200 (~$611 a 10-sept) — señal de que el susto de resultados (capex/margen) vuelve a pesar."
+      - price: 611
+        direction: "cae"
+        note: "Zona del mínimo tras el batacazo post-resultados (-9,6% en un día) — si lo pierde, invalidaría la recuperación."
+      - price: 790.8
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
+      - price: 754
+        direction: "sube"
+        note: "Objetivo bajo de consenso de analistas (rango $754-783, +20-30%) — PER comprimido a 20-21x, barato vs su propia media histórica (~27,5x)."
+
+  - symbol: "AMZN"
+    kind: "stock"
+    source_id: "AMZN"
+    name: "Amazon"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su SMA200 (~$244 a 10-sept) — rompería el cruce dorado (SMA50 sobre SMA200)."
+      - price: 244
+        direction: "cae"
+        note: "Zona del cruce dorado — soporte estructural clave."
+      - price: 287.2
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — AWS con el mejor crecimiento en 18 trimestres (+37%)."
+      - price: 320
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (~$308-328, +27%). Demanda de la FTC (subastas publicitarias) pendiente — riesgo legal, no fundamental."
+
+  - symbol: "AAPL"
+    kind: "stock"
+    source_id: "AAPL"
+    name: "Apple"
+    levels:
+      - price: 290
+        direction: "cae"
+        note: "Corrección seria hacia zona de mayor margen de seguridad — el PER actual (~36x) está muy por encima de su media histórica (~27x)."
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su SMA200 — cuestionaría el rebote desde el mínimo de agosto-2026."
+      - price: 344.57
+        direction: "sube"
+        note: "Rompe el máximo histórico — confirmaría que el mercado compra el relato de Siri con Gemini (Google) y el primer plegable."
+      - price: 335
+        direction: "sube"
+        note: "Objetivo alto de consenso de analistas (rango $324-335) — subida modesta (~5%), el peor riesgo/beneficio de los grandes en el análisis del 10-sept."
+
+  - symbol: "PLTR"
+    kind: "stock"
+    source_id: "PLTR"
+    name: "Palantir"
+    levels:
+      - price: 130
+        direction: "cae"
+        note: "Corrección seria — empieza a dar algo de margen de seguridad en una valoración extrema (PER a futuro ~109x, P/Ventas ~73x)."
+      - price: 106.37
+        direction: "cae"
+        note: "Mínimo de 52 semanas — capitulación real."
+      - price: 207.52
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas pese a la valoración extrema y ~$95M de ventas de insiders solo en agosto-2026 — solo para gestión de riesgo muy estricta, no perseguir a estos niveles (10-sept-2026)."
+
+  - symbol: "SMCI"
+    kind: "stock"
+    source_id: "SMCI"
+    name: "Super Micro Computer"
+    levels:
+      - price: 30
+        direction: "cae"
+        note: "Corrección seria — reabriría dudas sobre la tesis, ya de por sí nublada por la gobernanza (informe Hindenburg 2024, dimisión de la auditora EY)."
+      - price: 19.48
+        direction: "cae"
+        note: "Mínimo de 52 semanas."
+      - price: 45
+        direction: "sube"
+        note: "Rompe por encima del rango de objetivo de consenso (~$37-42, rating solo 'Mantener') — señal de que el mercado empieza a perdonar la nube de gobernanza y la concentración de clientes (63% de un solo cliente)."
+
+  - symbol: "COIN"
+    kind: "stock"
+    source_id: "COIN"
+    name: "Coinbase"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su SMA200 (~$161,70 a 10-sept) — rompería la estructura alcista de fondo, en línea con debilidad de BTC/ETH. Proxy apalancado (beta ~3,4x) — vigilar junto a los niveles de BTC/ETH de arriba."
+      - price: 139.11
+        direction: "cae"
+        note: "Mínimo de 52 semanas."
+      - price: 199
+        direction: "sube"
+        note: "Objetivo medio de consenso de analistas."
+      - price: 241
+        direction: "sube"
+        note: "Objetivo alto de otro conteo de analistas."
+
+  - symbol: "JPM"
+    kind: "stock"
+    source_id: "JPM"
+    name: "JPMorgan Chase"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su SMA200 (~$318,70 a 10-sept) — rompería el cruce dorado, cambio de tendencia real."
+      - price: 366.5
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
+      - price: 380
+        direction: "sube"
+        note: "Objetivo alto de consenso de analistas — nombre 'tranquilo', poca volatilidad esperada, subida modesta (~5%)."
+
+  - symbol: "XOM"
+    kind: "stock"
+    source_id: "XOM"
+    name: "Exxon Mobil"
+    levels:
+      - price: 146
+        direction: "cae"
+        note: "Corrección hacia zona SMA20/50 — probaría si la prima geopolítica del petróleo (tensión Irán-EEUU, Brent a $96-101 en sept-2026) se desinfla."
+      - price: 136
+        direction: "cae"
+        note: "Zona de soporte/stop-loss más amplia."
+      - price: 176.41
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
+      - price: 173
+        direction: "sube"
+        note: "Objetivo alto de consenso de analistas. Dividendo aristócrata, 42+ años seguidos subiendo el dividendo."
+
   # --- Cartera de MyInvestor (aportación periódica, 150€/mes) ---
   # A diferencia de todo lo de arriba, estos 5 NO llevan niveles de compra/venta
   # a propósito: cronometrar una aportación mensual a un fondo indexado no tiene
