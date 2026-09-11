@@ -18,13 +18,15 @@ MADRID = ZoneInfo("Europe/Madrid")
 class Engine:
     def __init__(self, notifier, poll_interval=300, default_chat_id=None,
                  state_file="watches.json", history_ttl=14400, digest_hour=9,
-                 digest_state_file=None):
+                 digest_state_file=None, signal_interval=1800):
         self.notifier = notifier
         self.poll_interval = poll_interval      # cada cuánto se consulta precio (s)
         self.default_chat_id = default_chat_id
         self.state_file = state_file
         self.history_ttl = history_ttl          # cada cuánto se refresca el histórico (s)
         self.digest_hour = digest_hour           # hora (Europe/Madrid) del resumen diario
+        self.signal_interval = signal_interval   # cada cuánto se revisan señales RSI/MACD (s)
+        self._last_signal_check = 0.0
         # Archivo aparte para "ya mandé el resumen de hoy" (sin datos personales),
         # pensado para poder commitearse a un repo PÚBLICO en modo nube: en
         # GitHub Actions cada relevo del job arranca de cero y, sin esto, el
@@ -298,6 +300,50 @@ class Engine:
             lines.append("\n<blockquote>%s</blockquote>" % "\n".join(card))
         return "\n".join(lines)
 
+    def _signal_alert_text(self, asset, text, price, ind):
+        lines = [
+            "<b>%s</b> (%s) — señal de entrada" % (asset["name"], asset["symbol"]),
+            text,
+            "Precio actual: %s" % fx.fmt_usd_eur(price),
+            "RSI(14): %s" % ind.rsi_desc(),
+            "Tendencia: %s" % ind.trend_desc(),
+        ]
+        return "\n".join(lines)
+
+    def _maybe_check_signals(self):
+        """Cada ~30 min (self.signal_interval), independiente del sondeo de
+        precio de 5 min: revisa si algún activo ha entrado en zona de compra
+        por sobreventa o ha girado a tendencia alcista (ver entry_signal). Solo
+        avisa en el CAMBIO de estado — igual que un cruce de nivel — para no
+        repetir el mismo aviso cada media hora mientras la situación no cambie."""
+        now = time.time()
+        if now - self._last_signal_check < self.signal_interval:
+            return
+        self._last_signal_check = now
+        with self._lock:
+            assets = list(self.assets)
+        for i, asset in enumerate(assets):
+            if not asset.get("enabled", True) or asset.get("dca"):
+                continue  # los fondos de aportación periódica no llevan señal de compra/venta
+            if i > 0:
+                time.sleep(1.2)
+            ind = self.get_indicators(asset)
+            key, text = ind_mod.entry_signal(ind)
+            prev_state = asset.get("signal_state")
+            if key == prev_state:
+                continue  # sin cambio real — no repetir el mismo aviso
+            asset["signal_state"] = key
+            if key is not None:
+                try:
+                    price = asset.get("last_price") or self.get_price(asset)
+                except Exception:
+                    price = ind.price if ind else None
+                if price is not None:
+                    chat = self._chat_for(asset)
+                    self.notifier.telegram(chat, self._signal_alert_text(asset, text, price, ind))
+                    self.notifier.mac("BotTrading", "%s: %s" % (asset["symbol"], text))
+        self._save()
+
     def _maybe_send_digest(self):
         self.digest_just_sent = False
         now = datetime.now(MADRID)
@@ -354,6 +400,7 @@ class Engine:
             print("[%s] %s -> %s%s" % (stamp, asset["symbol"], price,
                                        "  (%d aviso/s)" % len(fired) if fired else ""))
         self._save()
+        self._maybe_check_signals()
         self._maybe_send_digest()
 
     def check_once(self):

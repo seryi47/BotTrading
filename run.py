@@ -68,6 +68,7 @@ def main():
         default_chat_id=chat_id or None,
         digest_hour=int(cfg.get("digest_hour", 9)),
         digest_state_file=os.environ.get("DIGEST_STATE_FILE", "state/last_digest.json"),
+        signal_interval=int(cfg.get("signal_check_interval", 1800)),
     )
     engine.seed_from_config(cfg.get("assets"))
     engine.set_paused(bool(cfg.get("paused", False)))

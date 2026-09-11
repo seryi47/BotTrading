@@ -20,6 +20,9 @@
 # mantienen solos.
 
 poll_interval: 300      # segundos entre sondeos de precio (5 min)
+signal_check_interval: 1800  # segundos entre comprobaciones de señal RSI/MACD (30 min) — avisa
+                              # solo en el CAMBIO a zona de compra (RSI<=30) o giro alcista, no repite
+                              # el mismo aviso mientras la situación no cambie (ver entry_signal)
 digest_hour: 9          # hora (Europe/Madrid) del resumen diario por Telegram
 mac_alerts: true        # solo tiene efecto en local/macOS
 paused: false

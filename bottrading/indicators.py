@@ -139,6 +139,26 @@ def buy_plan(rsi14, support, resistance, fmt):
     return "aparezca una señal más clara — el RSI está neutral ahora mismo."
 
 
+def entry_signal(ind: "Indicators"):
+    """Señal proactiva de entrada para el sondeo cada ~30 min — independiente
+    de que se cruce un nivel manual. Dos casos, con el mismo criterio de
+    siempre (RSI/MACD/medias) que ya usa el resumen diario:
+      - "buy_zone": sobreventa real (RSI<=30) — posible zona de rebote.
+      - "bullish_trend": momentum girando al alza con margen antes de
+        sobrecompra (MACD positivo, RSI 50-65, precio por encima de su SMA20).
+    Devuelve (clave, texto) o (None, None) si ahora mismo no hay nada que avisar."""
+    if ind is None or ind.rsi14 is None:
+        return None, None
+    r = ind.rsi14
+    if r <= 30:
+        return "buy_zone", "🟢 Sobreventa (RSI %.0f) — posible zona de compra, vigila que rebote antes de entrar, no por tocar el nivel solo." % r
+    if (ind.macd_hist is not None and ind.macd_hist > 0
+            and 50 <= r <= 65
+            and ind.sma20 is not None and ind.price is not None and ind.price > ind.sma20):
+        return "bullish_trend", "🚀 Giro alcista de corto plazo — MACD en positivo, RSI %.0f con margen antes de sobrecompra y precio por encima de su SMA20." % r
+    return None, None
+
+
 def classify_alert(direction, ind: "Indicators"):
     """Etiqueta de trader para un cruce de nivel: compra / evitar / vigilar.
 
