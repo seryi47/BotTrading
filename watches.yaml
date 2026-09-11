@@ -449,6 +449,27 @@ assets:
         direction: "sube"
         note: "Objetivo alto de consenso de analistas. Dividendo aristócrata, 42+ años seguidos subiendo el dividendo."
 
+  # --- Añadido 11-sept-2026: situación especial de reestructuración con
+  # presión activista y compra reciente del CEO justo en mínimos ---
+
+  - symbol: "CELH"
+    kind: "stock"
+    source_id: "CELH"
+    name: "Celsius Holdings"
+    levels:
+      - price: 23.56
+        direction: "cae"
+        note: "Mínimo de 52 semanas — romperlo invalidaría la tesis de 'ya tocó fondo', justo cuando el propio CEO (John Fieldly) compró ~$494.000 en acciones el 10-sept-2026 en estos niveles."
+      - price: 20
+        direction: "cae"
+        note: "Si rompe el mínimo de 52 semanas sin freno, señal de que los frentes legales (demanda por fraude de valores, demanda por la muerte de una menor ligada a Alani Nu, investigación del fiscal de Texas) están pesando más de lo asumido."
+      - price: 33.5
+        direction: "sube"
+        note: "Resistencia técnica reciente — recuperarla confirmaría que la compra del CEO y la reestructuración directiva (salida del COO, presión del activista Russ Savage) tienen continuidad real."
+      - price: 42
+        direction: "sube"
+        note: "Objetivo medio de consenso de analistas (rango $26-64, +35-58% desde sept-2026) — confirmaría que el mercado empieza a creer en la recuperación de la marca principal, que la propia dirección ha pospuesto a 2027. Deutsche Bank rebajó a Mantener el 27-ago pese a subir precio objetivo a $35, avisando de que 'las expectativas suben más rápido que las pruebas'. Vigilar resultados del Q3 (~principios de noviembre) como catalizador clave."
+
   # --- Cartera de MyInvestor (aportación periódica, 150€/mes) ---
   # A diferencia de todo lo de arriba, estos 5 NO llevan niveles de compra/venta
   # a propósito: cronometrar una aportación mensual a un fondo indexado no tiene
