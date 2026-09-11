@@ -300,11 +300,30 @@ class Engine:
             lines.append("\n<blockquote>%s</blockquote>" % "\n".join(card))
         return "\n".join(lines)
 
-    def _signal_alert_text(self, asset, text, price, ind):
+    def _signal_alert_text(self, asset, text, price, ind, support, resistance):
+        entrada = [fx.fmt_usd_eur(price) + " (precio actual)"]
+        if support:
+            entrada.append("%s en el retroceso a su soporte más cercano" % fx.fmt_usd_eur(support["price"]))
         lines = [
             "<b>%s</b> (%s) — señal de entrada" % (asset["name"], asset["symbol"]),
+            "",
             text,
-            "Precio actual: %s" % fx.fmt_usd_eur(price),
+            "",
+            "💰 <b>Precio de entrada:</b> %s" % " · ".join(entrada),
+        ]
+        loc = []
+        if support:
+            loc.append("Soporte %s (%s%%)" % (fx.fmt_usd_eur(support["price"]), self._pct(support["price"], price)))
+        if resistance:
+            loc.append("Resistencia %s (%s%%)" % (fx.fmt_usd_eur(resistance["price"]), self._pct(resistance["price"], price)))
+        if loc:
+            lines.append("📍 " + " · ".join(loc))
+        plan = ind_mod.buy_plan(ind.rsi14 if ind else None, support, resistance, fx.fmt_usd_eur)
+        lines.append("🎯 <b>Confirmación:</b> %s" % plan)
+        if support and support.get("note"):
+            lines.append("<i>%s</i>" % support["note"])
+        lines += [
+            "",
             "RSI(14): %s" % ind.rsi_desc(),
             "Tendencia: %s" % ind.trend_desc(),
         ]
@@ -339,8 +358,15 @@ class Engine:
                 except Exception:
                     price = ind.price if ind else None
                 if price is not None:
+                    resolved = []
+                    for lv in asset["levels"]:
+                        target = ind_mod.resolve_level_price(lv, ind)
+                        if target is not None:
+                            resolved.append({**lv, "price": target})
+                    support, resistance = ind_mod.nearest_levels(price, resolved)
                     chat = self._chat_for(asset)
-                    self.notifier.telegram(chat, self._signal_alert_text(asset, text, price, ind))
+                    self.notifier.telegram(
+                        chat, self._signal_alert_text(asset, text, price, ind, support, resistance))
                     self.notifier.mac("BotTrading", "%s: %s" % (asset["symbol"], text))
         self._save()
 
