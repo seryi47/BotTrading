@@ -151,11 +151,39 @@ def entry_signal(ind: "Indicators"):
         return None, None
     r = ind.rsi14
     if r <= 30:
-        return "buy_zone", "🟢 Sobreventa (RSI %.0f) — posible zona de compra, vigila que rebote antes de entrar, no por tocar el nivel solo." % r
+        text = (
+            "🟢 Sobreventa real (RSI %.0f) — el precio ha caído más de lo habitual en poco tiempo, "
+            "una zona donde suele haber rebotes, aunque no es garantía.\n\n"
+            "¿Se puede entrar? Solo si ya ves un rebote confirmado (que suba con fuerza, no solo que "
+            "toque el nivel) — entrar por estar barato sin esa confirmación es adivinar un suelo, no "
+            "una entrada de verdad." % r
+        )
+        return "buy_zone", text
     if (ind.macd_hist is not None and ind.macd_hist > 0
             and 50 <= r <= 65
             and ind.sma20 is not None and ind.price is not None and ind.price > ind.sma20):
-        return "bullish_trend", "🚀 Giro alcista de corto plazo — MACD en positivo, RSI %.0f con margen antes de sobrecompra y precio por encima de su SMA20." % r
+        alineado = ind.sma200 is not None and ind.price > ind.sma200
+        if alineado:
+            text = (
+                "🚀 Giro alcista con respaldo de fondo — el impulso de corto plazo se ha girado al alza "
+                "(MACD en positivo, RSI %.0f con margen antes de sobrecompra, precio por encima de su "
+                "media de 20 días) Y ADEMÁS ya cotiza por encima de su media de 200 días — no es solo "
+                "un rebote pasajero, la tendencia de fondo también acompaña.\n\n"
+                "¿Se puede entrar? Sí, dentro de lo razonable — el cuadro técnico de corto y largo "
+                "plazo están alineados, aunque nada garantiza que continúe." % r
+            )
+        else:
+            text = (
+                "🚀 Giro alcista de corto plazo, pero DENTRO DE UNA TENDENCIA DE FONDO BAJISTA — el "
+                "impulso reciente se ha girado al alza (MACD en positivo, RSI %.0f con margen antes de "
+                "sobrecompra, precio por encima de su media de 20 días), pero todavía cotiza por debajo "
+                "de su media de 200 días. Es decir: esto es un rebote dentro de una caída más amplia, "
+                "no una confirmación de que la tendencia ha cambiado de verdad.\n\n"
+                "¿Se puede entrar? Solo de forma especulativa y con tamaño de posición reducido — "
+                "sería jugar el rebote de corto plazo, no una convicción de fondo. Si además recupera "
+                "la media de 200 días, ahí sí sería una señal mucho más sólida." % r
+            )
+        return "bullish_trend", text
     return None, None
 
 
