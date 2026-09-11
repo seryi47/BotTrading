@@ -317,8 +317,10 @@ class Engine:
         if resistance:
             loc.append("Resistencia %s (%s%%)" % (fx.fmt_usd_eur(resistance["price"]), self._pct(resistance["price"], price)))
         if loc:
+            lines.append("")
             lines.append("📍 " + " · ".join(loc))
         plan = ind_mod.buy_plan(ind.rsi14 if ind else None, support, resistance, fx.fmt_usd_eur)
+        lines.append("")
         lines.append("🎯 <b>Confirmación:</b> %s" % plan)
         if support and support.get("note"):
             lines.append("<i>%s</i>" % support["note"])
