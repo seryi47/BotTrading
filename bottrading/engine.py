@@ -301,16 +301,16 @@ class Engine:
         return "\n".join(lines)
 
     def _signal_alert_text(self, asset, text, price, ind, support, resistance):
-        entrada = [fx.fmt_usd_eur(price) + " (precio actual)"]
-        if support:
-            entrada.append("%s en el retroceso a su soporte más cercano" % fx.fmt_usd_eur(support["price"]))
         lines = [
             "<b>%s</b> (%s) — señal de entrada" % (asset["name"], asset["symbol"]),
             "",
             text,
             "",
-            "💰 <b>Precio de entrada:</b> %s" % " · ".join(entrada),
+            "💰 <b>Precio de entrada</b>",
+            "· Ya mismo: %s" % fx.fmt_usd_eur(price),
         ]
+        if support:
+            lines.append("· Más conservador, si retrocede antes: %s" % fx.fmt_usd_eur(support["price"]))
         loc = []
         if support:
             loc.append("Soporte %s (%s%%)" % (fx.fmt_usd_eur(support["price"]), self._pct(support["price"], price)))
