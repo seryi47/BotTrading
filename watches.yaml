@@ -523,3 +523,5 @@ assets:
 news_watches:
   - query: "Clarity Act votación Senado cripto"
     label: "Clarity Act (voto cripto, hoy 15-sept)"
+  - query: "Reserva Federal decisión tipos interés septiembre"
+    label: "Decisión de la Fed (mañana 16-sept, 20:00h España)"
