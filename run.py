@@ -73,6 +73,7 @@ def main():
     )
     engine.seed_from_config(cfg.get("assets"))
     engine.seed_news_from_config(cfg.get("news_watches"))
+    engine.seed_reminders_from_config(cfg.get("reminders"))
     engine.set_paused(bool(cfg.get("paused", False)))
 
     if "--chat-ids" in sys.argv:
@@ -121,7 +122,7 @@ def main():
             if _t.time() - last_check >= interval:
                 try:
                     engine.tick()
-                    if engine.digest_just_sent:
+                    if engine.digest_just_sent or engine.reminder_just_sent:
                         save_and_commit_digest_state(engine)
                 except Exception as e:
                     print("  error en pasada:", e)

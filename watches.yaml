@@ -590,3 +590,11 @@ news_watches:
       🔴 Warsh suena beligerante, insinúa más subidas → bajista, el peor caso
       🔴🔴 Sube tipos Y encima bajan previsión de crecimiento/empleo → muy bajista (estanflación)
       ⚠️ Esto necesita leer números y tono, no solo el titular — pregúntame en cuanto salga y te lo interpreto con los datos reales.
+
+# --- Recordatorios de fecha concreta (un aviso único ese día) ---
+reminders:
+  - date: "2026-09-20"
+    message: |
+      Mañana (21-sept) SpaceX (SPCX) entra en el Nasdaq-100 (~$15.500M de entradas pasivas estimadas de fondos indexados), y el 22-sept es el vuelo de prueba de Starship V3 (primer intento de desplegar satélites Starlink — el propio Musk le da un 50-60% de éxito).
+
+      Ojo: parte de la subida por la entrada al índice puede que ya se haya adelantado antes de la fecha oficial, y el vuelo de Starship es arma de doble filo (si falla, golpe negativo justo al día siguiente). Vigila el precio de SPCX estos días, no es una subida "segura".

@@ -30,6 +30,9 @@ class Engine:
         self.news_interval = news_interval       # cada cuánto se revisan las noticias vigiladas (s)
         self._last_news_check = 0.0
         self.news_watches = []                  # persistente: [{query,label,seen:[],initialized}]
+        self.reminders = []                     # persistente: [{key,date,message}]
+        self.sent_reminders = set()             # persistente (via digest_state_file, sí sobrevive relevos)
+        self.reminder_just_sent = False         # runtime: para que run.py sepa si debe commitear
         # Archivo aparte para "ya mandé el resumen de hoy" (sin datos personales),
         # pensado para poder commitearse a un repo PÚBLICO en modo nube: en
         # GitHub Actions cada relevo del job arranca de cero y, sin esto, el
@@ -55,6 +58,7 @@ class Engine:
                 self.paused = bool(data.get("paused", False))
                 self.last_digest_date = data.get("last_digest_date")
                 self.news_watches = data.get("news_watches", [])
+                self.reminders = data.get("reminders", [])
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.state_file, e))
         if self.digest_state_file and os.path.exists(self.digest_state_file):
@@ -64,6 +68,10 @@ class Engine:
                 # el archivo compartido (git) manda si es igual o más reciente
                 if d.get("last_digest_date"):
                     self.last_digest_date = d["last_digest_date"]
+                # recordatorios ya enviados: igual que el resumen diario, esto
+                # tiene que sobrevivir a los relevos del job (commiteado a git),
+                # si no cada relevo reenviaría el mismo recordatorio
+                self.sent_reminders = set(d.get("sent_reminders", []))
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.digest_state_file, e))
 
@@ -72,7 +80,8 @@ class Engine:
             with open(self.state_file, "w", encoding="utf-8") as fh:
                 json.dump({"assets": self.assets, "paused": self.paused,
                           "last_digest_date": self.last_digest_date,
-                          "news_watches": self.news_watches},
+                          "news_watches": self.news_watches,
+                          "reminders": self.reminders},
                          fh, ensure_ascii=False, indent=2)
         except Exception as e:
             print("[engine] no se pudo guardar %s: %s" % (self.state_file, e))
@@ -80,7 +89,8 @@ class Engine:
             try:
                 os.makedirs(os.path.dirname(self.digest_state_file) or ".", exist_ok=True)
                 with open(self.digest_state_file, "w", encoding="utf-8") as fh:
-                    json.dump({"last_digest_date": self.last_digest_date}, fh)
+                    json.dump({"last_digest_date": self.last_digest_date,
+                              "sent_reminders": sorted(self.sent_reminders)}, fh)
             except Exception as e:
                 print("[engine] no se pudo guardar %s: %s" % (self.digest_state_file, e))
 
@@ -185,6 +195,20 @@ class Engine:
                     "seen": [],
                     "initialized": False,
                 })
+            self._save()
+
+    def seed_reminders_from_config(self, config_reminders):
+        """Carga recordatorios de una fecha concreta (watches.yaml: reminders:
+        [{date: "YYYY-MM-DD", message: "..."}]) — un aviso único por Telegram
+        ese día, para eventos puntuales que no encajan como nivel de precio
+        ni como tema de noticias (ej. "vigila esto de cerca mañana")."""
+        with self._lock:
+            existing = {r["key"] for r in self.reminders}
+            for cr in (config_reminders or []):
+                key = "%s:%s" % (cr["date"], cr["message"][:60])
+                if key in existing:
+                    continue
+                self.reminders.append({"key": key, "date": cr["date"], "message": cr["message"]})
             self._save()
 
     def list_assets(self):
@@ -478,6 +502,25 @@ class Engine:
         self.digest_just_sent = True
         self._save()
 
+    def _maybe_check_reminders(self):
+        """Recordatorios de fecha concreta (watches.yaml: reminders) — se
+        comprueban en cada tick, pero solo mandan el aviso UNA vez por fecha
+        (sent_reminders, persistido vía digest_state_file para sobrevivir a
+        los relevos del job)."""
+        self.reminder_just_sent = False
+        today = datetime.now(MADRID).strftime("%Y-%m-%d")
+        with self._lock:
+            reminders = list(self.reminders)
+        for r in reminders:
+            if r["date"] != today or r["key"] in self.sent_reminders:
+                continue
+            self.notifier.telegram(self.default_chat_id, "⏰ <b>Recordatorio</b>\n%s" % r["message"])
+            self.notifier.mac("BotTrading", "Recordatorio: %s" % r["message"][:60])
+            self.sent_reminders.add(r["key"])
+            self.reminder_just_sent = True
+        if self.reminder_just_sent:
+            self._save()
+
     # ---- bucle --------------------------------------------------------------
     def tick(self):
         if self.paused:
@@ -523,6 +566,7 @@ class Engine:
         self._save()
         self._maybe_check_signals()
         self._maybe_check_news()
+        self._maybe_check_reminders()
         self._maybe_send_digest()
 
     def check_once(self):
