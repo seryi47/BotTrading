@@ -428,11 +428,15 @@ class Engine:
             except Exception as e:
                 print("  [noticias] error buscando '%s': %s" % (watch["query"], e))
                 continue
-            seen = set(watch.get("seen", []))
+            # dict en vez de set: en Python un set no garantiza ningún orden,
+            # así que recortar "las últimas 80" de un set no se queda con las
+            # más recientes de verdad, sino con 80 cualquiera — un dict sí
+            # conserva el orden de inserción.
+            seen = dict.fromkeys(watch.get("seen", []))
             is_first_check = not watch.get("initialized")
             nuevas = [it for it in items if it["link"] and it["link"] not in seen]
             for it in nuevas:
-                seen.add(it["link"])
+                seen[it["link"]] = None
             # cortafuegos: si "nuevas" son muchísimas de golpe, algo no
             # cuadra (estado corrupto/reinicio manual mal hecho) — jamás
             # mandar un aluvión de mensajes por error, solo un aviso de que
@@ -451,7 +455,11 @@ class Engine:
                     self.notifier.telegram(chat, self._news_alert_text(watch, it))
                     self.notifier.mac("BotTrading", "Noticia: %s" % watch["label"])
             watch["initialized"] = True
-            watch["seen"] = list(seen)[-80:]  # acotado, no crece sin límite
+            # 200, no 80: Google News puede devolver hasta ~100 items por
+            # búsqueda — si el límite fuera menor que eso, los más antiguos
+            # de un solo lote "se saldrían" de la lista y reaparecerían como
+            # si fueran nuevos en la siguiente comprobación, sin serlo de verdad
+            watch["seen"] = list(seen)[-200:]
         self._save()
 
     def _maybe_send_digest(self):
