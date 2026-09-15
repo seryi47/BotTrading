@@ -10,7 +10,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from . import indicators as ind_mod
-from .providers import crypto, stocks, fx
+from .providers import crypto, stocks, fx, news
 
 MADRID = ZoneInfo("Europe/Madrid")
 
@@ -18,7 +18,7 @@ MADRID = ZoneInfo("Europe/Madrid")
 class Engine:
     def __init__(self, notifier, poll_interval=300, default_chat_id=None,
                  state_file="watches.json", history_ttl=14400, digest_hour=9,
-                 digest_state_file=None, signal_interval=1800):
+                 digest_state_file=None, signal_interval=1800, news_interval=600):
         self.notifier = notifier
         self.poll_interval = poll_interval      # cada cuánto se consulta precio (s)
         self.default_chat_id = default_chat_id
@@ -27,6 +27,9 @@ class Engine:
         self.digest_hour = digest_hour           # hora (Europe/Madrid) del resumen diario
         self.signal_interval = signal_interval   # cada cuánto se revisan señales RSI/MACD (s)
         self._last_signal_check = 0.0
+        self.news_interval = news_interval       # cada cuánto se revisan las noticias vigiladas (s)
+        self._last_news_check = 0.0
+        self.news_watches = []                  # persistente: [{query,label,seen:[],initialized}]
         # Archivo aparte para "ya mandé el resumen de hoy" (sin datos personales),
         # pensado para poder commitearse a un repo PÚBLICO en modo nube: en
         # GitHub Actions cada relevo del job arranca de cero y, sin esto, el
@@ -51,6 +54,7 @@ class Engine:
                 self.assets = data.get("assets", [])
                 self.paused = bool(data.get("paused", False))
                 self.last_digest_date = data.get("last_digest_date")
+                self.news_watches = data.get("news_watches", [])
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.state_file, e))
         if self.digest_state_file and os.path.exists(self.digest_state_file):
@@ -67,7 +71,8 @@ class Engine:
         try:
             with open(self.state_file, "w", encoding="utf-8") as fh:
                 json.dump({"assets": self.assets, "paused": self.paused,
-                          "last_digest_date": self.last_digest_date},
+                          "last_digest_date": self.last_digest_date,
+                          "news_watches": self.news_watches},
                          fh, ensure_ascii=False, indent=2)
         except Exception as e:
             print("[engine] no se pudo guardar %s: %s" % (self.state_file, e))
@@ -162,6 +167,23 @@ class Engine:
                     else:
                         new_lv["price"] = float(lv["price"])
                     asset["levels"].append(new_lv)
+            self._save()
+
+    def seed_news_from_config(self, config_news_watches):
+        """Carga los temas a vigilar en noticias (watches.yaml: news_watches),
+        sin duplicar por query — igual que seed_from_config pero para
+        búsquedas de noticias en vez de precios."""
+        with self._lock:
+            existing = {w["query"] for w in self.news_watches}
+            for cw in (config_news_watches or []):
+                if cw["query"] in existing:
+                    continue
+                self.news_watches.append({
+                    "query": cw["query"],
+                    "label": cw.get("label", cw["query"]),
+                    "seen": [],
+                    "initialized": False,
+                })
             self._save()
 
     def list_assets(self):
@@ -372,6 +394,66 @@ class Engine:
                     self.notifier.mac("BotTrading", "%s: %s" % (asset["symbol"], text))
         self._save()
 
+    def _news_alert_text(self, watch, item):
+        lines = [
+            "📰 <b>%s</b>" % watch["label"],
+            item["title"],
+        ]
+        if item.get("source"):
+            lines.append("<i>%s</i>" % item["source"])
+        if item.get("link"):
+            lines.append(item["link"])
+        return "\n".join(lines)
+
+    def _maybe_check_news(self):
+        """Cada ~10 min (self.news_interval): revisa los temas de
+        news_watches (watches.yaml, o añadidos a mano) buscando en Google
+        News. La PRIMERA vez que se revisa un tema no avisa de nada — solo
+        marca como "ya vistas" las noticias que hay en ese momento, para no
+        volcar de golpe todo el historial de la búsqueda. A partir de ahí,
+        solo avisa de titulares nuevos que no hubiera visto antes."""
+        now = time.time()
+        if now - self._last_news_check < self.news_interval:
+            return
+        self._last_news_check = now
+        with self._lock:
+            watches = list(self.news_watches)
+        if not watches:
+            return
+        for i, watch in enumerate(watches):
+            if i > 0:
+                time.sleep(1.2)
+            try:
+                items = news.search(watch["query"])
+            except Exception as e:
+                print("  [noticias] error buscando '%s': %s" % (watch["query"], e))
+                continue
+            seen = set(watch.get("seen", []))
+            is_first_check = not watch.get("initialized")
+            nuevas = [it for it in items if it["link"] and it["link"] not in seen]
+            for it in nuevas:
+                seen.add(it["link"])
+            # cortafuegos: si "nuevas" son muchísimas de golpe, algo no
+            # cuadra (estado corrupto/reinicio manual mal hecho) — jamás
+            # mandar un aluvión de mensajes por error, solo un aviso de que
+            # ha pasado algo raro y a partir de ahí sigue normal
+            MAX_ALERTAS_DE_GOLPE = 8
+            if not is_first_check and len(nuevas) > MAX_ALERTAS_DE_GOLPE:
+                chat = self.default_chat_id
+                self.notifier.telegram(chat, (
+                    "⚠️ <b>%s</b>\nSe han detectado %d titulares nuevos de golpe — "
+                    "demasiados para ser normal, así que no los mando todos (para no "
+                    "saturar). Se marcan como vistos y sigo vigilando desde aquí." %
+                    (watch["label"], len(nuevas))))
+            elif not is_first_check:
+                for it in reversed(nuevas):  # de más antigua a más nueva
+                    chat = self.default_chat_id
+                    self.notifier.telegram(chat, self._news_alert_text(watch, it))
+                    self.notifier.mac("BotTrading", "Noticia: %s" % watch["label"])
+            watch["initialized"] = True
+            watch["seen"] = list(seen)[-80:]  # acotado, no crece sin límite
+        self._save()
+
     def _maybe_send_digest(self):
         self.digest_just_sent = False
         now = datetime.now(MADRID)
@@ -429,6 +511,7 @@ class Engine:
                                        "  (%d aviso/s)" % len(fired) if fired else ""))
         self._save()
         self._maybe_check_signals()
+        self._maybe_check_news()
         self._maybe_send_digest()
 
     def check_once(self):

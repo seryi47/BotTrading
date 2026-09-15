@@ -69,8 +69,10 @@ def main():
         digest_hour=int(cfg.get("digest_hour", 9)),
         digest_state_file=os.environ.get("DIGEST_STATE_FILE", "state/last_digest.json"),
         signal_interval=int(cfg.get("signal_check_interval", 1800)),
+        news_interval=int(cfg.get("news_check_interval", 600)),
     )
     engine.seed_from_config(cfg.get("assets"))
+    engine.seed_news_from_config(cfg.get("news_watches"))
     engine.set_paused(bool(cfg.get("paused", False)))
 
     if "--chat-ids" in sys.argv:

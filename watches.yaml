@@ -24,6 +24,9 @@ signal_check_interval: 1800  # segundos entre comprobaciones de señal RSI/MACD 
                               # solo en el CAMBIO a zona de compra (RSI<=30) o giro alcista, no repite
                               # el mismo aviso mientras la situación no cambie (ver entry_signal)
 digest_hour: 9          # hora (Europe/Madrid) del resumen diario por Telegram
+news_check_interval: 600  # segundos entre comprobaciones de noticias vigiladas (10 min) — la
+                           # primera vez que se activa un tema NO avisa (solo marca lo que hay
+                           # como ya visto), a partir de ahí solo avisa de titulares nuevos
 mac_alerts: true        # solo tiene efecto en local/macOS
 paused: false
 
@@ -513,3 +516,10 @@ assets:
     name: "Invesco Physical Gold"
     dca: true
     levels: []
+
+# --- Temas de noticias vigilados (Google News, no precios) — se avisa de
+# titulares NUEVOS a medida que salgan, no del historial de golpe. Añadido
+# 15-sept-2026 para la votación de cierre de la Clarity Act de hoy. ---
+news_watches:
+  - query: "Clarity Act votación Senado cripto"
+    label: "Clarity Act (voto cripto, hoy 15-sept)"
