@@ -517,6 +517,19 @@ assets:
       - price: 65.22
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — la subida de tipos de la Fed (más margen entre lo que paga a ahorradores y lo que cobra a quien pide prestado) convence del todo al mercado. Recompras fuertes ($13.200M en H1-2026) y dividendo +14,3% de fondo."
+      # --- Niveles personalizados a TU posición: entrada a $59,48 el 15/16-sept-2026 ---
+      - price: 56.5
+        direction: "cae"
+        note: "🧍 TU POSICIÓN: −5% desde tu entrada ($59,48). Estás justo encima de tu stop técnico (la media de 200, ~$56). Si llega aquí, decide YA qué haces, no esperes a que la rompa."
+      - price: 55
+        direction: "cae"
+        note: "🧍 TU POSICIÓN: −7,5% desde tu entrada ($59,48) y ya por debajo de la media de 200 — la tesis se ha roto. Nivel de salida disciplinada: aquí no se aguanta 'a ver si rebota'."
+      - price: 63
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +6% desde tu entrada ($59,48) — primer objetivo razonable. Zona para plantearse recoger una parte de la posición y dejar correr el resto."
+      - price: 68.5
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +15% desde tu entrada ($59,48) — objetivo medio de consenso de analistas ($68,50-69). Zona para plantearse recoger beneficios en serio, no perseguir más arriba."
 
   - symbol: "GS"
     kind: "stock"
