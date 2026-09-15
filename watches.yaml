@@ -476,6 +476,63 @@ assets:
         direction: "sube"
         note: "Objetivo medio de consenso de analistas (rango $26-64, +35-58% desde sept-2026) — confirmaría que el mercado empieza a creer en la recuperación de la marca principal, que la propia dirección ha pospuesto a 2027. Deutsche Bank rebajó a Mantener el 27-ago pese a subir precio objetivo a $35, avisando de que 'las expectativas suben más rápido que las pruebas'. Vigilar resultados del Q3 (~principios de noviembre) como catalizador clave."
 
+  # --- Añadido 15-sept-2026: SpaceX (recién salida a bolsa) y dos bancos,
+  # estos últimos por el contexto de subida de tipos de la Fed de mañana ---
+
+  - symbol: "SPCX"
+    kind: "stock"
+    source_id: "SPCX"
+    name: "SpaceX"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su tendencia de fondo desde que salió a bolsa (12-jun-2026) — invalidaría el intento de recuperación desde el mínimo de ~$105."
+      - price: 135
+        direction: "cae"
+        note: "Vuelve al precio de salida a bolsa (IPO) — perdería la narrativa de 'aguanta por encima de donde debutó'."
+      - price: 105
+        direction: "cae"
+        note: "Mínimo desde el IPO — capitulación total, solo Starlink es rentable y Starship sigue quemando caja en I+D."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su SMA50 con claridad. Catalizadores próximos: 21-sept entra en el Nasdaq-100 (~$15.500M de entradas pasivas estimadas), 22-sept vuelo de prueba de Starship V3 (primer intento de desplegar satélites Starlink)."
+      - price: 225.64
+        direction: "sube"
+        note: "Rompe el máximo histórico intradía (16-jun-2026) — el mercado vuelve a creerse la valoración completa (~70-78x ingresos, cara incluso para lo que crece)."
+
+  - symbol: "BAC"
+    kind: "stock"
+    source_id: "BAC"
+    name: "Bank of America"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 (tendencia de fondo de más de un año) — invalidaría la tesis por completo, no solo el susto puntual de comisiones flojas en Q3 avisado por el CEO Moynihan el 14-sept."
+      - price: 46.12
+        direction: "cae"
+        note: "Mínimo de 52 semanas."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su SMA50 — confirma que la caída del 14-sept fue solo un susto puntual, no cambio de tendencia. RSI ya cerca de sobreventa (34 diario) al marcar este nivel."
+      - price: 65.22
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — la subida de tipos de la Fed (más margen entre lo que paga a ahorradores y lo que cobra a quien pide prestado) convence del todo al mercado. Recompras fuertes ($13.200M en H1-2026) y dividendo +14,3% de fondo."
+
+  - symbol: "GS"
+    kind: "stock"
+    source_id: "GS"
+    name: "Goldman Sachs"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 — la corrección de sector del 14-sept deja de ser solo un susto y se confirma algo más serio."
+      - price: 740.01
+        direction: "cae"
+        note: "Mínimo de 52 semanas."
+      - price: 1153.99
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas. Ojo: cotiza ya muy cara frente a su propia historia (valor en libros un 136% por encima de su media de 10 años, cerca de máximos de 13 años) y Wall Street Zen la rebajó el 13-sept — le afecta menos la subida de tipos que a un banco tradicional (depende más de banca de inversión que de depósitos)."
+
   # --- Cartera de MyInvestor (aportación periódica, 150€/mes) ---
   # A diferencia de todo lo de arriba, estos 5 NO llevan niveles de compra/venta
   # a propósito: cronometrar una aportación mensual a un fondo indexado no tiene
