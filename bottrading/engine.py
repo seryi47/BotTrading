@@ -181,6 +181,7 @@ class Engine:
                 self.news_watches.append({
                     "query": cw["query"],
                     "label": cw.get("label", cw["query"]),
+                    "context": cw.get("context", ""),
                     "seen": [],
                     "initialized": False,
                 })
@@ -403,6 +404,8 @@ class Engine:
             lines.append("<i>%s</i>" % item["source"])
         if item.get("link"):
             lines.append(item["link"])
+        if watch.get("context"):
+            lines += ["", watch["context"]]
         return "\n".join(lines)
 
     def _maybe_check_news(self):
