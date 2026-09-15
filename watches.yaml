@@ -588,11 +588,10 @@ assets:
     levels: []
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
-# titulares NUEVOS a medida que salgan, no del historial de golpe. Añadido
-# 15-sept-2026 para la votación de cierre de la Clarity Act de hoy. ---
+# titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
+# del historial de golpe. La Clarity Act se quitó el 16-sept tras fracasar
+# la votación de cierre del 15-sept: el tema ya no está vivo. ---
 news_watches:
-  - query: "Clarity Act votación Senado cripto"
-    label: "Clarity Act (voto cripto, hoy 15-sept)"
   - query: "Reserva Federal decisión tipos interés septiembre"
     label: "Decisión de la Fed (mañana 16-sept, 20:00h España)"
     context: |

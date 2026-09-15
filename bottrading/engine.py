@@ -6,13 +6,33 @@ import json
 import os
 import threading
 import time
-from datetime import datetime
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 
 from . import indicators as ind_mod
 from .providers import crypto, stocks, fx, news
 
 MADRID = ZoneInfo("Europe/Madrid")
+
+
+def _es_reciente(item, max_horas=12):
+    """True si la noticia se publicó en las últimas `max_horas`. Google News
+    ordena por relevancia, no por fecha: un artículo de hace un día puede
+    "subir" al top-100 más tarde y parecer nuevo para el bot sin serlo — así
+    que se marca como visto pero no se avisa de él. Si no trae fecha o no se
+    puede parsear, se asume reciente (mejor un aviso de más que perder una
+    noticia real por un formato raro)."""
+    raw = item.get("pub_date") or ""
+    if not raw:
+        return True
+    try:
+        pub = parsedate_to_datetime(raw)
+    except Exception:
+        return True
+    if pub.tzinfo is None:
+        pub = pub.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - pub).total_seconds() <= max_horas * 3600
 
 
 class Engine:
@@ -464,20 +484,23 @@ class Engine:
             nuevas = [it for it in items if it["link"] and it["link"] not in seen]
             for it in nuevas:
                 seen[it["link"]] = None
-            # cortafuegos: si "nuevas" son muchísimas de golpe, algo no
+            # solo se avisa de lo publicado en las últimas horas: lo viejo que
+            # el feed "descubra" tarde se marca como visto y se calla
+            frescas = [it for it in nuevas if _es_reciente(it)]
+            # cortafuegos: si "frescas" son muchísimas de golpe, algo no
             # cuadra (estado corrupto/reinicio manual mal hecho) — jamás
             # mandar un aluvión de mensajes por error, solo un aviso de que
             # ha pasado algo raro y a partir de ahí sigue normal
             MAX_ALERTAS_DE_GOLPE = 8
-            if not is_first_check and len(nuevas) > MAX_ALERTAS_DE_GOLPE:
+            if not is_first_check and len(frescas) > MAX_ALERTAS_DE_GOLPE:
                 chat = self.default_chat_id
                 self.notifier.telegram(chat, (
                     "⚠️ <b>%s</b>\nSe han detectado %d titulares nuevos de golpe — "
                     "demasiados para ser normal, así que no los mando todos (para no "
                     "saturar). Se marcan como vistos y sigo vigilando desde aquí." %
-                    (watch["label"], len(nuevas))))
+                    (watch["label"], len(frescas))))
             elif not is_first_check:
-                for it in reversed(nuevas):  # de más antigua a más nueva
+                for it in reversed(frescas):  # de más antigua a más nueva
                     chat = self.default_chat_id
                     self.notifier.telegram(chat, self._news_alert_text(watch, it))
                     self.notifier.mac("BotTrading", "Noticia: %s" % watch["label"])
