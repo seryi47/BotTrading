@@ -183,6 +183,19 @@ assets:
       - price: 305
         direction: "sube"
         note: "Objetivo de consenso de analistas a 12 meses (~$305-316, 61 analistas, rating medio 'Comprar fuerte')."
+      # --- Niveles personalizados a TU posición: 7.439,16 $ (~34,7 acc.) comprados a $214,37 el 16-sept-2026, justo sobre la SMA50 tras la caída del 14-sept ---
+      - price: 207
+        direction: "cae"
+        note: "🧍 TU POSICIÓN: −3,4% desde tu entrada ($214,37). Pierde el suelo del lunes 14 (207-209): el rebote tras el susto de la IA ha fallado. Primer aviso serio, revisa pero no vendas por inercia; el siguiente nivel que importa es 200."
+      - price: 200
+        direction: "cae"
+        note: "🧍 TU POSICIÓN: −6,7% desde tu entrada ($214,37) ≈ −500 $. Por debajo de la media de 200 sesiones (~198): la tendencia de fondo alcista queda en cuestión. Zona de stop si no quieres asumir más pérdida; si mantienes, pasas a apostar a los resultados de noviembre."
+      - price: 220
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +2,6% desde tu entrada ($214,37). Recupera la media de 20 sesiones (~218): la caída del 14-sept queda cerrada y el técnico vuelve a estar a tu favor. No es para vender, es la confirmación de que entraste bien."
+      - price: 230
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +7,3% desde tu entrada ($214,37) ≈ +540 $. Vuelve a la zona previa al susto (228-230). Buen punto para plantearte asegurar una parte; el máximo histórico (236,54) queda a un 3%."
 
   - symbol: "CCJ"
     kind: "stock"
@@ -624,3 +637,11 @@ reminders:
       Martes 22-sept: vuelo 14 de Starship, ventana desde las 14:15 hora España. Primer vuelo orbital completo (~6 órbitas, ~10 h) con 26 satélites Starlink V3 y amerizaje controlado en el Pacífico. Pendiente de permiso regulatorio y sujeto a cambios por técnica o meteorología.
 
       Arma de doble filo: si el vuelo falla, golpe negativo justo después del reajuste. Riesgo de fondo: a final de octubre más de 1.000M de acciones pre-OPV quedan libres para venderse, y otras 1.300M tras los resultados de noviembre.
+
+  - date: "2026-09-29"
+    message: |
+      🧠 MAÑANA miércoles 30-sept, 22:30 hora España: resultados de Micron (MU).
+
+      Es el termómetro de la demanda de IA que más mueve a NVDA y AMD fuera de sus propios resultados: Micron fabrica la memoria HBM que va dentro de los chips de Nvidia. Si Micron sube su previsión, NVDA suele subir al día siguiente; si habla de frenazo o de precios de memoria a la baja, NVDA lo paga.
+
+      Tienes NVDA comprada a $214,37: la reacción llega en el postmercado del 30 y en la apertura del jueves 1 (15:30).
