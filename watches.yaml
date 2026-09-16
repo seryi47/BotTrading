@@ -492,6 +492,24 @@ assets:
   # --- Añadido 15-sept-2026: SpaceX (recién salida a bolsa) y dos bancos,
   # estos últimos por el contexto de subida de tipos de la Fed de mañana ---
 
+  - symbol: "LMND"
+    kind: "stock"
+    source_id: "LMND"
+    name: "Lemonade"
+    levels:
+      - price: 46
+        direction: "cae"
+        note: "Rompe el mínimo de 52 semanas. La caída del 79% de crecimiento a este precio ya no descontaba solo pesimismo, sino que algo se ha roto en la tesis. Revisar antes de nada."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su media de 50 sesiones. El intento de rebote tras el susto de resultados de julio se queda corto, sigue en tendencia bajista de corto plazo."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones. La tendencia de fondo vuelve a ser alcista, no solo un rebote de corto plazo."
+      - price: 62
+        direction: "sube"
+        note: "Recupera el precio previo al desplome del 29-jul-2026 por la decepción de resultados. La caída queda cerrada del todo."
+
   - symbol: "SPCX"
     kind: "stock"
     source_id: "SPCX"

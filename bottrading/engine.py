@@ -272,25 +272,16 @@ class Engine:
         return asset.get("chat_id") or self.default_chat_id
 
     def _level_alert_text(self, asset, level, target, price, ind):
+        """Desde el 17-sept-2026, a petición expresa: solo precio y veredicto
+        de entrada, sin RSI/tendencia/soporte-resistencia detallados — eso ya
+        vive en el técnico interno, no hace falta repetirlo en cada aviso."""
         arrow = "🔻" if level["direction"] == "cae" else "🚀"
-        tag = ind_mod.classify_alert(level["direction"], ind) if ind else "🟡 Sin lectura técnica disponible"
-        etiqueta = (" (%s)" % level["ma"].upper()) if level.get("ma") else ""
-        lines = [
-            "%s <b>%s</b> ha %s <b>%s</b>%s" % (
-                arrow, asset["name"],
-                "caído a" if level["direction"] == "cae" else "superado",
-                fx.fmt_usd_eur(target), etiqueta),
-            "Precio actual: %s" % fx.fmt_usd_eur(price),
-        ]
+        tag = ind_mod.classify_alert(level["direction"], ind) if ind else "🟡 Sin lectura técnica"
+        lines = ["%s <b>%s</b> — %s" % (arrow, asset["name"], fx.fmt_usd_eur(price))]
         if level.get("note"):
-            lines.append("📌 %s" % level["note"])
-        if ind:
-            lines += [
-                "",
-                "RSI(14): %s" % ind.rsi_desc(),
-                "Tendencia: %s" % ind.trend_desc(),
-            ]
-        lines += ["", tag]
+            nota = level["note"].split(". ")[0].rstrip(".") + "."
+            lines.append(nota)
+        lines.append(tag)
         return "\n".join(lines)
 
     MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
@@ -368,35 +359,9 @@ class Engine:
         return "\n".join(lines)
 
     def _signal_alert_text(self, asset, text, price, ind, support, resistance):
-        lines = [
-            "<b>%s</b> (%s) — señal de entrada" % (asset["name"], asset["symbol"]),
-            "",
-            text,
-            "",
-            "💰 <b>Precio de entrada</b>",
-            "· Ya mismo: %s" % fx.fmt_usd_eur(price),
-        ]
-        if support:
-            lines.append("· Más conservador, si retrocede antes: %s" % fx.fmt_usd_eur(support["price"]))
-        loc = []
-        if support:
-            loc.append("Soporte %s (%s%%)" % (fx.fmt_usd_eur(support["price"]), self._pct(support["price"], price)))
-        if resistance:
-            loc.append("Resistencia %s (%s%%)" % (fx.fmt_usd_eur(resistance["price"]), self._pct(resistance["price"], price)))
-        if loc:
-            lines.append("")
-            lines.append("📍 " + " · ".join(loc))
-        plan = ind_mod.buy_plan(ind.rsi14 if ind else None, support, resistance, fx.fmt_usd_eur)
-        lines.append("")
-        lines.append("🎯 <b>Confirmación:</b> %s" % plan)
-        if support and support.get("note"):
-            lines.append("<i>%s</i>" % support["note"])
-        lines += [
-            "",
-            "RSI(14): %s" % ind.rsi_desc(),
-            "Tendencia: %s" % ind.trend_desc(),
-        ]
-        return "\n".join(lines)
+        """Desde el 17-sept-2026, a petición expresa: solo precio y veredicto
+        de entrada, una línea cada uno — antes esto era un párrafo largo."""
+        return "%s (%s) — %s\n%s" % (asset["name"], asset["symbol"], fx.fmt_usd_eur(price), text)
 
     def _maybe_check_signals(self):
         """Cada ~30 min (self.signal_interval), independiente del sondeo de
