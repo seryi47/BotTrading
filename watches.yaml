@@ -605,8 +605,22 @@ news_watches:
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
+  - date: "2026-09-17"
+    message: |
+      🚀 SpaceX (SPCX): el día clave es MAÑANA viernes 18-sept, no el lunes.
+
+      El Nasdaq-100 hace su reajuste trimestral. SPCX no entra (ya entró el 7 de julio): lo que pasa es que SUBE DE PESO en el índice, del 1,25% a ~2,25%, porque ahora cuentan más acciones como flotantes. JPMorgan estima ~$15.500M de compras forzosas de fondos indexados.
+
+      Esas compras se ejecutan normalmente al cierre del viernes (22:00 hora España) y el nuevo peso entra en vigor el lunes 21.
+
+      Ojo: parte de la subida puede estar ya adelantada en el precio, y el cierre del viernes puede ser volátil. No es una subida "segura".
+
   - date: "2026-09-20"
     message: |
-      Mañana (21-sept) SpaceX (SPCX) entra en el Nasdaq-100 (~$15.500M de entradas pasivas estimadas de fondos indexados), y el 22-sept es el vuelo de prueba de Starship V3 (primer intento de desplegar satélites Starlink — el propio Musk le da un 50-60% de éxito).
+      🚀 SpaceX (SPCX): semana clave.
 
-      Ojo: parte de la subida por la entrada al índice puede que ya se haya adelantado antes de la fecha oficial, y el vuelo de Starship es arma de doble filo (si falla, golpe negativo justo al día siguiente). Vigila el precio de SPCX estos días, no es una subida "segura".
+      Lunes 21-sept: entra en vigor el nuevo peso de SPCX en el Nasdaq-100 (~2,25%, desde 1,25%). Las compras de los fondos ya se hicieron al cierre del viernes, así que ojo a la posible "venta con la noticia".
+
+      Martes 22-sept: vuelo 14 de Starship, ventana desde las 14:15 hora España. Primer vuelo orbital completo (~6 órbitas, ~10 h) con 26 satélites Starlink V3 y amerizaje controlado en el Pacífico. Pendiente de permiso regulatorio y sujeto a cambios por técnica o meteorología.
+
+      Arma de doble filo: si el vuelo falla, golpe negativo justo después del reajuste. Riesgo de fondo: a final de octubre más de 1.000M de acciones pre-OPV quedan libres para venderse, y otras 1.300M tras los resultados de noviembre.
