@@ -618,6 +618,111 @@ assets:
     dca: true
     levels: []
 
+# --- Candidatas a "a punto del primer beneficio real" (tesis del vídeo de
+# Isaac Davydov, estudiadas a fondo el 17-sept-2026) — sin posición real,
+# solo vigilancia de la tesis. Niveles: soporte cerca de mínimos de 52
+# semanas o el mínimo de las últimas semanas, resistencia al recuperar la
+# SMA50 o el máximo reciente. ---
+  - symbol: "KLAR"
+    kind: "stock"
+    source_id: "KLAR"
+    name: "Klarna"
+    levels:
+      - price: 12
+        direction: "cae"
+        note: "Cerca del mínimo de 52 semanas (12,06$). Si lo rompe antes del 24-nov, el mercado ya no cree en el giro a beneficio de octubre-diciembre — la tesis se rompe antes de tiempo."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones. Señal de que el mercado empieza a creerse el giro a beneficio que la propia Klarna prometió para el trimestre octubre-diciembre."
+      - price: 45.98
+        direction: "sube"
+        note: "Recupera su máximo de 52 semanas — improbable a corto plazo, marcaría que la tesis se ha confirmado del todo."
+
+  - symbol: "ARRY"
+    kind: "stock"
+    source_id: "ARRY"
+    name: "Array Technologies"
+    levels:
+      - price: 4
+        direction: "cae"
+        note: "Rompe mínimos de 52 semanas. Sus ingresos ya caían un 5,6% interanual; perder este nivel confirma que el negocio de fondo se deteriora, no solo el precio."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones — el consenso ya la pone en beneficio los próximos 5 trimestres, esto confirmaría que el mercado empieza a creérselo."
+
+  - symbol: "ALKT"
+    kind: "stock"
+    source_id: "ALKT"
+    name: "Alkami Technology"
+    levels:
+      - price: 14
+        direction: "cae"
+        note: "Cerca del mínimo de 52 semanas (13,98$). Señal de que el proceso de venta forzado por Jana Partners se está enfriando sin oferta a la vista."
+      - price: 22
+        direction: "sube"
+        note: "Cerca de máximos de las últimas semanas. Probable señal de que el mercado da por hecha una opa o una oferta de compra concreta."
+
+  - symbol: "CHPT"
+    kind: "stock"
+    source_id: "CHPT"
+    name: "ChargePoint"
+    levels:
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su media de 50 sesiones tras el +70% del 3-sept — señal de que la euforia por el resultado se está desinflando."
+      - price: 12
+        direction: "sube"
+        note: "Cerca de máximos de 52 semanas — confirmaría que la mejora de márgenes (pérdida del 67% al 31% de ingresos) sigue convenciendo al mercado."
+
+  - symbol: "NAVN"
+    kind: "stock"
+    source_id: "NAVN"
+    name: "Navan"
+    levels:
+      - price: 19
+        direction: "cae"
+        note: "Pierde el suelo de las últimas semanas. La pérdida se reducía con fuerza (25-66% interanual) y ya genera caja positiva; perder este nivel pondría en duda esa mejora."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones — reforzaría la tesis de que el beneficio real está cada vez más cerca."
+
+  - symbol: "BLND"
+    kind: "stock"
+    source_id: "BLND"
+    name: "Blend Labs"
+    levels:
+      - price: 1.17
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Ya gana dinero en la métrica ajustada y genera caja; perder este nivel sería una señal de alarma real."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones — el consenso la sitúa rozando el cero hacia mediados de 2027, esto acortaría esa espera en el precio."
+
+  - symbol: "EOSE"
+    kind: "stock"
+    source_id: "EOSE"
+    name: "Eos Energy"
+    levels:
+      - price: 3
+        direction: "cae"
+        note: "Cerca de mínimos de 52 semanas. Su pérdida ajustada mejora cada trimestre (del 413% al 104% de ingresos); perder este nivel rompería esa narrativa."
+      - price: 4.6
+        direction: "sube"
+        note: "Máximo de las últimas semanas — confirmaría que el mercado empieza a premiar la mejora de márgenes."
+
+  - symbol: "STEM"
+    kind: "stock"
+    source_id: "STEM"
+    name: "Stem Inc"
+    levels:
+      - price: 4
+        direction: "cae"
+        note: "Rompe mínimos recientes. Lleva 5 trimestres seguidos con EBITDA ajustado positivo, pero sus ingresos caen — perder este nivel confirmaría que el mercado ya no perdona esa caída."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones."
+
+
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
 # del historial de golpe. La Clarity Act se quitó el 16-sept tras fracasar
@@ -636,6 +741,29 @@ news_watches:
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
+  - date: "2026-10-27"
+    message: |
+      📅 Mañana miércoles 28-oct: resultados de Alkami (ALKT) y Stem (STEM), dos de las candidatas a "primer beneficio real" que vigilamos.
+
+      Alkami: mira si dan alguna noticia del proceso de venta forzado por el activista Jana Partners — puede importar más que las cifras.
+      Stem: ya lleva 5 trimestres con EBITDA ajustado positivo pero con ingresos cayendo, mira si eso cambia.
+
+  - date: "2026-11-03"
+    message: |
+      📅 Mañana miércoles 4-nov: resultados de Array Technologies (ARRY), la otra candidata donde el consenso YA marca beneficio los próximos 5 trimestres.
+
+      Ojo especial a los ingresos (venían cayendo un 5,6% interanual) y a si hay algún cargo puntual como el que le costó 161 millones el año pasado.
+
+  - date: "2026-11-23"
+    message: |
+      📅 MAÑANA martes 24-nov, tras el cierre de EE.UU.: resultados de Klarna (KLAR) — el más importante de las candidatas a "primer beneficio real".
+
+      El consenso dice que este trimestre (octubre-diciembre) es cuando Klarna empieza a ganar dinero de forma sostenida, después de un trimestre de julio-septiembre de pérdida deliberada por inversión.
+
+      🟢 Si confirman que el gasto de ese trimestre ya se convirtió en volumen/margen → la tesis se cumple, alcista fuerte.
+      🔴 Si Alemania (su mercado más grande) sigue sin crecer y piden paciencia otra vez → la tesis se retrasa, probable castigo en bolsa como en agosto (-19% aquel día).
+      Pregúntame en cuanto salga y te lo interpreto con los números reales.
+
   - date: "2026-09-17"
     message: |
       🚀 SpaceX (SPCX): el día clave es MAÑANA viernes 18-sept, no el lunes.
