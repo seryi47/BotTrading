@@ -739,6 +739,15 @@ news_watches:
       🔴🔴 Sube tipos Y encima bajan previsión de crecimiento/empleo → muy bajista (estanflación)
       ⚠️ Esto necesita leer números y tono, no solo el titular — pregúntame en cuanto salga y te lo interpreto con los datos reales.
 
+  - query: "Anduril IPO salida a bolsa OR Anduril funding round"
+    label: "Anduril Industries (privada, sin ticker) — novedades de salida a bolsa o financiación"
+    context: |
+      Anduril (defensa: drones, sistemas autónomos) sigue siendo privada. Última
+      valoración conocida: 61.000M$ tras una ronda de mayo de 2026. Su consejero
+      delegado dijo en julio de 2026 que no tienen prisa por salir a bolsa, sin
+      fecha oficial. Este aviso es para enterarte el día que eso cambie —
+      mientras tanto no hay ninguna acción que comprar.
+
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
   - date: "2026-10-27"
