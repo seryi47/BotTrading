@@ -618,6 +618,25 @@ assets:
     dca: true
     levels: []
 
+  - symbol: "MSCI"
+    kind: "stock"
+    source_id: "MSCI"
+    name: "MSCI Inc"
+    levels:
+      - price: 511.84
+        direction: "cae"
+        note: "Pierde el mínimo de 52 semanas. Negocio muy sano (retención del 95%, comisiones +25%) pero el mercado lleva meses castigando la valoración; perder este nivel confirma que la presión de fondo sigue."
+      - price: 500
+        direction: "cae"
+        note: "Nivel psicológico redondo, por debajo del mínimo de 52 semanas. Zona de capitulación real, no un simple retroceso."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones — primera confirmación técnica real de que el mercado deja de penalizar el negocio."
+      - price: 647
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (~$647-690, 'comprar fuerte') — implicaría que las dudas de comisiones y ESG se han despejado."
+
+
 # --- Candidatas a "a punto del primer beneficio real" (tesis del vídeo de
 # Isaac Davydov, estudiadas a fondo el 17-sept-2026) — sin posición real,
 # solo vigilancia de la tesis. Niveles: soporte cerca de mínimos de 52
