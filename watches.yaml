@@ -48,6 +48,15 @@ assets:
       - price: 80000
         direction: "sube"
         note: "Resistencia mayor — entrada en la zona pesada 80-82k. No perseguir con RSI muy alto."
+      - price: 81764
+        direction: "cae"
+        note: "🔮 Soporte marcado por GranMago (23-sept): espera que el precio lo pruebe y rebote desde aquí. RSI ya en sobreventa real (27), técnicamente plausible — pero solo entra si ves un rebote confirmado, no por tocar el nivel."
+      - price: 85080
+        direction: "sube"
+        note: "🔮 Recupera el pivote que marca GranMago (23-sept) — primera señal de que el rebote desde 81.764 aguanta de verdad."
+      - price: 89000
+        direction: "sube"
+        note: "🔮 Objetivo especulativo dibujado por GranMago (23-sept), sin catalizador confirmado detrás — llegar aquí no valida su tesis, solo indica que el precio ha subido mucho."
 
   - symbol: "ETH"
     kind: "crypto"
@@ -66,6 +75,15 @@ assets:
       - price: 2800
         direction: "sube"
         note: "Objetivo mayor si la tendencia se confirma."
+      - price: 2540
+        direction: "cae"
+        note: "🔮 Primer aviso de arrastre si Bitcoin pierde su soporte de GranMago (81.764) — ETH suele caer más fuerte que BTC en estos momentos."
+      - price: 2388
+        direction: "cae"
+        note: "🔮 Mínimo de los últimos 14 días. Si Bitcoin no rebota en 81.764, este es el nivel equivalente de capitulación en ETH — RSI ya en sobreventa real (22)."
+      - price: 2782
+        direction: "sube"
+        note: "🔮 Recupera el máximo de los últimos 7 días — confirmaría que el rebote de Bitcoin (si llega) se ha contagiado también a ETH."
 
   - symbol: "MA"
     kind: "stock"
