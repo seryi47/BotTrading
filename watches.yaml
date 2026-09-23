@@ -57,6 +57,15 @@ assets:
       - price: 89000
         direction: "sube"
         note: "🔮 Objetivo especulativo dibujado por GranMago (23-sept), sin catalizador confirmado detrás — llegar aquí no valida su tesis, solo indica que el precio ha subido mucho."
+      - price: 77300
+        direction: "cae"
+        note: "Pierde 81.764 sin rebotar — primer escalón real de soporte antes de 75.800, zona donde ya consolidó varias veces en los últimos 6 meses."
+      - price: 70700
+        direction: "cae"
+        note: "Rompe también 75.800 — soporte real de hace meses, no un número redondo inventado. Aquí la tesis de 'solo una corrección' empieza a estar en duda de verdad."
+      - price: 58600
+        direction: "cae"
+        note: "Mínimo absoluto de los últimos 180 días. Si llega aquí, es capitulación total, no una simple corrección — revisar todo desde cero, no solo esperar rebote."
 
   - symbol: "ETH"
     kind: "crypto"
@@ -84,6 +93,15 @@ assets:
       - price: 2782
         direction: "sube"
         note: "🔮 Recupera el máximo de los últimos 7 días — confirmaría que el rebote de Bitcoin (si llega) se ha contagiado también a ETH."
+      - price: 2260
+        direction: "cae"
+        note: "Pierde 2.388 sin rebotar — siguiente soporte real, zona donde ya paró la caída varias veces en los últimos 6 meses."
+      - price: 2010
+        direction: "cae"
+        note: "Rompe también 2.260 — soporte real de hace meses. Si Bitcoin sigue cayendo y arrastra hasta aquí, la corrección ya es seria de verdad."
+      - price: 1570
+        direction: "cae"
+        note: "Mínimo absoluto de los últimos 180 días. Capitulación total si llega aquí, no una simple corrección."
 
   - symbol: "MA"
     kind: "stock"
