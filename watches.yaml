@@ -692,9 +692,13 @@ assets:
     source_id: "KLAR"
     name: "Klarna"
     levels:
-      - price: 12
+      # --- Niveles personalizados a TU posición: 1.500 € comprados a $12,74 el 24-sept-2026 (~133,8 acc.) ---
+      - price: 11
         direction: "cae"
-        note: "Cerca del mínimo de 52 semanas (12,06$). Si lo rompe antes del 24-nov, el mercado ya no cree en el giro a beneficio de octubre-diciembre — la tesis se rompe antes de tiempo."
+        note: "🧍 TU POSICIÓN: −13,7% desde tu entrada ($12,74). Cerca del mínimo de 52 semanas — si lo rompe antes del 24-nov, el mercado ya no cree en el giro a beneficio de octubre-diciembre, revisa la tesis."
+      - price: 14.65
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +15% desde tu entrada ($12,74). Primera señal de que el mercado empieza a creerse el giro a beneficio prometido para el trimestre octubre-diciembre."
       - ma: "sma50"
         direction: "sube"
         note: "Recupera su media de 50 sesiones. Señal de que el mercado empieza a creerse el giro a beneficio que la propia Klarna prometió para el trimestre octubre-diciembre."
@@ -707,6 +711,13 @@ assets:
     source_id: "ARRY"
     name: "Array Technologies"
     levels:
+      # --- Niveles personalizados a TU posición: 1.100 € comprados a $3,88 el 24-sept-2026 (~322,3 acc.) ---
+      - price: 3.40
+        direction: "cae"
+        note: "🧍 TU POSICIÓN: −12,4% desde tu entrada ($3,88). Por debajo del mínimo de 52 semanas — revisa si la cartera de pedidos récord (2.500M$) sigue sosteniendo la tesis pese a la caída."
+      - price: 5.00
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +28,9% desde tu entrada ($3,88). Señal de que el consenso de beneficio de los próximos trimestres empieza a reflejarse en el precio, no solo en las hojas de cálculo."
       - price: 4
         direction: "cae"
         note: "Rompe mínimos de 52 semanas. Sus ingresos ya caían un 5,6% interanual; perder este nivel confirma que el negocio de fondo se deteriora, no solo el precio."
