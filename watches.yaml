@@ -31,6 +31,14 @@ mac_alerts: true        # solo tiene efecto en local/macOS
 paused: false
 
 assets:
+
+# --- PER de referencia (foto del 24-sept-2026, NO se actualiza sola) ---
+# Solo tiene sentido en empresas ya rentables. Fuente: stockanalysis.com.
+# PER actual / PER futuro (si el futuro es MÁS ALTO que el actual, el mercado
+# espera MENOS beneficio el año que viene, señal de alerta, no de "barata"):
+#   BAC 12,9/11,3 (baja, sano) | GOOGL 17,0/25,2 (sube) | ORCL 22,7/17,0 (baja, sano)
+#   META 28,0/23,1 (baja, sano) | NVDA 28,5/18,7 (baja bastante) | MSCI 30,4/26,2 (baja)
+#   AMZN 20,0/27,1 (sube, alerta) | TSLA 394,5/196,5 (altísimo en las dos)
   - symbol: "BTC"
     kind: "crypto"
     source_id: "bitcoin"
@@ -671,6 +679,25 @@ assets:
       - price: 647
         direction: "sube"
         note: "Objetivo de consenso de analistas (~$647-690, 'comprar fuerte') — implicaría que las dudas de comisiones y ESG se han despejado."
+
+
+  - symbol: "AMZN"
+    kind: "stock"
+    source_id: "AMZN"
+    name: "Amazon"
+    levels:
+      - price: 244.30
+        direction: "cae"
+        note: "Pierde el mínimo de las últimas 3 semanas. Ojo: su PER futuro (27,1) es MÁS ALTO que el actual (20,0) — el mercado espera menos beneficio el año que viene, no más, algo que un análisis simple de 'PER bajo = barata' (vídeo de Isaac Davydov, 24-sept) no tiene en cuenta."
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones — pondría en duda la tendencia de fondo, no sería ya una simple debilidad de corto plazo."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones — señal de que la debilidad actual (por debajo de SMA20/50) ha quedado atrás."
+      - price: 287.20
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
 
 
 # --- Candidatas a "a punto del primer beneficio real" (tesis del vídeo de
