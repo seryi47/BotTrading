@@ -405,7 +405,7 @@ assets:
         note: "Pierde su SMA200 (~$244 a 10-sept) — rompería el cruce dorado (SMA50 sobre SMA200)."
       - price: 244
         direction: "cae"
-        note: "Zona del cruce dorado — soporte estructural clave."
+        note: "Zona del cruce dorado — soporte estructural clave. Ojo con el PER: el futuro (27,1) es MÁS ALTO que el actual (20,0), el mercado espera menos beneficio el año que viene, no más — un 'PER bajo, barata' sin mirar esto (24-sept) se queda corto."
       - price: 287.2
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — AWS con el mejor crecimiento en 18 trimestres (+37%)."
@@ -680,24 +680,6 @@ assets:
         direction: "sube"
         note: "Objetivo de consenso de analistas (~$647-690, 'comprar fuerte') — implicaría que las dudas de comisiones y ESG se han despejado."
 
-
-  - symbol: "AMZN"
-    kind: "stock"
-    source_id: "AMZN"
-    name: "Amazon"
-    levels:
-      - price: 244.30
-        direction: "cae"
-        note: "Pierde el mínimo de las últimas 3 semanas. Ojo: su PER futuro (27,1) es MÁS ALTO que el actual (20,0) — el mercado espera menos beneficio el año que viene, no más, algo que un análisis simple de 'PER bajo = barata' (vídeo de Isaac Davydov, 24-sept) no tiene en cuenta."
-      - ma: "sma200"
-        direction: "cae"
-        note: "Pierde su media de 200 sesiones — pondría en duda la tendencia de fondo, no sería ya una simple debilidad de corto plazo."
-      - ma: "sma50"
-        direction: "sube"
-        note: "Recupera su media de 50 sesiones — señal de que la debilidad actual (por debajo de SMA20/50) ha quedado atrás."
-      - price: 287.20
-        direction: "sube"
-        note: "Rompe el máximo de 52 semanas."
 
 
 # --- Candidatas a "a punto del primer beneficio real" (tesis del vídeo de
