@@ -413,6 +413,24 @@ assets:
         direction: "sube"
         note: "Objetivo de consenso de analistas (~$308-328, +27%). Demanda de la FTC (subastas publicitarias) pendiente — riesgo legal, no fundamental."
 
+  - symbol: "NET"
+    kind: "stock"
+    source_id: "NET"
+    name: "Cloudflare"
+    levels:
+      - price: 332
+        direction: "cae"
+        note: "Pierde la zona de consolidación previa a la subida de septiembre (acuerdo de seguridad con OpenAI) — la subida vertical del mes empezaría a revertirse."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su SMA50 — el subidón por la noticia de OpenAI se revierte del todo. Sin GAAP rentable todavía (objetivo propio: 2028), cotiza a ~45x ventas, sin colchón de valoración si esto pasa."
+      - price: 367.43
+        direction: "sube"
+        note: "Rompe su máximo histórico. Próximos resultados el 29-oct — primer trimestre que mostrará si el acuerdo con OpenAI ya se nota en reservas, no solo en el precio."
+      - price: 400
+        direction: "sube"
+        note: "Nivel psicológico redondo, siguiente objetivo si rompe el máximo histórico con fuerza."
+
   - symbol: "AAPL"
     kind: "stock"
     source_id: "AAPL"
@@ -570,10 +588,10 @@ assets:
         note: "Mínimo desde el IPO — capitulación total, solo Starlink es rentable y Starship sigue quemando caja en I+D."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su SMA50 con claridad. Catalizadores próximos: 21-sept entra en el Nasdaq-100 (~$15.500M de entradas pasivas estimadas), 22-sept vuelo de prueba de Starship V3 (primer intento de desplegar satélites Starlink)."
+        note: "Recupera su SMA50 con claridad. Ojo: cada mes se libera un nuevo tramo de acciones bloqueadas de antiguos accionistas (24-sept, 9 y 24-oct, y el tramo grande del 28% dos días después de resultados de Q3, hacia el 3-5 nov) — presión de venta recurrente a vigilar antes de fiarte de un rebote."
       - price: 225.64
         direction: "sube"
-        note: "Rompe el máximo histórico intradía (16-jun-2026) — el mercado vuelve a creerse la valoración completa (~70-78x ingresos, cara incluso para lo que crece)."
+        note: "Rompe el máximo histórico intradía (16-jun-2026) — el mercado vuelve a creerse la valoración completa (~90x ingresos, cara incluso para lo que crece)."
 
   - symbol: "BAC"
     kind: "stock"
