@@ -601,9 +601,12 @@ assets:
       - ma: "sma50"
         direction: "cae"
         note: "Pierde su media de 50 sesiones. El intento de rebote tras el susto de resultados de julio se queda corto, sigue en tendencia bajista de corto plazo."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones (~53$), resistencia intermedia real más útil que el nivel de 62$ mientras siga tan lejos. Rebote técnico a vigilar, no confirma cambio de tendencia de fondo por sí solo."
       - ma: "sma200"
         direction: "sube"
-        note: "Recupera su media de 200 sesiones. La tendencia de fondo vuelve a ser alcista, no solo un rebote de corto plazo."
+        note: "Recupera su media de 200 sesiones. Ojo: esa media lleva cayendo desde julio (pasó de ~65,5$ a ~62,6$ en dos meses), así que este cruce es más débil que si la media de fondo siguiera subiendo — vigilar, no dar por hecho el cambio de tendencia."
       - price: 62
         direction: "sube"
         note: "Recupera el precio previo al desplome del 29-jul-2026 por la decepción de resultados. La caída queda cerrada del todo."
