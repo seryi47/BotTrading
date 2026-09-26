@@ -59,6 +59,22 @@ del todo con datos reales (Oscar Health). El resto, o se equivocó de forma clar
 (SpaceX), o la ganancia que presumía ya se ha borrado (Novo Nordisk), o la acción ha
 seguido cayendo pese a su tesis (Cava).
 
+**El hallazgo más grave de toda la investigación, encontrado el 26-sept-2026 con las
+transcripciones completas de sus 30 vídeos:** su apuesta más repetida, Oscar Health,
+la justificó una y otra vez —en al menos 7 vídeos distintos entre abril y septiembre—
+diciendo que el consejero delegado, Mark Bertolini, había comprado 1 millón de
+acciones propias el 7 de abril por 11,92 dólares cada una, y que eso era señal de
+confianza real. Es cierto, esa compra pasó de verdad. **Pero ese mismo consejero
+delegado vendió 1,24 millones de acciones, unos 35,7 millones de dólares, el 29 y
+30 de junio de 2026 — y en ningún vídeo posterior, ni uno solo de los que siguió
+publicando sobre esa misma acción, menciona esa venta.** Sigue citando solo la
+compra de abril como si fuera la última palabra. Es un uso selectivo de la
+información, no un error de una vez. Además, quien compró Oscar Health durante sus
+vídeos más eufóricos de julio-septiembre está hoy plano o en pérdidas, no "a punto
+de dispararse" como decía su vídeo del 16 de septiembre. Y sus otras dos apuestas
+con objetivo de precio público, Amazon (objetivo $320-400, hoy en $250) y Cava
+(entrada $60-70, hoy por debajo), tampoco han llegado ni de lejos a lo prometido.
+
 ---
 
 ## 3. Los avisos que hay que tener siempre presentes
