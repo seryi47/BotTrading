@@ -341,6 +341,42 @@ assets:
         direction: "sube"
         note: "Objetivo de consenso de analistas (~$525-533, +41-49% desde los niveles de sept-2026) — de los mejores riesgo/beneficio del análisis del 10-sept."
 
+  - symbol: "AMAT"
+    kind: "stock"
+    source_id: "AMAT"
+    name: "Applied Materials"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su media de 20 sesiones — el salto del 26-sept (+9% en un día) empieza a revertirse."
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones — pondría en duda la tendencia de fondo, no solo el salto reciente."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones (justo por encima del precio del 26-sept) — confirmaría que el salto de ese día se sostiene de verdad."
+      - price: 640.89
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (+32% desde el 26-sept) — de los mejor alineados con lo que enseña Revolut de toda la lista revisada ese día."
+
+  - symbol: "WDC"
+    kind: "stock"
+    source_id: "WDC"
+    name: "Western Digital"
+    levels:
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su media de 20 sesiones — el salto del 26-sept (+3,5% en un día) empieza a revertirse."
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones — pondría en duda la tendencia de fondo tras la mejora de perspectiva crediticia de S&P."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones — confirmaría que el saneamiento post-escisión de SanDisk sigue en marcha."
+      - price: 664.92
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (+46% desde el 26-sept) — la mejor combinación de las 20 de Revolut entre lo que promete la app y lo que dicen los analistas de verdad."
+
   - symbol: "MSFT"
     kind: "stock"
     source_id: "MSFT"
