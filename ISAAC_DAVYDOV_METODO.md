@@ -111,6 +111,12 @@ solo con la parte de su método que sí tiene un mecanismo de mercado real detr�
 Así es como llegamos a Klarna y Array Technologies el 24-sept-2026: la misma
 filosofía de fondo que él describe, pero con la verificación que a él le falta.
 
+Ver [SEGUIMIENTO_ACCIONES.md](SEGUIMIENTO_ACCIONES.md) para la investigación
+completa (fundamentales, insiders, analistas, riesgos) de las diez acciones
+que sigue dentro de su comunidad de pago más las mejores candidatas del
+segundo barrido, con los niveles reales que se metieron en el bot el
+27-sept-2026.
+
 ---
 
 ## 5. Ampliación 26-sept-2026 — catálogo completo del canal (63 vídeos) + web

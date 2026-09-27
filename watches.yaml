@@ -854,6 +854,225 @@ assets:
         direction: "sube"
         note: "Recupera su media de 50 sesiones."
 
+  # --- Añadido 27-sept-2026: las diez acciones que sigue de cerca Isaac
+  # Davydov (@isaac_davydov / iadtrade.com) dentro de su comunidad de pago,
+  # más las mejores candidatas del segundo barrido de "empresas a punto de
+  # cruzar a beneficio real" — investigación a fondo documentada en
+  # ISAAC_DAVYDOV_METODO.md. Niveles calculados en vivo con el mismo
+  # proveedor (Yahoo Finance) que usa el propio bot. ---
+
+  - symbol: "MDGL"
+    kind: "stock"
+    source_id: "MDGL"
+    name: "Madrigal Pharmaceuticals"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones. Rezdiffra (único fármaco, para el hígado graso MASH) crece un 149% en ingresos, pero perder este soporte de fondo sería la primera señal real de que el mercado deja de creerse la historia."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones. Goldman Sachs y Citi acaban de iniciar cobertura de compra esta semana (23-24 sept) con objetivos de 704 y 725$ — reclamar este nivel confirmaría que el impulso sigue vivo."
+      - price: 602.83
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas. Confirmaría una nueva pierna alcista, no solo un rebote."
+
+  - symbol: "CIFR"
+    kind: "stock"
+    source_id: "CIFR"
+    name: "Cipher Digital"
+    levels:
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones. Su centro de datos de IA Barber Lake va adelantado sobre plazo y el 8-sept se desacopló del precio de Bitcoin por primera vez — el mercado empieza a tratarla como infraestructura de IA, no solo minera."
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su media de 20 sesiones, soporte de muy corto plazo."
+      - price: 19.33
+        direction: "sube"
+        note: "Rompe el máximo de septiembre."
+      - price: 14
+        direction: "cae"
+        note: "Pierde el suelo de la consolidación de septiembre."
+
+  - symbol: "AVAV"
+    kind: "stock"
+    source_id: "AVAV"
+    name: "AeroVironment"
+    levels:
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones. Contratos militares reales (láser LOCUST, Switchblade en Ucrania) pero cae un 49% en el año por compresión de margen tras comprar BlueHalo, y los propios insiders solo venden, ninguno compra — primera señal real de estabilización si recupera esto."
+      - price: 136.68
+        direction: "cae"
+        note: "Rompe el mínimo de 52 semanas."
+      - price: 185
+        direction: "sube"
+        note: "Objetivo de Bank of America tras su recorte del 21-sept (antes tenían 225$)."
+
+  - symbol: "CAVA"
+    kind: "stock"
+    source_id: "CAVA"
+    name: "Cava Group"
+    levels:
+      - price: 45.50
+        direction: "cae"
+        note: "Cerca del mínimo de 52 semanas. El negocio no se ha deteriorado (ventas comparables +9%), la caída es de valoración/sector, no propia."
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones. El COO ha comprado acciones tres veces este año, la última el 7-sept — señal real de confianza desde dentro, aunque el cruce de medias sigue siendo bajista."
+      - price: 56
+        direction: "sube"
+
+  - symbol: "OSCR"
+    kind: "stock"
+    source_id: "OSCR"
+    name: "Oscar Health"
+    levels:
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones. Ojo: el presidente/COO vendió 23M$ y el CFO también vendió justo en las semanas del Investor Day (16-sept) que disparó el precio — mismo patrón que la venta del CEO en junio."
+      - price: 26
+        direction: "cae"
+        note: "Soporte real. Los subsidios sanitarios ACA no se han extendido (resuelto el shutdown el 27-sept sin ellos) — riesgo estructural para el negocio, no solo ruido de corto plazo."
+      - price: 35.40
+        direction: "sube"
+        note: "Objetivo medio de analistas."
+
+  - symbol: "ZETA"
+    kind: "stock"
+    source_id: "ZETA"
+    name: "Zeta Global"
+    levels:
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones tras el enfriamiento desde máximos de 52 semanas. Cuarto trimestre seguido subiendo su propia previsión, pero el CEO solo vende (incluido un derivado de venta futura) y tiene un antecedente de ataque de vendedores en corto en 2024 (-35% en un día)."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su media de 50 sesiones."
+      - price: 32.68
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
+
+  - symbol: "HIVE"
+    kind: "stock"
+    source_id: "HIVE"
+    name: "HIVE Digital Technologies"
+    levels:
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su media de 50 sesiones. Contratos reales de centros de datos de IA con Bell Canada y Cohere, pero el 25-sept escaló su disputa fiscal sueca (IVA) a la Comisión Europea — litigio para años, no meses."
+      - price: 3.315
+        direction: "sube"
+        note: "Zona de resistencia de corto plazo (media de 100 sesiones)."
+      - price: 1.75
+        direction: "cae"
+        note: "Mínimo de 52 semanas — soporte estructural lejano."
+
+  - symbol: "TVTX"
+    kind: "stock"
+    source_id: "TVTX"
+    name: "Travere Therapeutics"
+    levels:
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones. Filspari (fármaco renal) crece un 96%, casi en el punto de equilibrio real — pero el CEO saliente vendió 25M$ en acciones días antes de anunciar que dejaba el cargo (21-sept). Verificar antes de fiarse."
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones, soporte de fondo."
+      - price: 67.52
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
+
+  - symbol: "COHU"
+    kind: "stock"
+    source_id: "COHU"
+    name: "Cohu Inc"
+    levels:
+      - price: 73.91
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — confirmaría continuación tras subir un 236% en el año por la demanda de test de semiconductores para IA."
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su media de 20 sesiones. El CEO vendió 3,3M$ cerca de máximos el 21-sept, sin ninguna compra que lo compense — primera señal de que el rally se enfría."
+      - price: 60
+        direction: "cae"
+        note: "Zona de consolidación previa al último tramo de subida."
+
+  - symbol: "RYZ"
+    kind: "stock"
+    source_id: "RYZ"
+    name: "Ryerson Holding"
+    levels:
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones. Ojo: su apalancamiento saltó de 3,1x a 5,1x en un solo trimestre tras fusionarse con Olympic Steel — apuesta a la ejecución de la fusión, no valor tranquilo."
+      - price: 19.86
+        direction: "cae"
+        note: "Mínimo de 52 semanas."
+
+  - symbol: "AXSM"
+    kind: "stock"
+    source_id: "AXSM"
+    name: "Axsome Therapeutics"
+    levels:
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones, soporte inmediato. Ojo: sus pérdidas han aumentado en vez de reducirse pese a que los ingresos crecen un 46% — contradice la tesis de 'a punto de beneficio real'."
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones."
+      - price: 255.17
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas."
+
+  - symbol: "NFLX"
+    kind: "stock"
+    source_id: "NFLX"
+    name: "Netflix"
+    levels:
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones. Ingresos y beneficio siguen creciendo con fuerza, la caída es sobre todo miedo a la competencia de YouTube — pero los insiders (Hastings, Sarandos) solo venden y la tendencia técnica sigue sin girar."
+      - price: 67.60
+        direction: "cae"
+        note: "Cerca del mínimo de 52 semanas."
+      - price: 92.93
+        direction: "sube"
+        note: "Objetivo medio de analistas."
+
+  - symbol: "PHAT"
+    kind: "stock"
+    source_id: "PHAT"
+    name: "Phathom Pharmaceuticals"
+    levels:
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones. Recortó su propia guía en julio por problemas reales de autorización de aseguradoras — desde entonces varias casas han seguido bajando el objetivo, no es solo percepción."
+      - price: 6.99
+        direction: "cae"
+        note: "Cerca del mínimo de 52 semanas."
+      - price: 16
+        direction: "sube"
+        note: "Precio de la ampliación de capital de enero-2026 — muchos de esos inversores siguen en pérdidas por debajo de este nivel."
+
+  - symbol: "NVO"
+    kind: "stock"
+    source_id: "NVO"
+    name: "Novo Nordisk"
+    levels:
+      - price: 35.29
+        direction: "cae"
+        note: "Cerca del mínimo de 52 semanas."
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones. Perdió el ensayo clínico frente a Eli Lilly, recortó su propia guía y despidió a 9.000 empleados — deterioro real de negocio, no solo miedo, y ninguna revisión reciente de analistas ha sido al alza."
+      - price: 46.39
+        direction: "sube"
+        note: "Objetivo medio de analistas."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
