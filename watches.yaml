@@ -59,6 +59,15 @@ assets:
       - price: 81764
         direction: "cae"
         note: "🔮 Soporte marcado por GranMago (23-sept): espera que el precio lo pruebe y rebote desde aquí. RSI ya en sobreventa real (27), técnicamente plausible — pero solo entra si ves un rebote confirmado, no por tocar el nivel."
+      - price: 82905
+        direction: "cae"
+        note: "🔮 GranMago (29-sept, 4H): borde alto de la 'zona gris' que espera que se rellene tras el rechazo en 85.084 — primer aviso de que está entrando en esa franja."
+      - price: 82870
+        direction: "cae"
+        note: "🔮 Dentro de la zona gris de GranMago — segundo aviso, sigue entrando en la franja de posible manipulación del mínimo antes del rebote."
+      - price: 82833
+        direction: "cae"
+        note: "🔮 Borde bajo de la zona gris de GranMago (29-sept) — si llega hasta aquí, la franja completa (82.833-82.905$ / ~72.950-73.010€) ya se ha rellenado del todo. Zona marcada para entrar fuerte en altcoins."
       - price: 85080
         direction: "sube"
         note: "🔮 Recupera el pivote que marca GranMago (23-sept) — primera señal de que el rebote desde 81.764 aguanta de verdad."
