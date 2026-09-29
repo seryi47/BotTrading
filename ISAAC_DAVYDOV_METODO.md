@@ -117,6 +117,11 @@ que sigue dentro de su comunidad de pago más las mejores candidatas del
 segundo barrido, con los niveles reales que se metieron en el bot el
 27-sept-2026.
 
+Ver también [ACCIONES_INFLUENCERS.md](ACCIONES_INFLUENCERS.md): el 28/29-sept
+se investigaron además otros tres creadores del mismo perfil (Joseph Jiang,
+Bert/Albert Wang, Sophie Zhao) y más de 50 acciones/fondos adicionales que
+mencionan entre los cuatro, con el mismo nivel de rigor.
+
 ---
 
 ## 5. Ampliación 26-sept-2026 — catálogo completo del canal (63 vídeos) + web
