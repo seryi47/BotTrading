@@ -120,6 +120,24 @@ assets:
         direction: "cae"
         note: "Mínimo absoluto de los últimos 180 días. Capitulación total si llega aquí, no una simple corrección."
 
+  - symbol: "QNT"
+    kind: "crypto"
+    source_id: "quant-network"
+    name: "Quant"
+    levels:
+      - price: 227
+        direction: "cae"
+        note: "Soporte inmediato tras el +300% de la semana del 24-sept por el contrato real con The Clearing House (25 bancos de EEUU). Perderlo empieza a poner en duda que la subida aguante — recuerda: ni Quant ni el banco han confirmado que ese contrato obligue a nadie a comprar o pagar comisiones en el token QNT."
+      - price: 165
+        direction: "cae"
+        note: "Soporte crítico — era resistencia antes del pump. Si cae aquí, duda seria sobre si queda algo del rally o ya se ha desinflado del todo."
+      - price: 115
+        direction: "cae"
+        note: "Vuelta a zona intermedia pre-anuncio. Confirma que el mercado ya no cree en una demanda real de QNT ligada al contrato."
+      - price: 75
+        direction: "cae"
+        note: "Vuelta al precio de antes del 24-sept — la subida entera se ha borrado. Mismo patrón que en 2021: de $428 a $40 cuando los anuncios de partnerships no se tradujeron en producto real."
+
   - symbol: "MA"
     kind: "stock"
     source_id: "MA"
