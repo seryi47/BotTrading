@@ -1127,10 +1127,10 @@ positions:
     kind: "stock"
     source_id: "NVDA"
     name: "Nvidia"
-    shares: 42.6173
-    invested_usd: 9269.70
-    avg_entry_usd: 217.52
-    note: "Combina la compra original de $7.439,16 a $214,37 (16-sept-2026) + una ampliación de $1.830,54 a $231,28 (30-sept-2026, la tarde antes de los resultados de Micron)."
+    shares: 7.9148
+    invested_usd: 1830.54
+    avg_entry_usd: 231.28
+    note: "Solo la compra del 30-sept-2026 (la tarde antes de los resultados de Micron) — la tranche original del 16-sept ($7.439,16 a $214,37) se quitó de este seguimiento a petición expresa."
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
