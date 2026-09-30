@@ -38,7 +38,8 @@ def _es_reciente(item, max_horas=12):
 class Engine:
     def __init__(self, notifier, poll_interval=300, default_chat_id=None,
                  state_file="watches.json", history_ttl=14400, digest_hour=9,
-                 digest_state_file=None, signal_interval=1800, news_interval=600):
+                 digest_state_file=None, signal_interval=1800, news_interval=600,
+                 position_interval=1800):
         self.notifier = notifier
         self.poll_interval = poll_interval      # cada cuánto se consulta precio (s)
         self.default_chat_id = default_chat_id
@@ -49,6 +50,9 @@ class Engine:
         self._last_signal_check = 0.0
         self.news_interval = news_interval       # cada cuánto se revisan las noticias vigiladas (s)
         self._last_news_check = 0.0
+        self.position_interval = position_interval  # cada cuánto se manda el P&L de posiciones reales (s)
+        self._last_position_check = 0.0
+        self.positions = []                     # persistente: [{symbol,kind,source_id,name,shares,invested_usd,avg_entry_usd}]
         self.news_watches = []                  # persistente: [{query,label,seen:[],initialized}]
         self.reminders = []                     # persistente: [{key,date,message}]
         self.sent_reminders = set()             # persistente (via digest_state_file, sí sobrevive relevos)
@@ -79,6 +83,7 @@ class Engine:
                 self.last_digest_date = data.get("last_digest_date")
                 self.news_watches = data.get("news_watches", [])
                 self.reminders = data.get("reminders", [])
+                self.positions = data.get("positions", [])
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.state_file, e))
         if self.digest_state_file and os.path.exists(self.digest_state_file):
@@ -101,7 +106,8 @@ class Engine:
                 json.dump({"assets": self.assets, "paused": self.paused,
                           "last_digest_date": self.last_digest_date,
                           "news_watches": self.news_watches,
-                          "reminders": self.reminders},
+                          "reminders": self.reminders,
+                          "positions": self.positions},
                          fh, ensure_ascii=False, indent=2)
         except Exception as e:
             print("[engine] no se pudo guardar %s: %s" % (self.state_file, e))
@@ -229,6 +235,31 @@ class Engine:
                 if key in existing:
                     continue
                 self.reminders.append({"key": key, "date": cr["date"], "message": cr["message"]})
+            self._save()
+
+    def seed_positions_from_config(self, config_positions):
+        """Posiciones REALES del usuario (watches.yaml: positions) — a
+        diferencia de los niveles, no son un umbral que se cruza una vez,
+        sino un informe periódico de beneficio/pérdida (ver
+        _maybe_check_positions). Dedup por símbolo: si ya existe, no se
+        vuelve a añadir (para editar una posición ya cargada, hazlo a mano
+        en el JSON de estado o quita y vuelve a poner la entrada)."""
+        with self._lock:
+            existing = {p["symbol"] for p in self.positions}
+            for cp in (config_positions or []):
+                symbol = cp["symbol"].upper()
+                if symbol in existing:
+                    continue
+                shares = float(cp["shares"]) if cp.get("shares") else float(cp["invested_usd"]) / float(cp["avg_entry_usd"])
+                self.positions.append({
+                    "symbol": symbol,
+                    "kind": cp["kind"],
+                    "source_id": cp["source_id"],
+                    "name": cp.get("name", symbol),
+                    "shares": shares,
+                    "invested_usd": float(cp["invested_usd"]),
+                    "avg_entry_usd": float(cp.get("avg_entry_usd") or (float(cp["invested_usd"]) / shares)),
+                })
             self._save()
 
     def list_assets(self):
@@ -404,6 +435,47 @@ class Engine:
                     self.notifier.mac("BotTrading", "%s: %s" % (asset["symbol"], text))
         self._save()
 
+    def _position_report_text(self, pos, price):
+        """Informe de beneficio/pérdida de una posición REAL: a diferencia
+        de un nivel, esto no avisa de un cruce puntual, es un marcador
+        periódico de "cómo voy ahora mismo" — precio actual, valor de la
+        posición completa, y ganancia/pérdida en dólares+euros y en %."""
+        value_usd = pos["shares"] * price
+        pnl_usd = value_usd - pos["invested_usd"]
+        pnl_pct = (pnl_usd / pos["invested_usd"]) * 100 if pos["invested_usd"] else 0.0
+        emoji = "🟢" if pnl_usd >= 0 else "🔴"
+        pct_txt = ("%+.2f%%" % pnl_pct).replace(".", ",")
+        lines = [
+            "%s <b>%s</b> — tu posición" % (emoji, pos["name"]),
+            "Precio actual: %s" % fx.fmt_usd_eur(price),
+            "Valor de tu posición: %s" % fx.fmt_usd_eur(value_usd),
+            "%s — %s" % (fx.fmt_signed_usd_eur(pnl_usd), pct_txt),
+        ]
+        return "\n".join(lines)
+
+    def _maybe_check_positions(self):
+        """Cada ~30 min (self.position_interval): manda el informe de
+        beneficio/pérdida de cada posición real cargada (watches.yaml:
+        positions). A propósito NO es "solo en cambio de estado" como
+        _maybe_check_signals — aquí se pidió justo lo contrario, un
+        marcador que llega sí o sí cada intervalo mientras dure la
+        vigilancia, no una alerta de evento."""
+        now = time.time()
+        if now - self._last_position_check < self.position_interval:
+            return
+        self._last_position_check = now
+        with self._lock:
+            positions = list(self.positions)
+        for i, pos in enumerate(positions):
+            if i > 0:
+                time.sleep(1.2)
+            try:
+                price = self._provider_for(pos).get_price(pos["source_id"])
+            except Exception as e:
+                print("  [posición %s] no pude consultar el precio: %s" % (pos["symbol"], e))
+                continue
+            self.notifier.telegram(self.default_chat_id, self._position_report_text(pos, price))
+
     def _news_alert_text(self, watch, item):
         lines = [
             "📰 <b>%s</b>" % watch["label"],
@@ -555,6 +627,7 @@ class Engine:
         self._maybe_check_signals()
         self._maybe_check_news()
         self._maybe_check_reminders()
+        self._maybe_check_positions()
         self._maybe_send_digest()
 
     def check_once(self):

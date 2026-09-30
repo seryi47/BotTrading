@@ -30,5 +30,14 @@ def fmt_usd_eur(value_usd):
     return "$%s (%s €)" % (_fmt(value_usd), _fmt(eur))
 
 
+def fmt_signed_usd_eur(value_usd):
+    """Como fmt_usd_eur pero con el signo +/- explícito delante de cada
+    cifra — para pintar el beneficio/pérdida de una posición real, donde
+    el signo es la parte que más importa de un vistazo."""
+    eur = value_usd * usd_to_eur()
+    signo = "+" if value_usd >= 0 else "-"
+    return "%s%s $ (%s%s €)" % (signo, _fmt(abs(value_usd)), signo, _fmt(abs(eur)))
+
+
 def _fmt(n):
     return "{:,.2f}".format(n).replace(",", "@").replace(".", ",").replace("@", ".")

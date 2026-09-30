@@ -27,6 +27,9 @@ digest_hour: 9          # hora (Europe/Madrid) del resumen diario por Telegram
 news_check_interval: 600  # segundos entre comprobaciones de noticias vigiladas (10 min) — la
                            # primera vez que se activa un tema NO avisa (solo marca lo que hay
                            # como ya visto), a partir de ahí solo avisa de titulares nuevos
+position_check_interval: 1800  # segundos entre informes de beneficio/pérdida de "positions" (30 min)
+                                # — a diferencia de los niveles, este SIEMPRE avisa cada intervalo,
+                                # no solo en un cambio de estado (es un marcador, no una alerta)
 mac_alerts: true        # solo tiene efecto en local/macOS
 paused: false
 
@@ -1114,6 +1117,20 @@ news_watches:
       delegado dijo en julio de 2026 que no tienen prisa por salir a bolsa, sin
       fecha oficial. Este aviso es para enterarte el día que eso cambie —
       mientras tanto no hay ninguna acción que comprar.
+
+# --- Posiciones REALES: informe de beneficio/pérdida cada 30 min (ver
+# position_check_interval arriba), no un nivel de alerta puntual. "shares" y
+# "avg_entry_usd" se calculan solos si solo se da invested_usd + uno de los
+# dos — aquí se dan los tres explícitos para que quede constancia del cálculo. ---
+positions:
+  - symbol: "NVDA"
+    kind: "stock"
+    source_id: "NVDA"
+    name: "Nvidia"
+    shares: 42.6173
+    invested_usd: 9269.70
+    avg_entry_usd: 217.52
+    note: "Combina la compra original de $7.439,16 a $214,37 (16-sept-2026) + una ampliación de $1.830,54 a $231,28 (30-sept-2026, la tarde antes de los resultados de Micron)."
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
