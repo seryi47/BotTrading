@@ -1119,18 +1119,12 @@ news_watches:
       mientras tanto no hay ninguna acción que comprar.
 
 # --- Posiciones REALES: informe de beneficio/pérdida cada 30 min (ver
-# position_check_interval arriba), no un nivel de alerta puntual. "shares" y
-# "avg_entry_usd" se calculan solos si solo se da invested_usd + uno de los
-# dos — aquí se dan los tres explícitos para que quede constancia del cálculo. ---
-positions:
-  - symbol: "NVDA"
-    kind: "stock"
-    source_id: "NVDA"
-    name: "Nvidia"
-    shares: 7.9148
-    invested_usd: 1830.54
-    avg_entry_usd: 231.28
-    note: "Solo la compra del 30-sept-2026 (la tarde antes de los resultados de Micron) — la tranche original del 16-sept ($7.439,16 a $214,37) se quitó de este seguimiento a petición expresa."
+# position_check_interval arriba), no un nivel de alerta puntual. Quitada la
+# de NVDA el 1-oct-2026 a petición expresa (el aviso cada 30 min no aportaba
+# nada nuevo a 228,38$ clavado durante horas fuera de sesión). La
+# infraestructura (positions/seed_positions_from_config/_maybe_check_positions)
+# se queda en el código por si se quiere volver a usar con otra posición. ---
+positions: []
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
