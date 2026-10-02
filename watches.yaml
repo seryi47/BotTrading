@@ -1109,6 +1109,35 @@ assets:
         direction: "sube"
         note: "Objetivo medio de analistas."
 
+  # --- Añadido 2-oct-2026: investigación a fondo (4 agentes) tras el pivote
+  # de Ondas a defensa/contra-drones (Mistral Defense, DZYNE) — sin posición
+  # real, solo vigilancia. Ingresos disparados (Q2-2026 récord $83,8M) pero
+  # dilución brutal (+156% de acciones en 12 meses) y CEO/insiders solo
+  # vendiendo, ninguna compra detectada. Ver resumen completo en el chat. ---
+  - symbol: "ONDS"
+    kind: "stock"
+    source_id: "ONDS"
+    name: "Ondas"
+    levels:
+      - price: 4.95
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Romperlo con la dilución pendiente (warrants por hasta ~1.500M$ más si se ejercen) sería capitulación real, no un simple susto."
+      - price: 6
+        direction: "cae"
+        note: "Nivel psicológico justo por debajo del precio actual. El short interest ronda el 40-44% del float — de las más cortejadas del Nasdaq — así que un quiebre aquí puede acelerarse rápido."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones (~8$). Primera señal técnica real de que el mercado empieza a creerse el salto de ingresos (récord $83,8M en Q2-2026, guía FY2026 elevada a 525-550M$) pese a la pérdida GAAP."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones (~9,4$). Confirmaría cambio de tendencia de fondo, no solo rebote — ojo que ni el CEO (vendió 2,37M acc. a $13,43 el 2-jun-2026) ni ningún otro insider ha comprado en todo 2025-2026."
+      - price: 13
+        direction: "sube"
+        note: "Objetivo más bajo de los analistas que la cubren (Roth MKM, 23-sept-2026). Los precios objetivo (13-25$) vienen de bancos boutique con relación de banca de inversión con la empresa — tómalos con cautela, no como ancla fiable."
+      - price: 17
+        direction: "sube"
+        note: "Cerca del precio objetivo medio de consenso (~17-19$, 'Strong/Moderate Buy'). El negocio de fondo es real (contratos firmados: $20M programa fronterizo EEUU, $6,9M Australia, Armada de EEUU) pero la acción cayó -7/-9% tras el propio resultado récord de Q2 por la pérdida y la dilución — no asumas que llegar aquí confirma la tesis sin revisar antes cuántas acciones nuevas hay en ese momento."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
