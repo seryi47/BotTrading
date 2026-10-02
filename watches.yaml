@@ -163,16 +163,22 @@ assets:
     levels:
       - price: 137
         direction: "cae"
-        note: "Pierde soporte — riesgo de volver a probar el mínimo de 52 semanas."
+        note: "🧍 TU POSICIÓN: -0,8% desde tu entrada ($138,05, 1-oct-2026). Pierde soporte — riesgo de volver a probar el mínimo de 52 semanas."
       - price: 115
         direction: "cae"
-        note: "Test del mínimo de 52 semanas — nivel crítico, muy especulativo."
+        note: "Test del mínimo de 52 semanas (-16,7% desde tu entrada) — nivel crítico, muy especulativo. Revisa la tesis si llega aquí."
       - ma: "sma50"
         direction: "sube"
         note: "Rompe su SMA50 — primera confirmación real de rebote tras el -59% desde el ATH."
       - ma: "sma200"
         direction: "sube"
         note: "Recupera su SMA200 — cambiaría la tendencia de fondo, no solo un rebote."
+      - price: 160
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +15,9% desde tu entrada ($138,05). Primer objetivo razonable, zona previa a donde empezó la caída fuerte por el aviso de 'fuerza mayor' de Project Jupiter (24-sept-2026)."
+      - price: 185
+        direction: "sube"
+        note: "🧍 TU POSICIÓN: +34% desde tu entrada ($138,05). Objetivo más ambicioso — acércate con el RSI ya revisado, no persigas si llega sobrecomprada."
 
   - symbol: "AOSL"
     kind: "stock"
