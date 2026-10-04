@@ -1138,6 +1138,51 @@ assets:
         direction: "sube"
         note: "Cerca del precio objetivo medio de consenso (~17-19$, 'Strong/Moderate Buy'). El negocio de fondo es real (contratos firmados: $20M programa fronterizo EEUU, $6,9M Australia, Armada de EEUU) pero la acción cayó -7/-9% tras el propio resultado récord de Q2 por la pérdida y la dilución — no asumas que llegar aquí confirma la tesis sin revisar antes cuántas acciones nuevas hay en ese momento."
 
+  # --- Añadido 4-oct-2026: top 5 de la investigación de "picos y palas" de
+  # drones/robótica/IA (5 agentes + verificación técnica adicional). Sin
+  # posición real, solo vigilancia. Ver resumen completo en el chat. ---
+  - symbol: "NOVT"
+    kind: "stock"
+    source_id: "NOVT"
+    name: "Novanta"
+    levels:
+      - price: 98.27
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Ya es rentable (a diferencia de la mayoría de este lote) pero perder esto invalidaría del todo la tesis de robótica/IA (alianza NVIDIA Halos, pedidos de servo-drives para robots humanoides sin cliente revelado)."
+      - ma: "sma200"
+        direction: "cae"
+        note: "Pierde su media de 200 sesiones (~140$). Señal de que el mercado empieza a dudar de la integración de Riverpoint Medical ($1.200M, cerrada 27-jul-2026, apalancamiento subido a ~2,7x) — la próxima actualización real es el informe de resultados Q3, hacia el 10-nov-2026."
+      - ma: "sma20"
+        direction: "cae"
+        note: "Pierde su media de 20 sesiones (~147$) — primer aviso de corto plazo, sin RSI sobrecomprado (57,76) que lo justifique."
+      - price: 176.38
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas (tocado el 6-ago-2026, el día después de resultados). Confirmaría que el mercado premia la compra de Riverpoint y el crecimiento de AET (+12%) pese al apalancamiento asumido."
+
+  - symbol: "STM"
+    kind: "stock"
+    source_id: "STM"
+    name: "STMicroelectronics"
+    levels:
+      - price: 21.11
+        direction: "cae"
+        note: "Mínimo de 52 semanas (20-nov-2025). Romper esto de nuevo confirmaría que el ciclo de semis no tocó fondo de verdad, pese a la fuerte recompra de la propia dirección en jul-ago 2026 a precios mucho más bajos que el actual."
+      - price: 53.5
+        direction: "cae"
+        note: "Soporte inmediato — antigua resistencia de la consolidación previa a la ruptura del +7% del 2-oct-2026 (resultados que batieron consenso + guía de datacenters IA). Perderlo revertiría la ruptura reciente."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su media de 50 sesiones (~52$) — señal de que el impulso post-resultados se agota del todo."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Ya está por encima de su media de 200 (~48$) — si vuelve a perderla y la recupera después, confirma que la tendencia de fondo sigue siendo alcista tras el año tan malo de 2024-2025."
+      - price: 62
+        direction: "sube"
+        note: "Primer objetivo técnico. El contrato real con AWS (feb-2026, hasta 24,8M acciones en warrants ligados a compras) respalda el objetivo de $1.000M en datacenters IA para 2026 y >$2.000M en 2027."
+      - price: 81.42
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas (3-jun-2026) — confirmaría que el mercado da por superado del todo el bache de automoción/industrial de 2024-2025."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
