@@ -390,9 +390,18 @@ class Engine:
         return "\n".join(lines)
 
     def _signal_alert_text(self, asset, text, price, ind, support, resistance):
-        """Desde el 17-sept-2026, a petición expresa: solo precio y veredicto
-        de entrada, una línea cada uno — antes esto era un párrafo largo."""
-        return "%s (%s) — %s\n%s" % (asset["name"], asset["symbol"], fx.fmt_usd_eur(price), text)
+        """Desde el 17-sept-2026, solo precio y veredicto de entrada por
+        defecto. Desde el 6-oct-2026, a petición expresa: si el nivel más
+        cercano (el que da contexto de la tesis) tiene nota, se añade su
+        primera frase — igual que ya hace _level_alert_text con los cruces
+        de nivel, para que esta señal proactiva no sea un aviso "pelado" sin
+        el contexto real que se investigó para cada activo."""
+        lines = ["%s (%s) — %s" % (asset["name"], asset["symbol"], fx.fmt_usd_eur(price)), text]
+        nivel_contexto = support or resistance
+        if nivel_contexto and nivel_contexto.get("note"):
+            nota = nivel_contexto["note"].split(". ")[0].rstrip(".") + "."
+            lines.append(nota)
+        return "\n".join(lines)
 
     def _maybe_check_signals(self):
         """Cada ~30 min (self.signal_interval), independiente del sondeo de
