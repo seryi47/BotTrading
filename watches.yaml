@@ -990,10 +990,10 @@ assets:
         note: "Recupera su media de 20 sesiones tras el enfriamiento desde máximos de 52 semanas. Cuarto trimestre seguido subiendo su propia previsión, pero el CEO solo vende (incluido un derivado de venta futura) y tiene un antecedente de ataque de vendedores en corto en 2024 (-35% en un día)."
       - ma: "sma50"
         direction: "cae"
-        note: "Pierde su media de 50 sesiones — si vuelve a probar esta zona (~28$), sería la mejor entrada dentro de la tesis: racha de 20 trimestres seguidos 'beat and raise', primer beneficio GAAP positivo de su historia, y alianza estratégica real con Palantir (jun-2026), confirmados 5-oct-2026."
+        note: "⚠️ Sin entrada fuerte marcada (revisión ampliada 6-oct-2026): el litigio de Culper Research (2024, acusación de 'inflar' consentimiento de datos con sitios señuelo) sigue ABIERTO — la jueza denegó la desestimación el 8-jul-2026 y pasa a fase de descubrimiento. GuruFocus la ve 'significativamente sobrevalorada' (+46,7% sobre su valor justo), PER forward 25,9x (+50% sobre el sector), dilución +20,5% desde 2022, y CERO insiders han comprado en 12 meses. El acuerdo con Palantir todavía no genera ingresos medibles. Pierde su media de 50 sesiones."
       - price: 28
         direction: "cae"
-        note: "🎯 ENTRADA FUERTE (top 5 del 5-oct-2026): pullback real hacia la zona de la SMA50 tras cotizar cerca de máximos (32,81$) sin apenas margen de seguridad hoy. Si llega aquí con la tesis intacta (beats consistentes + Palantir + primer beneficio GAAP), entrar con convicción."
+        note: "⚠️ RETIRADA la entrada fuerte de ayer (revisión ampliada 6-oct-2026): el litigio de Culper Research de 2024 sigue activo y avanza a descubrimiento (la jueza denegó desestimación el 8-jul-2026), GuruFocus la ve sobrevalorada, y no hay ni una sola compra de insider en 12 meses. Negocio real (NRR 120%, beneficio GAAP), pero no es zona de 'entrar con convicción' hasta ver cómo avanza el litigio."
       - price: 32.68
         direction: "sube"
         note: "Rompe el máximo de 52 semanas."
