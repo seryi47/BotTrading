@@ -318,7 +318,7 @@ class Engine:
             nota = level["note"].split(". ")[0].rstrip(".") + "."
             lines.append(nota)
         lines.append(tag)
-        return "\n".join(lines)
+        return "\n\n".join(lines)
 
     MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
             "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -406,7 +406,7 @@ class Engine:
         if nivel_contexto and nivel_contexto.get("note"):
             nota = nivel_contexto["note"].split(". ")[0].rstrip(".") + "."
             lines.append(nota)
-        return "\n".join(lines)
+        return "\n\n".join(lines)
 
     def _maybe_check_signals(self):
         """Cada ~30 min (self.signal_interval), independiente del sondeo de
