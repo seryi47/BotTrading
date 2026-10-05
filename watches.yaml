@@ -1211,6 +1211,46 @@ assets:
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — confirmaría que el mercado da por superado del todo el guidance flojo de julio-2026."
 
+  # --- Añadido 5-oct-2026: investigación de 13F reales de 11 multimillonarios/
+  # fondos (Soros, Druckenmiller, Buffett, Ackman, Icahn, Loeb, Griffin, Cohen,
+  # Tiger Global, Coatue, Gates, Pabrai, Li Lu) buscando compras nuevas/
+  # ampliadas a buen precio. Sin posición real, solo vigilancia. ---
+  - symbol: "PDD"
+    kind: "stock"
+    source_id: "PDD"
+    name: "PDD Holdings (Temu/Pinduoduo)"
+    levels:
+      - price: 71.94
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Romperlo sugeriría que el mercado empieza a temer que la investigación regulatoria china (SAMR + fiscal, ampliada ene-2026 tras un incidente con empleados de PDD) vaya a más — no entrar sin ver antes cómo se resuelve."
+      - price: 65
+        direction: "cae"
+        note: "Capitulación real por debajo del mínimo de 52 semanas. Con ~46,70$/acción de caja neta (sin apenas deuda), un precio así sería un descuento muy grande — zona de entrada agresiva, pero SOLO si la investigación china no ha escalado a algo más serio (sanción, bloqueo de operaciones)."
+      - price: 90
+        direction: "sube"
+        note: "Primera confirmación real de que el mercado empieza a dejar atrás el miedo regulatorio chino y la multa de la UE (200M€, may-2026)."
+      - price: 114.5
+        direction: "sube"
+        note: "Objetivo de consenso de analistas (37 analistas, Buy, +52% desde los 75$). Li Lu (Himalaya Capital) más que duplicó su posición en Q2-2026 apostando a este tipo de recuperación."
+
+  - symbol: "HHH"
+    kind: "stock"
+    source_id: "HHH"
+    name: "Howard Hughes Holdings"
+    levels:
+      - price: 60.09
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Romperlo pondría en duda el plan de Bill Ackman (presidente ejecutivo) de convertir la empresa en un 'Berkshire moderno' diversificando hacia seguros (compra de Vantage por 2.100M$, jun-2026)."
+      - price: 64
+        direction: "cae"
+        note: "Precio EXACTO al que compraron el COO Andrew Davis y el presidente de Vantage Marc Grandisson con su propio dinero (28-sept-2026) — si vuelve aquí, es la entrada más validada de las dos, al mismo precio que los propios directivos confiaron en pagar."
+      - price: 80
+        direction: "sube"
+        note: "Recupera buena parte del terreno perdido desde el máximo — primera confirmación de que el mercado se cree el giro hacia el modelo diversificado tipo holding."
+      - price: 96.9
+        direction: "sube"
+        note: "Techo del consenso independiente de analistas (no la cifra propia de Ackman de 104-211$, que viene de quien dirige la empresa y hay que tomar con cautela). Ojo: demanda activa en Delaware sin resolver por las condiciones del acuerdo de 900M$ de 2025."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
