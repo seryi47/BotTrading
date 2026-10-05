@@ -1260,6 +1260,33 @@ assets:
         direction: "sube"
         note: "Techo del consenso independiente de analistas (no la cifra propia de Ackman de 104-211$, que viene de quien dirige la empresa y hay que tomar con cautela). Ojo: demanda activa en Delaware sin resolver por las condiciones del acuerdo de 900M$ de 2025."
 
+  # --- Añadido 6-oct-2026: investigación a fondo de SoFi Technologies —
+  # sin posición real, solo vigilancia. CEO comprando fuerte (incluso tras
+  # el informe bajista de Muddy Waters) pero esa disputa sigue sin resolver. ---
+  - symbol: "SOFI"
+    kind: "stock"
+    source_id: "SOFI"
+    name: "SoFi Technologies"
+    levels:
+      - price: 14.88
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Romperlo con la disputa de Muddy Waters (17-mar-2026, contabilidad agresiva, EBITDA ajustado presuntamente inflado ~90%) todavía sin resolver sería una señal seria, no solo ruido técnico."
+      - price: 15.53
+        direction: "cae"
+        note: "Soporte reciente (mínimo intradía del 1-oct-2026). Perderlo abriría la puerta de nuevo al mínimo de 52 semanas."
+      - ma: "sma20"
+        direction: "sube"
+        note: "Recupera su media de 20 sesiones (~16,83$)."
+      - ma: "sma50"
+        direction: "sube"
+        note: "⚠️ Sin entrada fuerte marcada pese a ser señal técnica positiva (6-oct-2026): el CEO Anthony Noto no ha vendido ni una acción desde 2021 y compró ~2,25M$ en 2026 — incluidos ~500K$ justo tras el informe de Muddy Waters, señal real de confianza. Pero esa disputa (contabilidad agresiva, retención oculta de riesgo) sigue sin resolverse del todo. Recuperar su media de 50 sesiones (~17,44$) sería la primera confirmación técnica."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones (~18,89$) — confirmaría el cambio de tendencia de fondo, no solo un rebote técnico."
+      - price: 20.5
+        direction: "sube"
+        note: "Cerca del precio objetivo medio de consenso (~20,34-20,67$, rating 'Hold'). El segmento de préstamos crece con fuerza (+59-63%) y la calidad crediticia mejora (morosidad y charge-off bajando), pero el Tech Platform (B2B) cae -23% por pérdida de un cliente grande — revisa el reparto de ingresos antes de dar por buena la tesis completa."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
