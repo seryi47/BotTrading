@@ -15,6 +15,17 @@ from .providers import crypto, stocks, fx, news
 
 MADRID = ZoneInfo("Europe/Madrid")
 
+# Desde el 6-oct-2026, a petición expresa: solo se avisa de los niveles que
+# llevan contexto de tesis curado de verdad (🎯 entrada con convicción, ⚠️
+# aviso de cautela razonado, o 🧍 posición real) — un nivel genérico tipo
+# "Rompe el máximo de 52 semanas" sin uno de estos marcadores ya NO manda
+# aviso, aunque se cruce (se queda solo como referencia interna/dashboard).
+MARCADORES_CONTEXTO = ("🎯", "⚠️", "🧍")
+
+
+def _tiene_contexto_curado(note):
+    return bool(note) and any(m in note for m in MARCADORES_CONTEXTO)
+
 
 def _es_reciente(item, max_horas=12):
     """True si la noticia se publicó en las últimas `max_horas`. Google News
@@ -443,6 +454,9 @@ class Engine:
                         if target is not None:
                             resolved.append({**lv, "price": target})
                     support, resistance = ind_mod.nearest_levels(price, resolved)
+                    nivel_contexto = support or resistance
+                    if not _tiene_contexto_curado(nivel_contexto.get("note") if nivel_contexto else None):
+                        continue  # sin nivel con 🎯/⚠️/🧍 cerca — no se avisa, a petición expresa
                     chat = self._chat_for(asset)
                     self.notifier.telegram(
                         chat, self._signal_alert_text(asset, text, price, ind, support, resistance))
@@ -632,6 +646,8 @@ class Engine:
                 ind = self.get_indicators(asset, force=True)
                 chat = self._chat_for(asset)
                 for lv, target in fired:
+                    if not _tiene_contexto_curado(lv.get("note")):
+                        continue  # nivel genérico sin 🎯/⚠️/🧍 — no se avisa, a petición expresa
                     self.notifier.telegram(chat, self._level_alert_text(asset, lv, target, price, ind))
                     self.notifier.mac("BotTrading", "%s cruzó %s" % (asset["symbol"], target))
             stamp = time.strftime("%H:%M:%S")
