@@ -1292,6 +1292,31 @@ assets:
         direction: "sube"
         note: "Cerca del precio objetivo medio de consenso (~20,34-20,67$, rating 'Hold'). El segmento de préstamos crece con fuerza (+59-63%) y la calidad crediticia mejora (morosidad y charge-off bajando), pero el Tech Platform (B2B) cae -23% por pérdida de un cliente grande — revisa el reparto de ingresos antes de dar por buena la tesis completa."
 
+  # --- Añadido 6-oct-2026: investigación "el próximo Micron/SanDisk" (4
+  # agentes: cadena de memoria, 13F, screen de insiders, verificación de
+  # ProPicks IA) — sin posición real, solo vigilancia. TTM fue el hallazgo
+  # más sólido: fabricante de confianza en EEUU de PCB/sustratos para
+  # datacenters de IA + defensa, resultados récord, pero apalancada tras
+  # comprar Epiq Solutions (leverage 0,9x→2,3x). Plan de entrada en 2 tramos
+  # acordado con el usuario a $135,50 (6-oct-2026). ---
+  - symbol: "TTMI"
+    kind: "stock"
+    source_id: "TTMI"
+    name: "TTM Technologies"
+    levels:
+      - price: 128
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE — primer tramo (plan del 6-oct-2026, precio de referencia entonces $135,50): zona del mínimo intradía del 28-sept-2026 ($122,31), una caída sectorial sin noticia propia de TTM (cayó junto a Sanmina/Flex/Jabil/Plexus) — el negocio no ha cambiado: ingresos récord $1.000M (+37%) y 80% de ventas ligadas a IA+defensa según el propio CEO."
+      - price: 115
+        direction: "cae"
+        note: "⚠️ Nivel de invalidación de la tesis: si rompe aquí con noticia PROPIA de TTM (no solo rotación sectorial), el mercado estaría señalando algo roto de verdad en el negocio o en la integración de Epiq Solutions — revisar todo desde cero, no solo esperar rebote."
+      - price: 175
+        direction: "sube"
+        note: "Objetivo más conservador de consenso (Needham, recortado desde $220 el 21-sept-2026) — segundo tramo de entrada recomendado tras confirmar en los resultados de Q3 (~nov-2026) que la integración de Epiq avanza sin disparar más el apalancamiento (objetivo propio: bajar de 2,3x a 1,5-1,7x en 12-18 meses)."
+      - price: 206
+        direction: "sube"
+        note: "Mediana del consenso de analistas (rango $175-224, Truist el más alcista en $224) — confirmaría que el mercado premia del todo el moat real de TTM como fabricante 'de confianza' en EEUU para defensa e IA frente a China."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
