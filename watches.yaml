@@ -1034,9 +1034,9 @@ assets:
         direction: "cae"
         note: "Zona de consolidación previa al último tramo de subida."
 
-  - symbol: "RYZ"
+  - symbol: "RYI"
     kind: "stock"
-    source_id: "RYZ"
+    source_id: "RYI"
     name: "Ryerson Holding"
     levels:
       - ma: "sma20"
@@ -1044,7 +1044,7 @@ assets:
         note: "Recupera su media de 20 sesiones."
       - ma: "sma200"
         direction: "sube"
-        note: "Recupera su media de 200 sesiones. Ojo: su apalancamiento saltó de 3,1x a 5,1x en un solo trimestre tras fusionarse con Olympic Steel — apuesta a la ejecución de la fusión, no valor tranquilo."
+        note: "Recupera su media de 200 sesiones. Actualización 5-oct-2026: la fusión con Olympic Steel ($837,3M, cerrada 13-feb-2026) ya va por buen camino — Q2-2026 (primer trimestre completo) batió con ingresos récord $2.010M y sinergias de fusión ya en marcha hacia superar el objetivo de $40M del primer año. Sigue siendo apuesta a la ejecución, pero con datos reales a favor."
       - price: 19.86
         direction: "cae"
         note: "Mínimo de 52 semanas."
