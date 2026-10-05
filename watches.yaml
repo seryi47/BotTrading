@@ -1183,6 +1183,34 @@ assets:
         direction: "sube"
         note: "Rompe el máximo de 52 semanas (3-jun-2026) — confirmaría que el mercado da por superado del todo el bache de automoción/industrial de 2024-2025."
 
+  # --- Añadido 5-oct-2026: Amkor, única "ganga real" verificada de las 10
+  # acciones de un reel de @grant_invests (criterio PEG<1 + caída desde
+  # máximos) — las otras 9 resultaron trampa de valor, riesgo sin resolver,
+  # o ya estaban en el bot. Sin posición real, solo vigilancia. ---
+  - symbol: "AMKR"
+    kind: "stock"
+    source_id: "AMKR"
+    name: "Amkor Technology"
+    levels:
+      - price: 28.19
+        direction: "cae"
+        note: "Mínimo de 52 semanas. Romperlo confirmaría que la migración de ensamblaje Corea→Vietnam (causa real de la caída desde el -22,9% del 28-jul-2026) se ha convertido en un problema estructural, no un bache temporal."
+      - price: 45.33
+        direction: "cae"
+        note: "Soporte real de las últimas semanas (mínimo del 16-sept-2026). Perderlo pondría en duda la recuperación en marcha pese a los contratos reales con TSMC (10 años, empaquetado avanzado Arizona) y Nvidia."
+      - ma: "sma50"
+        direction: "cae"
+        note: "Pierde su media de 50 sesiones (~52$) — primer aviso de que el rebote desde el bache de julio se agota."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones (~57$, justo por encima del precio actual) — confirmaría el cambio de tendencia de fondo. Ojo: Zacks la rebajó a 'Hold' el 30-sept-2026 y el consenso de precio objetivo se ha revisado a la baja (de ~76$ a ~68$ según MarketBeat, 5-oct-2026)."
+      - price: 68
+        direction: "sube"
+        note: "Cerca del precio objetivo de consenso más reciente (~68,33$, MarketBeat 5-oct-2026, revisado a la baja desde ~76,4$). Contexto adicional: ampliación de la Fase 2 del campus de Arizona a 12.000M$ de inversión (anunciada ~7-sept-2026)."
+      - price: 96.68
+        direction: "sube"
+        note: "Rompe el máximo de 52 semanas — confirmaría que el mercado da por superado del todo el guidance flojo de julio-2026."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
