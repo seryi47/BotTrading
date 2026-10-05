@@ -32,6 +32,11 @@ position_check_interval: 1800  # segundos entre informes de beneficio/pérdida d
                                 # no solo en un cambio de estado (es un marcador, no una alerta)
 mac_alerts: true        # solo tiene efecto en local/macOS
 paused: false
+only_level_alerts: true  # 6-oct-2026, a petición expresa: SOLO se mandan avisos de cruce de
+                          # nivel (el formato con 🎯 ENTRADA FUERTE / ⚠️ y todo el contexto de
+                          # tesis investigado) — se desactivan el resumen diario, la señal
+                          # proactiva RSI/MACD de cada 30 min, las noticias vigiladas y los
+                          # recordatorios de fecha. Pon esto a false para recuperarlos todos.
 
 assets:
 

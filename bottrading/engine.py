@@ -39,8 +39,13 @@ class Engine:
     def __init__(self, notifier, poll_interval=300, default_chat_id=None,
                  state_file="watches.json", history_ttl=14400, digest_hour=9,
                  digest_state_file=None, signal_interval=1800, news_interval=600,
-                 position_interval=1800):
+                 position_interval=1800, only_level_alerts=False):
         self.notifier = notifier
+        # Desde el 6-oct-2026, a petición expresa: si está activo, tick() NO
+        # manda resumen diario, señal proactiva RSI/MACD, noticias vigiladas
+        # ni recordatorios — solo el aviso de cruce de nivel (_level_alert_text),
+        # que es el único que lleva todo el contexto de tesis investigado.
+        self.only_level_alerts = only_level_alerts
         self.poll_interval = poll_interval      # cada cuánto se consulta precio (s)
         self.default_chat_id = default_chat_id
         self.state_file = state_file
@@ -633,11 +638,12 @@ class Engine:
             print("[%s] %s -> %s%s" % (stamp, asset["symbol"], price,
                                        "  (%d aviso/s)" % len(fired) if fired else ""))
         self._save()
-        self._maybe_check_signals()
-        self._maybe_check_news()
-        self._maybe_check_reminders()
-        self._maybe_check_positions()
-        self._maybe_send_digest()
+        if not self.only_level_alerts:
+            self._maybe_check_signals()
+            self._maybe_check_news()
+            self._maybe_check_reminders()
+            self._maybe_check_positions()
+            self._maybe_send_digest()
 
     def check_once(self):
         if self.paused:

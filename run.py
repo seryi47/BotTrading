@@ -71,6 +71,7 @@ def main():
         signal_interval=int(cfg.get("signal_check_interval", 1800)),
         news_interval=int(cfg.get("news_check_interval", 600)),
         position_interval=int(cfg.get("position_check_interval", 1800)),
+        only_level_alerts=bool(cfg.get("only_level_alerts", False)),
     )
     engine.seed_from_config(cfg.get("assets"))
     engine.seed_news_from_config(cfg.get("news_watches"))
