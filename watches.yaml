@@ -291,6 +291,9 @@ assets:
       - price: 135.24
         direction: "sube"
         note: "Rompe el máximo de 52 semanas pese a ya estar sobrecomprado — momentum extremo, solo para quien gestione el riesgo muy estrictamente, no para perseguir a ciegas."
+      - price: 80
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE (top 5 del 5-oct-2026): cerca del mínimo de 52 semanas pese a que el negocio de fondo mejora — acuerdo real EEUU-Corea del Sur de hasta 120.000M$ para construir reactores nucleares (30-sept-2026), con el fallo trimestral reciente siendo ruido operativo puntual (Saskatchewan), no estructural. Si llega aquí, entrar con convicción."
 
   - symbol: "UEC"
     kind: "stock"
@@ -321,6 +324,9 @@ assets:
       - price: 80.24
         direction: "sube"
         note: "Rompe el máximo de 52 semanas (está a un suspiro, +1,7%) — confirmaría que el mercado sigue comprando pese a estar ya muy estirada."
+      - price: 65
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE (top 5 del 5-oct-2026): pullback real dentro del superciclo de cobre por demanda de datacenters de IA (JPMorgan estima +110.000 toneladas extra solo en 2026; Citigroup acaba de subir su objetivo de 66$ a 84$, 2-oct-2026). Es la forma más sólida de jugar la tesis de IA vía materia prima física con déficit de oferta real — si llega aquí, entrar con convicción."
 
   - symbol: "LINK"
     kind: "crypto"
@@ -369,7 +375,7 @@ assets:
         note: "Pierde la zona de consolidación — cuestionaría la tesis de entrada pese al PER barato a futuro (~19-23x)."
       - price: 340
         direction: "cae"
-        note: "Corrección más seria, cerca del mínimo del rango de los últimos meses."
+        note: "🎯 ENTRADA FUERTE (top 5 del 5-oct-2026): a un 28% del máximo de 52 semanas (495$) con el negocio disparado de verdad — acuerdo de financiación de 42.000M$ a Anthropic y guía de ingresos de IA elevada a 115.000M$ (FY27) y 230.000M$ (FY28, 2-3-sept-2026). Mejor combinación de descuento real + crecimiento confirmado de todo lo que vigilamos — si llega aquí, entrar con convicción."
       - price: 495
         direction: "sube"
         note: "Recupera el máximo de 52 semanas — confirmaría la guía de ingresos de IA (duplicando a $115.000M en FY27, $230.000M en FY28)."
@@ -477,7 +483,7 @@ assets:
         note: "Pierde su SMA200 (~$244 a 10-sept) — rompería el cruce dorado (SMA50 sobre SMA200)."
       - price: 244
         direction: "cae"
-        note: "Zona del cruce dorado — soporte estructural clave. Ojo con el PER: el futuro (27,1) es MÁS ALTO que el actual (20,0), el mercado espera menos beneficio el año que viene, no más — un 'PER bajo, barata' sin mirar esto (24-sept) se queda corto."
+        note: "🎯 ENTRADA FUERTE (top 5 del 5-oct-2026): zona del cruce dorado — soporte estructural clave. AWS acelerando por encima de lo esperado (+37% vs 31% esperado, el mejor crecimiento desde 2021) y mayor recorrido de consenso de todas las mega-caps (+31%). Ojo con el PER: el futuro (27,1) es MÁS ALTO que el actual (20,0) — no es 'barata' por PER solo, es barata por el negocio de AWS. Si llega aquí, entrar con convicción."
       - price: 287.2
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — AWS con el mejor crecimiento en 18 trimestres (+37%)."
@@ -984,7 +990,10 @@ assets:
         note: "Recupera su media de 20 sesiones tras el enfriamiento desde máximos de 52 semanas. Cuarto trimestre seguido subiendo su propia previsión, pero el CEO solo vende (incluido un derivado de venta futura) y tiene un antecedente de ataque de vendedores en corto en 2024 (-35% en un día)."
       - ma: "sma50"
         direction: "cae"
-        note: "Pierde su media de 50 sesiones."
+        note: "Pierde su media de 50 sesiones. Si vuelve a probar esta zona (~28$), sería la mejor entrada dentro de la tesis: racha de 20 trimestres seguidos 'beat and raise', primer beneficio GAAP positivo de su historia, y alianza estratégica real con Palantir (jun-2026) — confirmados 5-oct-2026."
+      - price: 28
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE (top 5 del 5-oct-2026): pullback real hacia la zona de la SMA50 tras cotizar cerca de máximos (32,81$) sin apenas margen de seguridad hoy. Si llega aquí con la tesis intacta (beats consistentes + Palantir + primer beneficio GAAP), entrar con convicción."
       - price: 32.68
         direction: "sube"
         note: "Rompe el máximo de 52 semanas."
