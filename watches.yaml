@@ -130,7 +130,7 @@ assets:
     levels:
       - price: 227
         direction: "cae"
-        note: "Soporte inmediato tras el +300% de la semana del 24-sept por el contrato real con The Clearing House (25 bancos de EEUU). Perderlo empieza a poner en duda que la subida aguante — recuerda: ni Quant ni el banco han confirmado que ese contrato obligue a nadie a comprar o pagar comisiones en el token QNT."
+        note: "⚠️ SIN entrada marcada aquí (revisión 5-oct-2026): el precio llegó a $257 (+306% en 30 días) y el mecanismo de demanda del token CON The Clearing House SIGUE SIN CONFIRMARSE — ni TCH ni Quant han dicho que el contrato obligue a usar QNT. Perder este nivel pondría en duda que la subida aguante; no es zona de compra, es zona de riesgo de que el rally especulativo se desinfle."
       - price: 165
         direction: "cae"
         note: "Soporte crítico — era resistencia antes del pump. Si cae aquí, duda seria sobre si queda algo del rally o ya se ha desinflado del todo."
@@ -151,7 +151,7 @@ assets:
         note: "Rompe su SMA50 — invalida la estructura alcista limpia. Salir/evitar."
       - ma: "sma20"
         direction: "cae"
-        note: "Toca su SMA20 — zona de entrada dentro de la tendencia si rebota."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): crecimiento de doble dígito confirmado (ingresos +14%, EPS +22% en Q2-2026) y catalizadores estructurales nuevos (stablecoins, pagos agénticos) — toca su SMA20 dentro de la tendencia, zona de entrada si rebota."
       - price: 601
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — continuación."
@@ -202,7 +202,7 @@ assets:
         note: "Recupera su SMA20 — segundo hito del rebote."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su SMA50 — confirma el rebote de verdad. Objetivo de analistas más conservador: ~$34 (B. Riley); más optimista: ~$45 (Needham)."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): computación avanzada (IA/servidor) ya el 31% de ingresos, récord, tras batir expectativas en su último trimestre — recuperar su SMA50 confirma el rebote de verdad. Objetivo de analistas más conservador: ~$34 (B. Riley); más optimista: ~$45 (Needham)."
 
   - symbol: "SONO"
     kind: "stock"
@@ -214,7 +214,7 @@ assets:
         note: "Pierde su SMA50 — el impulso de las últimas semanas se agota, vigilar que no siga cayendo."
       - price: 12.44
         direction: "cae"
-        note: "Mínimo de 52 semanas — nivel crítico, invalidaría el relato de recuperación."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): mínimo de 52 semanas, con recuperación operativa real confirmada (ingresos +52%, EPS ajustado mejorando en el último trimestre) — solo entrar si hay rebote confirmado, no por tocar el nivel, porque romperlo invalidaría el relato de recuperación."
       - price: 16.59
         direction: "sube"
         note: "Rompe el máximo de las últimas semanas — continuación del tramo alcista reciente."
@@ -235,7 +235,7 @@ assets:
         note: "Pierde su SMA20 — el rebote de las últimas semanas se agota, vigilar más caída hacia el mínimo de 52 semanas."
       - price: 298.32
         direction: "cae"
-        note: "Mínimo de 52 semanas (tocado hace muy poco). Si lo rompe, la tesis de 'ya tocó fondo' queda invalidada del todo."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): mínimo de 52 semanas, con entregas Q3-2026 que ya batieron consenso (486.532 vs 463.761 esperado) y fuerte recuperación de ventas en Europa. Si lo rompe sin rebotar, la tesis de 'ya tocó fondo' queda invalidada del todo."
       - ma: "sma50"
         direction: "sube"
         note: "Recupera su SMA50 — primera confirmación real de que el rebote es más que un respiro dentro de la caída."
@@ -256,7 +256,7 @@ assets:
         note: "Pierde su SMA20 — el hueco alcista de resultados (26-ago-2026, +106% de ingresos interanual) empieza a cerrarse, el mercado duda del resultado."
       - ma: "sma50"
         direction: "cae"
-        note: "Pierde su SMA50 — el hueco se cierra del todo, la reacción inicial a resultados no se sostiene."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): batió expectativas en su último trimestre (ingresos $96.220M vs $92.170M esperado) con guía Q3 por encima de consenso — demanda de IA sin techo. Pierde su SMA50 y la reacción inicial a resultados no se sostiene, pero es zona de entrada razonable dentro de la tesis si hay rebote."
       - price: 236.54
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — el mercado compra la historia sin reservas tras el resultado."
@@ -305,7 +305,7 @@ assets:
         note: "Primera corrección desde el +45,2% del último mes — el más vertical de todo lo que vigilamos. Aviso de enfriamiento, no de compra."
       - ma: "sma50"
         direction: "cae"
-        note: "Corrección más profunda — con RSI ya enfriado, zona de entrada razonable dentro de la tesis del uranio (déficit crónico de producción + renacimiento nuclear)."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): producción +157% trimestral y precio realizado récord de uranio ($93,13/lb), liquidez $753M sin deuda — corrección con RSI ya enfriado, zona de entrada razonable dentro de la tesis del uranio."
       - price: 20.34
         direction: "sube"
         note: "Rompe el máximo de 52 semanas — el mercado sigue comprando la historia pese a la sobrecompra."
@@ -338,7 +338,7 @@ assets:
         note: "Primera corrección tras el +42,5% del último mes (RSI llegó a 70,8) — enfriamiento, no señal de compra todavía."
       - ma: "sma50"
         direction: "cae"
-        note: "Corrección más profunda, con el RSI ya fuera de sobrecompra — zona de entrada razonable dentro de la tesis fundamental: CCIP +1.972% en transferencias anuales, partnership con SWIFT, Coinbase usa CCIP en exclusiva para sus activos envueltos, y la SEC/CFTC ya lo clasifican como 'commodity digital'."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): CCIP 2.0 lanzado (28-sept-2026) con adopción institucional real confirmada (Swift, Infosys, ANZ Bank, Fidelity International) — corrección con el RSI fuera de sobrecompra, zona de entrada razonable dentro de la tesis fundamental."
       - price: 11.99
         direction: "sube"
         note: "Rompe el máximo reciente — confirma que el mercado sigue comprando pese a la sobrecompra."
@@ -354,7 +354,7 @@ assets:
     levels:
       - price: 470
         direction: "cae"
-        note: "Corrección hacia una zona de entrada más razonable tras el rally reciente (RSI >70, sobrecomprado a 10-sept)."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): adquisición estratégica de World Labs (Fei-Fei Li, $8.200M) y guía Q3 fuerte tras doble beat — corrección hacia una zona de entrada más razonable tras el rally (RSI sobrecomprado)."
       - price: 460
         direction: "cae"
         note: "Rompe la estructura de la ruptura reciente — invalidaría el impulso de corto plazo."
@@ -396,7 +396,7 @@ assets:
         note: "Pierde su media de 200 sesiones — pondría en duda la tendencia de fondo, no solo el salto reciente."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones (justo por encima del precio del 26-sept) — confirmaría que el salto de ese día se sostiene de verdad."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): récord de ingresos/margen en su último trimestre y previsión de crecimiento elevada a >30% en 2026 (pese al golpe de ingresos en China) — recuperar su media de 50 sesiones confirmaría que el salto se sostiene de verdad."
       - price: 640.89
         direction: "sube"
         note: "Objetivo de consenso de analistas (+32% desde el 26-sept) — de los mejor alineados con lo que enseña Revolut de toda la lista revisada ese día."
@@ -414,7 +414,7 @@ assets:
         note: "Pierde su media de 200 sesiones — pondría en duda la tendencia de fondo tras la mejora de perspectiva crediticia de S&P."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones — confirmaría que el saneamiento post-escisión de SanDisk sigue en marcha."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): toda la producción 2026 está vendida, pero Toshiba anunció que duplica su capacidad de HDD (2-oct-2026) y la acción ya cayó -10% ese día por miedo a guerra de precios — recuperar esta media confirmaría que el mercado lo ha digerido, pero esperaría confirmación antes de entrar fuerte."
       - price: 664.92
         direction: "sube"
         note: "Objetivo de consenso de analistas (+46% desde el 26-sept) — la mejor combinación de las 20 de Revolut entre lo que promete la app y lo que dicen los analistas de verdad."
@@ -426,7 +426,7 @@ assets:
     levels:
       - price: 480
         direction: "cae"
-        note: "Corrección desde máximos (RSI 76-84, sobrecomprado a 10-sept) — primera zona de enfriamiento."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): Azure acelerando a +43% (desde 40%) en el último trimestre, con Melius Research llamando a Microsoft 'los adultos a cargo' de la gobernanza de IA — corrección desde máximos (RSI sobrecomprado), primera zona de enfriamiento."
       - ma: "sma50"
         direction: "cae"
         note: "Pierde su SMA50 — cuestionaría la tendencia alcista de fondo."
@@ -444,7 +444,7 @@ assets:
     levels:
       - price: 320
         direction: "cae"
-        note: "Pierde soporte reciente — cuestionaría el rebote tras cortar la peor racha mensual en más de una década."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): resolución antitrust de ad-tech menos mala de lo temido (no la obligan a vender AdX, 2-sept-2026) + Cloud +82% en el último trimestre — pierde soporte reciente, cuestionaría el rebote."
       - ma: "sma200"
         direction: "sube"
         note: "Recupera su SMA200 — confirmación técnica del rebote, apoyado por la resolución favorable del caso antimonopolio de ad-tech (sept-2026)."
@@ -465,7 +465,7 @@ assets:
         note: "Pierde su SMA200 (~$611 a 10-sept) — señal de que el susto de resultados (capex/margen) vuelve a pesar."
       - price: 611
         direction: "cae"
-        note: "Zona del mínimo tras el batacazo post-resultados (-9,6% en un día) — si lo pierde, invalidaría la recuperación."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): ingresos +28% en el último trimestre, pero hay una demanda activa de 26 empleados acusando a los sistemas de IA de Meta de discriminar en despidos — zona del mínimo tras el batacazo post-resultados, esperaría ver cómo evoluciona el litigio antes de entrar con fuerza."
       - price: 790.8
         direction: "sube"
         note: "Rompe el máximo de 52 semanas."
@@ -498,7 +498,7 @@ assets:
     levels:
       - price: 332
         direction: "cae"
-        note: "Pierde la zona de consolidación previa a la subida de septiembre (acuerdo de seguridad con OpenAI) — la subida vertical del mes empezaría a revertirse."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): beat fuerte en su último trimestre (+36% ingresos) con expansión de producto agresiva (Cloudflare Basin, alianza Deutsche Telekom) — pierde la zona de consolidación previa a la subida de septiembre."
       - ma: "sma50"
         direction: "cae"
         note: "Pierde su SMA50 — el subidón por la noticia de OpenAI se revierte del todo. Sin GAAP rentable todavía (objetivo propio: 2028), cotiza a ~45x ventas, sin colchón de valoración si esto pasa."
@@ -516,7 +516,7 @@ assets:
     levels:
       - price: 290
         direction: "cae"
-        note: "Corrección seria hacia zona de mayor margen de seguridad — el PER actual (~36x) está muy por encima de su media histórica (~27x)."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): récords de junio en iPhone/Mac/Services y litigios resolviéndose a su favor (xAI retiró su demanda, settlement de Siri cerrado), pero es la única mega-cap donde el precio actual ya SUPERA el objetivo medio de analistas — corrección seria hacia zona de mayor margen de seguridad antes de considerar entrar fuerte."
       - ma: "sma200"
         direction: "cae"
         note: "Pierde su SMA200 — cuestionaría el rebote desde el mínimo de agosto-2026."
@@ -534,7 +534,7 @@ assets:
     levels:
       - price: 130
         direction: "cae"
-        note: "Corrección seria — empieza a dar algo de margen de seguridad en una valoración extrema (PER a futuro ~109x, P/Ventas ~73x)."
+        note: "🎯 ENTRADA FUERTE si corrige hasta aquí (revisión 5-oct-2026): noveno trimestre consecutivo de beat (ingresos +93% interanual, comercial EEUU +149%) — esta corrección sí empieza a dar algo de margen de seguridad en una valoración extrema (PER a futuro ~109x). No perseguir a precios actuales, esperar esta zona."
       - price: 106.37
         direction: "cae"
         note: "Mínimo de 52 semanas — capitulación real."
@@ -549,7 +549,7 @@ assets:
     levels:
       - price: 30
         direction: "cae"
-        note: "Corrección seria — reabriría dudas sobre la tesis, ya de por sí nublada por la gobernanza (informe Hindenburg 2024, dimisión de la auditora EY)."
+        note: "🎯 ENTRADA FUERTE si corrige hasta aquí (revisión 5-oct-2026): el riesgo legal está contenido, no empeorando (CEO exonerado en la investigación interna, juicio del directivo acusado aplazado a marzo-2027) y el negocio de IA sigue disparado (nuevos racks Nvidia Vera Rubin) — esta corrección daría margen de seguridad real."
       - price: 19.48
         direction: "cae"
         note: "Mínimo de 52 semanas."
@@ -567,7 +567,7 @@ assets:
         note: "Pierde su SMA200 (~$161,70 a 10-sept) — rompería la estructura alcista de fondo, en línea con debilidad de BTC/ETH. Proxy apalancado (beta ~3,4x) — vigilar junto a los niveles de BTC/ETH de arriba."
       - price: 139.11
         direction: "cae"
-        note: "Mínimo de 52 semanas."
+        note: "⚠️ Entrada solo especulativa (revisión 5-oct-2026): catalizador estructural real (CFTC aprobó su cámara de compensación de derivados, Coinbase Clearing LLC, 30-sept-2026), pero el último trimestre fue flojo (ingresos -17%, vuelta a pérdidas) — mínimo de 52 semanas, esperar confirmación antes de entrar fuerte."
       - price: 199
         direction: "sube"
         note: "Objetivo medio de consenso de analistas."
@@ -582,7 +582,7 @@ assets:
     levels:
       - ma: "sma200"
         direction: "cae"
-        note: "Pierde su SMA200 (~$318,70 a 10-sept) — rompería el cruce dorado, cambio de tendencia real."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): ingresos +30% y EPS +47% en su último trimestre, con el acuerdo de $20.000M con Qatar Investment Authority — perder su SMA200 rompería el cruce dorado, pero sería zona de entrada si hay rebote confirmado, no por tocar el nivel."
       - price: 366.5
         direction: "sube"
         note: "Rompe el máximo de 52 semanas."
@@ -597,7 +597,7 @@ assets:
     levels:
       - price: 146
         direction: "cae"
-        note: "Corrección hacia zona SMA20/50 — probaría si la prima geopolítica del petróleo (tensión Irán-EEUU, Brent a $96-101 en sept-2026) se desinfla."
+        note: "🎯 ENTRADA FUERTE (revisión 5-oct-2026): negocio de caja robusto con catalizador de GNL a medio plazo (proyección de ser el 30% del mercado mundial para 2030) — corrección hacia zona SMA20/50, probaría si la prima geopolítica del petróleo se desinfla."
       - price: 136
         direction: "cae"
         note: "Zona de soporte/stop-loss más amplia."
@@ -618,7 +618,7 @@ assets:
     levels:
       - price: 23.56
         direction: "cae"
-        note: "Mínimo de 52 semanas — romperlo invalidaría la tesis de 'ya tocó fondo', justo cuando el propio CEO (John Fieldly) compró ~$494.000 en acciones el 10-sept-2026 en estos niveles."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): el CEO ha vuelto a comprar (~$493.842, 10-sept-2026, su 2ª compra del año) pero TODOS los frentes legales siguen abiertos sin resolver (fraude de valores, investigación de Texas, demanda por muerte de una menor) y el último trimestre falló en ambas métricas — mínimo de 52 semanas, esperar resolución legal antes de entrar fuerte."
       - price: 20
         direction: "cae"
         note: "Si rompe el mínimo de 52 semanas sin freno, señal de que los frentes legales (demanda por fraude de valores, demanda por la muerte de una menor ligada a Alani Nu, investigación del fiscal de Texas) están pesando más de lo asumido."
@@ -645,7 +645,7 @@ assets:
         note: "Pierde su media de 50 sesiones. El intento de rebote tras el susto de resultados de julio se queda corto, sigue en tendencia bajista de corto plazo."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones (~53$), resistencia intermedia real más útil que el nivel de 62$ mientras siga tan lejos. Rebote técnico a vigilar, no confirma cambio de tendencia de fondo por sí solo."
+        note: "🎯 ENTRADA FUERTE si confirma (revisión 5-oct-2026): ingresos +79% interanual en su último trimestre, con expansión geográfica constante y sin ningún catalizador negativo nuevo detectado — recuperar esta media (~53$) es resistencia intermedia real más útil que el nivel de 62$ mientras siga tan lejos."
       - ma: "sma200"
         direction: "sube"
         note: "Recupera su media de 200 sesiones. Ojo: esa media lleva cayendo desde julio (pasó de ~65,5$ a ~62,6$ en dos meses), así que este cruce es más débil que si la media de fondo siguiera subiendo — vigilar, no dar por hecho el cambio de tendencia."
@@ -669,7 +669,7 @@ assets:
         note: "Mínimo desde el IPO — capitulación total, solo Starlink es rentable y Starship sigue quemando caja en I+D."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su SMA50 con claridad. Ojo: cada mes se libera un nuevo tramo de acciones bloqueadas de antiguos accionistas (24-sept, 9 y 24-oct, y el tramo grande del 28% dos días después de resultados de Q3, hacia el 3-5 nov) — presión de venta recurrente a vigilar antes de fiarte de un rebote."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): ingresos +92% interanual en su último trimestre, batiendo por casi $1.000M, pero el gran unlock del 28% tras resultados de Q3 TODAVÍA NO ha pasado (hacia el 3-5 nov) — recuperar su SMA50 con claridad, pero esperar a que pase ese evento antes de entrar fuerte, la presión de venta recurrente es real."
       - price: 225.64
         direction: "sube"
         note: "Rompe el máximo histórico intradía (16-jun-2026) — el mercado vuelve a creerse la valoración completa (~90x ingresos, cara incluso para lo que crece)."
@@ -715,7 +715,7 @@ assets:
         note: "Pierde su media de 200 — la corrección de sector del 14-sept deja de ser solo un susto y se confirma algo más serio."
       - price: 740.01
         direction: "cae"
-        note: "Mínimo de 52 semanas."
+        note: "🎯 ENTRADA FUERTE si corrige hasta aquí (revisión 5-oct-2026): EPS +92% en su último trimestre, el más fuerte de la gran banca — mínimo de 52 semanas, daría un margen de seguridad real pese a que el consenso está algo cauteloso por el tema de sucesión de CEO."
       - price: 1153.99
         direction: "sube"
         note: "Rompe el máximo de 52 semanas. Ojo: cotiza ya muy cara frente a su propia historia (valor en libros un 136% por encima de su media de 10 años, cerca de máximos de 13 años) y Wall Street Zen la rebajó el 13-sept — le afecta menos la subida de tipos que a un banco tradicional (depende más de banca de inversión que de depósitos)."
@@ -774,7 +774,7 @@ assets:
         note: "Nivel psicológico redondo, por debajo del mínimo de 52 semanas. Zona de capitulación real, no un simple retroceso."
       - ma: "sma200"
         direction: "sube"
-        note: "Recupera su media de 200 sesiones — primera confirmación técnica real de que el mercado deja de penalizar el negocio."
+        note: "🎯 ENTRADA FUERTE si confirma (revisión 5-oct-2026): negocio muy sano (retención del 95%, comisiones +25%) pese al primer fallo de resultados reciente — recuperar su media de 200 sesiones sería la primera confirmación técnica real de que el mercado deja de penalizar el negocio."
       - price: 647
         direction: "sube"
         note: "Objetivo de consenso de analistas (~$647-690, 'comprar fuerte') — implicaría que las dudas de comisiones y ESG se han despejado."
@@ -831,7 +831,7 @@ assets:
     levels:
       - price: 14
         direction: "cae"
-        note: "Cerca del mínimo de 52 semanas (13,98$). Señal de que el proceso de venta forzado por Jana Partners se está enfriando sin oferta a la vista."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): el consejo cerró la revisión estratégica y decidió seguir independiente (22-sept-2026, -20% ese día) — JPMorgan rebajó de Overweight a Underweight y PT de $24 a $14 argumentando que sin comprador debe cotizar con descuento. Tesis dañada, esperar más claridad antes de entrar."
       - price: 22
         direction: "sube"
         note: "Cerca de máximos de las últimas semanas. Probable señal de que el mercado da por hecha una opa o una oferta de compra concreta."
@@ -843,7 +843,7 @@ assets:
     levels:
       - ma: "sma50"
         direction: "cae"
-        note: "Pierde su media de 50 sesiones tras el +70% del 3-sept — señal de que la euforia por el resultado se está desinflando."
+        note: "🎯 ENTRADA FUERTE si corrige (revisión 5-oct-2026): batió ingresos y EPS en su último trimestre, con UBS subiendo precio objetivo y ampliación de partnership con Mercedes-Benz — pierde su media de 50 sesiones, señal de que la euforia se desinfla, pero el consenso sigue por debajo del precio actual (Hold), así que esperar confirmación."
       - price: 12
         direction: "sube"
         note: "Cerca de máximos de 52 semanas — confirmaría que la mejora de márgenes (pérdida del 67% al 31% de ingresos) sigue convenciendo al mercado."
@@ -855,7 +855,7 @@ assets:
     levels:
       - price: 19
         direction: "cae"
-        note: "Pierde el suelo de las últimas semanas. La pérdida se reducía con fuerza (25-66% interanual) y ya genera caja positiva; perder este nivel pondría en duda esa mejora."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): batió ingresos y EPS en su último trimestre, elevó guía FY27 y adquirió BoomPop — aunque hay una investigación de accionistas abierta desde el 28-sept a vigilar. Pierde el suelo de las últimas semanas, perder este nivel pondría en duda la mejora."
       - ma: "sma50"
         direction: "sube"
         note: "Recupera su media de 50 sesiones — reforzaría la tesis de que el beneficio real está cada vez más cerca."
@@ -867,7 +867,7 @@ assets:
     levels:
       - price: 1.17
         direction: "cae"
-        note: "Mínimo de 52 semanas. Ya gana dinero en la métrica ajustada y genera caja; perder este nivel sería una señal de alarma real."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): batió expectativas en su último trimestre con su IA comercial 'Autopilot' ya activada en más de 65 prestamistas, pese a que el mercado sigue castigando el valor — mínimo de 52 semanas, perder este nivel sería una señal de alarma real."
       - ma: "sma50"
         direction: "sube"
         note: "Recupera su media de 50 sesiones — el consenso la sitúa rozando el cero hacia mediados de 2027, esto acortaría esa espera en el precio."
@@ -879,7 +879,7 @@ assets:
     levels:
       - price: 3
         direction: "cae"
-        note: "Cerca de mínimos de 52 semanas. Su pérdida ajustada mejora cada trimestre (del 413% al 104% de ingresos); perder este nivel rompería esa narrativa."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): backlog récord de $807M y contrato real con Google (vía MN8 Energy, sept-2026) para almacenamiento en datacenters — cerca de mínimos de 52 semanas, perder este nivel rompería la narrativa de mejora."
       - price: 4.6
         direction: "sube"
         note: "Máximo de las últimas semanas — confirmaría que el mercado empieza a premiar la mejora de márgenes."
@@ -894,7 +894,7 @@ assets:
         note: "Rompe mínimos recientes. Lleva 5 trimestres seguidos con EBITDA ajustado positivo, pero sus ingresos caen — perder este nivel confirmaría que el mercado ya no perdona esa caída."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones."
+        note: "🎯 ENTRADA FUERTE si confirma (revisión 5-oct-2026): quinto trimestre consecutivo de margen bruto récord y EBITDA ajustado positivo, con UBS subiendo a Buy tras verlo como la 'evidencia más clara' de que la estrategia funciona — recuperar su media de 50 sesiones confirmaría el giro."
 
   # --- Añadido 27-sept-2026: las diez acciones que sigue de cerca Isaac
   # Davydov (@isaac_davydov / iadtrade.com) dentro de su comunidad de pago,
@@ -913,7 +913,7 @@ assets:
         note: "Pierde su media de 200 sesiones. Rezdiffra (único fármaco, para el hígado graso MASH) crece un 149% en ingresos, pero perder este soporte de fondo sería la primera señal real de que el mercado deja de creerse la historia."
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones. Goldman Sachs y Citi acaban de iniciar cobertura de compra esta semana (23-24 sept) con objetivos de 704 y 725$ — reclamar este nivel confirmaría que el impulso sigue vivo."
+        note: "🎯 ENTRADA FUERTE si confirma (revisión 5-oct-2026): batió en ambas líneas en su último trimestre, con Goldman Sachs y Citi reanudando/iniciando cobertura Buy en las últimas semanas (objetivos 704$ y 725$) — reclamar este nivel confirmaría que el impulso sigue vivo."
       - price: 602.83
         direction: "sube"
         note: "Rompe el máximo de 52 semanas. Confirmaría una nueva pierna alcista, no solo un rebote."
@@ -925,7 +925,7 @@ assets:
     levels:
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones. Su centro de datos de IA Barber Lake va adelantado sobre plazo y el 8-sept se desacopló del precio de Bitcoin por primera vez — el mercado empieza a tratarla como infraestructura de IA, no solo minera."
+        note: "🎯 ENTRADA FUERTE si confirma (revisión 5-oct-2026): extensión de 10 años del contrato de Barber Lake por ~$5.200M en ingresos contratados (25-sept-2026) — el último trimestre falló en EPS/ingresos, pero por un cargo contable no monetario de warrants, no por deterioro real del negocio. Recuperar esta media confirmaría que el mercado lo ve igual."
       - ma: "sma20"
         direction: "cae"
         note: "Pierde su media de 20 sesiones, soporte de muy corto plazo."
@@ -943,7 +943,7 @@ assets:
     levels:
       - ma: "sma50"
         direction: "sube"
-        note: "Recupera su media de 50 sesiones. Contratos militares reales (láser LOCUST, Switchblade en Ucrania) pero cae un 49% en el año por compresión de margen tras comprar BlueHalo, y los propios insiders solo venden, ninguno compra — primera señal real de estabilización si recupera esto."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): batió su último trimestre (EPS $0,59 vs $0,25 esperado) pero la acción siguió cayendo, con recortes de precio objetivo en cadena (BofA, Goldman, Jefferies) y una NUEVA investigación de un despacho por incumplimiento de deber fiduciario del consejo (14-sept-2026) — esperar a que se aclare ese riesgo legal antes de entrar fuerte."
       - price: 136.68
         direction: "cae"
         note: "Rompe el mínimo de 52 semanas."
@@ -958,7 +958,7 @@ assets:
     levels:
       - price: 45.50
         direction: "cae"
-        note: "Cerca del mínimo de 52 semanas. El negocio no se ha deteriorado (ventas comparables +9%), la caída es de valoración/sector, no propia."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): ingresos +31% interanual en su último trimestre con programa de recompra de $100M aprobado — cerca del mínimo de 52 semanas, el negocio no se ha deteriorado, la caída es de valoración/sector, no propia."
       - ma: "sma20"
         direction: "sube"
         note: "Recupera su media de 20 sesiones. El COO ha comprado acciones tres veces este año, la última el 7-sept — señal real de confianza desde dentro, aunque el cruce de medias sigue siendo bajista."
@@ -975,7 +975,7 @@ assets:
         note: "Recupera su media de 50 sesiones. Ojo: el presidente/COO vendió 23M$ y el CFO también vendió justo en las semanas del Investor Day (16-sept) que disparó el precio — mismo patrón que la venta del CEO en junio."
       - price: 26
         direction: "cae"
-        note: "Soporte real. Los subsidios sanitarios ACA no se han extendido (resuelto el shutdown el 27-sept sin ellos) — riesgo estructural para el negocio, no solo ruido de corto plazo."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): batió ampliamente su último trimestre y elevó guía de ganancias 2026 a $600-800M, pero el riesgo de los subsidios ACA sigue EXACTAMENTE igual de pendiente (sin extensión, primas podrían subir >75% en 2026) — soporte real, pero el riesgo estructural no se ha resuelto, esperar claridad regulatoria."
       - price: 35.40
         direction: "sube"
         note: "Objetivo medio de analistas."
@@ -1011,7 +1011,7 @@ assets:
         note: "Zona de resistencia de corto plazo (media de 100 sesiones)."
       - price: 1.75
         direction: "cae"
-        note: "Mínimo de 52 semanas — soporte estructural lejano."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): acuerdo real de $350M/5 años en servicios de nube de IA y EBITDA ajustado vuelto a positivo ($13,4M), pese a un trimestre con pérdida contable inflada por la disputa fiscal sueca — mínimo de 52 semanas, soporte estructural lejano."
 
   - symbol: "TVTX"
     kind: "stock"
@@ -1023,7 +1023,7 @@ assets:
         note: "Recupera su media de 50 sesiones. Filspari (fármaco renal) crece un 96%, casi en el punto de equilibrio real — pero el CEO saliente vendió 25M$ en acciones días antes de anunciar que dejaba el cargo (21-sept). Verificar antes de fiarse."
       - ma: "sma200"
         direction: "cae"
-        note: "Pierde su media de 200 sesiones, soporte de fondo."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): ingresos de FILSPARI +96% interanual, récord, con nueva patente concedida y 9 presentaciones en ASN Kidney Week — pero hay transición de CEO en curso (sale 1-dic-2026) además de la venta de 25M$ del CEO saliente ya conocida. Esperar a ver al nuevo CEO antes de entrar fuerte."
       - price: 67.52
         direction: "sube"
         note: "Rompe el máximo de 52 semanas."
@@ -1041,7 +1041,7 @@ assets:
         note: "Pierde su media de 20 sesiones. El CEO vendió 3,3M$ cerca de máximos el 21-sept, sin ninguna compra que lo compense — primera señal de que el rally se enfría."
       - price: 60
         direction: "cae"
-        note: "Zona de consolidación previa al último tramo de subida."
+        note: "🎯 ENTRADA FUERTE si corrige hasta aquí (revisión 5-oct-2026): batió con fuerza en su último trimestre y subió su guía de crecimiento anual a ~35% desde 25%, con múltiples subidas de precio objetivo (Needham, Craig-Hallum, Jefferies) — zona de consolidación previa al último tramo de subida."
 
   - symbol: "RYI"
     kind: "stock"
@@ -1065,7 +1065,7 @@ assets:
     levels:
       - ma: "sma200"
         direction: "cae"
-        note: "Pierde su media de 200 sesiones, soporte inmediato. Ojo: sus pérdidas han aumentado en vez de reducirse pese a que los ingresos crecen un 46% — contradice la tesis de 'a punto de beneficio real'."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): batió EPS en su último trimestre y Truist inició cobertura Buy, pero sus pérdidas siguen sin reducirse del todo pese al crecimiento de ingresos — contradice la tesis de 'a punto de beneficio real', vigilar antes de entrar fuerte."
       - ma: "sma20"
         direction: "sube"
         note: "Recupera su media de 20 sesiones."
@@ -1080,7 +1080,7 @@ assets:
     levels:
       - ma: "sma20"
         direction: "sube"
-        note: "Recupera su media de 20 sesiones. Ingresos y beneficio siguen creciendo con fuerza, la caída es sobre todo miedo a la competencia de YouTube — pero los insiders (Hastings, Sarandos) solo venden y la tendencia técnica sigue sin girar."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): el propio co-CEO Ted Sarandos admitió públicamente que 'no está creciendo tan rápido como quiero' tras un guidance de Q3 decepcionante — Deutsche Bank sí ve 'punto de entrada atractivo' (PT $95), pero con la propia dirección reconociendo desaceleración, esperaría los resultados del 20-oct antes de entrar fuerte."
       - price: 67.60
         direction: "cae"
         note: "Cerca del mínimo de 52 semanas."
@@ -1098,7 +1098,7 @@ assets:
         note: "Recupera su media de 20 sesiones. Recortó su propia guía en julio por problemas reales de autorización de aseguradoras — desde entonces varias casas han seguido bajando el objetivo, no es solo percepción."
       - price: 6.99
         direction: "cae"
-        note: "Cerca del mínimo de 52 semanas."
+        note: "⚠️ Sin entrada fuerte marcada (revisión 5-oct-2026): batió ingresos en su último trimestre pero sigue cayendo a mínimos de 52 semanas, con un aviso de investigación por posible fraude (17-sept-2026) a vigilar — esperar claridad legal antes de entrar."
       - price: 16
         direction: "sube"
         note: "Precio de la ampliación de capital de enero-2026 — muchos de esos inversores siguen en pérdidas por debajo de este nivel."
@@ -1110,7 +1110,7 @@ assets:
     levels:
       - price: 35.29
         direction: "cae"
-        note: "Cerca del mínimo de 52 semanas."
+        note: "🎯 ENTRADA FUERTE si rebota (revisión 5-oct-2026): CagriSema ganó por fin un ensayo clínico frente a Eli Lilly (21-sept-2026), primera victoria desde el fracaso de febrero, y Q2 batió fuerte con guía elevada — cerca del mínimo de 52 semanas, el mercado todavía no lo ha premiado del todo."
       - ma: "sma20"
         direction: "sube"
         note: "Recupera su media de 20 sesiones. Perdió el ensayo clínico frente a Eli Lilly, recortó su propia guía y despidió a 9.000 empleados — deterioro real de negocio, no solo miedo, y ninguna revisión reciente de analistas ha sido al alza."
