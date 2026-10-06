@@ -1411,6 +1411,37 @@ assets:
         direction: "cae"
         note: "⚠️ Nivel de invalidación: por debajo de aquí ya no sería solo 'arrastre de Bitcoin' — el mercado empezaría a dudar del mecanismo real de ingresos/quema del protocolo (riesgo de centralización ya demostrado con el caso JELLY, marzo-2025), algo mucho más grave que una corrección de precio."
 
+  # --- Añadido 6-oct-2026: OPRA (Opera Limited). Fundamentales muy sólidos
+  # (beat+raise Q2, caja neta, PER forward < trailing, recompras+dividendo)
+  # pero sin ninguna entrada fuerte al precio de referencia ($17,60): pegado
+  # a la banda alta de Bollinger de corto plazo, bajo la SMA200 bajista, CERO
+  # compra de insiders en 12 meses (solo venta CEO+CFO), y riesgo geopolítico
+  # real sin resolver: Kunlun Tech (china) controla ~68%, con precedente
+  # directo de CFIUS obligando a desinvertir Grindr por seguridad nacional. ---
+  - symbol: "OPRA"
+    kind: "stock"
+    source_id: "OPRA"
+    name: "Opera Limited"
+    levels:
+      - price: 17.6
+        direction: "cae"
+        note: "⚠️ Sin entrada fuerte marcada (6-oct-2026, referencia $17,60): pegado a la banda alta de Bollinger de corto plazo y por debajo de la SMA200 bajista, sin ninguna compra de insiders en 12 meses (CEO y CFO vendieron a la vez, discrecional) y con el riesgo geopolítico de Kunlun Tech (China, ~68% de control) sin resolver — precedente CFIUS/Grindr reconocido por la propia Opera en su 20-F."
+      - price: 16.0
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE — primer tramo: banda inferior de Bollinger de corto plazo y, además, el precio exacto al que la propia Opera recompró acciones al accionista de control (Kunlun) dentro de su programa de $300M — nivel con respaldo real, no arbitrario."
+      - price: 14.25
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE — segundo tramo: mitad del rango de 52 semanas, margen de seguridad adicional sobre fundamentales que siguen mejorando (guía FY2026 elevada, caja neta positiva, PER forward por debajo del trailing)."
+      - price: 11.71
+        direction: "cae"
+        note: "⚠️ Nivel de invalidación: mínimo de 52 semanas — perderlo cuestionaría la lectura de que el negocio de fondo (publicidad +27%, recompras activas) compensa el riesgo geopolítico."
+      - price: 22.5
+        direction: "sube"
+        note: "Extremo bajo del rango de precios objetivo de los analistas (consenso Strong Buy/Buy unánime, $22,5-$33)."
+      - price: 26.5
+        direction: "sube"
+        note: "Zona media del consenso de analistas (~$24-27, Citi/Goldman/Piper Sandler/B.Riley/Lake Street/TD Cowen) — confirmaría que el mercado empieza a valorar el crecimiento sin descontar tanto el riesgo China/Kunlun."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
