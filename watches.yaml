@@ -1317,6 +1317,55 @@ assets:
         direction: "sube"
         note: "Mediana del consenso de analistas (rango $175-224, Truist el más alcista en $224) — confirmaría que el mercado premia del todo el moat real de TTM como fabricante 'de confianza' en EEUU para defensa e IA frente a China."
 
+  # --- Añadido 6-oct-2026: investigación de contenido de redes sociales
+  # sobre tierras raras/robótica (8 acciones) — sin posición real, solo
+  # vigilancia. USAR es la más interesante: participación real y verificada
+  # del Departamento de Comercio de EEUU (16,1M acciones + warrants, programa
+  # CHIPS), no solo contrato/subvención. Plan de entrada acordado con el
+  # usuario a precio de referencia $13,65 (6-oct-2026). ---
+  - symbol: "USAR"
+    kind: "stock"
+    source_id: "USAR"
+    name: "USA Rare Earth"
+    levels:
+      - price: 11.45
+        direction: "cae"
+        note: "⚠️ Nivel de invalidación: mínimo de 52 semanas. Si lo rompe, el mercado estaría diciendo que la dilución severa (217,9M→411M acciones totalmente diluidas) pesa más que el catalizador real del Departamento de Comercio — revisar la tesis."
+      - price: 12.25
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE — primer tramo (plan del 6-oct-2026, referencia entonces $13,65): zona de margen de seguridad justo por encima del mínimo de 52 semanas. La venta del exCEO Barbara Humpton el 2-oct-2026 fue rutinaria por impuestos de RSU (confirmado en Form 4), no señal de alarma — el Departamento de Comercio SÍ tiene participación accionarial directa real (16,1M acciones + warrants por 17,6M más, programa CHIPS, cerrado 3-jun-2026)."
+      - price: 16
+        direction: "sube"
+        note: "🎯 ENTRADA FUERTE — segundo tramo (confirmación): ruptura con volumen señalaría que el mercado empieza a creerse la posición estratégica real por encima del miedo a la dilución."
+      - price: 21
+        direction: "sube"
+        note: "Objetivo más conservador de consenso (Jefferies, inicio de cobertura sept-2026) — revisar aquí si la tesis sigue intacta antes de aspirar a más."
+      - price: 34
+        direction: "sube"
+        note: "Zona del consenso medio de analistas (~$33,71-35,56 según fuente, con fuerte dispersión $21-45) — confirmaría que el mercado premia del todo la posición mine-to-magnet verticalmente integrada."
+
+  # --- Mismo lote del 6-oct-2026: Zoetis (ZTS), investigación a fondo tras
+  # verla mencionada en redes. Negocio de calidad real (biológicos sin vía
+  # de genérico) pero con TRES frentes legales/regulatorios abiertos a la
+  # vez — sin entrada fuerte marcada hasta que se despejen. ---
+  - symbol: "ZTS"
+    kind: "stock"
+    source_id: "ZTS"
+    name: "Zoetis"
+    levels:
+      - price: 68.77
+        direction: "cae"
+        note: "⚠️ Sin entrada fuerte marcada (6-oct-2026): mínimo de 52 semanas. Tres frentes abiertos a la vez — demanda de accionistas (SDNY, oculta impacto de carta FDA sobre Librela), demanda de dueños de mascotas (desestimada pero con permiso de volver a presentarse), e investigación antitrust de la UE desde 2024 — ninguno resuelto todavía. Negocio real detrás (biológicos sin vía de genérico), pero esperar claridad legal antes de entrar fuerte."
+      - ma: "sma50"
+        direction: "sube"
+        note: "Recupera su media de 50 sesiones (~74,70$) — primera confirmación técnica de que el mercado empieza a dejar atrás el golpe del 6-7-may-2026 (-21,5% en 2 días al destaparse la demanda de accionistas). Ojo: directores (D'Amelio, Bisaro, McCallister) compraron justo tras ese desplome, señal real de confianza desde dentro."
+      - ma: "sma200"
+        direction: "sube"
+        note: "Recupera su media de 200 sesiones (~87,21$) — confirmaría cambio de tendencia de fondo, no solo rebote técnico."
+      - price: 96
+        direction: "sube"
+        note: "Objetivo medio de consenso (stockanalysis.com/Barchart, +34% desde mínimos). Ojo: el PEG de 2,13 indica que, pese a la caída del 52% desde máximos, no es claramente barata en relación a lo que se espera que crezca — no es un 'PER bajo, barata' sin matices."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
