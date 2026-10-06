@@ -1389,6 +1389,28 @@ assets:
         direction: "sube"
         note: "Cerca de la mediana del consenso de analistas (~$297-306, 34 analistas) — confirmaría que el mercado ha dejado atrás del todo la demanda antimonopolio y el miedo al consumidor de bajos ingresos."
 
+  # --- Añadido 6-oct-2026: HYPE (Hyperliquid), a diferencia de QNT SÍ tiene
+  # mecanismo de recompra/quema verificable on-chain con ingresos reales del
+  # protocolo (~$700-900M anualizados). Plan de entrada en 2 tramos ligado
+  # explícitamente a que las altcoins amplifican las caídas de Bitcoin. ---
+  - symbol: "HYPE"
+    kind: "crypto"
+    source_id: "hyperliquid"
+    name: "Hyperliquid"
+    levels:
+      - price: 97.96
+        direction: "sube"
+        note: "Máximo histórico (23-sept-2026). Romperlo confirmaría que el mercado sigue comprando pese a estar ya muy cerca de máximos — no perseguir aquí, ya se habló con el usuario de esperar una corrección real."
+      - price: 70
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE — primer tramo (plan del 6-oct-2026, referencia $93,44): corrección real de ~30% desde máximos, típica en cripto incluso sin que Bitcoin se desplome. El negocio de fondo sigue intacto: a diferencia de QNT, HYPE tiene un mecanismo de recompra/quema verificado on-chain con ingresos reales del protocolo (~700-900M$ anualizados, DefiLlama)."
+      - price: 50
+        direction: "cae"
+        note: "🎯 ENTRADA FUERTE — segundo tramo, SOLO si Bitcoin arrastra fuerte: si BTC rompe los soportes de GranMago (81.764-82.833$) y sigue cayendo hacia 70.700$ u 58.600$, HYPE caerá proporcionalmente MÁS que Bitcoin (las altcoins siempre amplifican la caída) — sería pánico de mercado general, no un problema propio de Hyperliquid."
+      - price: 30
+        direction: "cae"
+        note: "⚠️ Nivel de invalidación: por debajo de aquí ya no sería solo 'arrastre de Bitcoin' — el mercado empezaría a dudar del mecanismo real de ingresos/quema del protocolo (riesgo de centralización ya demostrado con el caso JELLY, marzo-2025), algo mucho más grave que una corrección de precio."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
