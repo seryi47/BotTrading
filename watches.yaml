@@ -1366,6 +1366,29 @@ assets:
         direction: "sube"
         note: "Objetivo medio de consenso (stockanalysis.com/Barchart, +34% desde mínimos). Ojo: el PEG de 2,13 indica que, pese a la caída del 52% desde máximos, no es claramente barata en relación a lo que se espera que crezca — no es un 'PER bajo, barata' sin matices."
 
+  # --- Añadido 6-oct-2026: McDonald's, investigada tras verla "por todos
+  # lados" en medios (campañas de marketing + Investor Day + demanda
+  # antimonopolio nueva, todo coincidiendo). Negocio de calidad real (mejor
+  # margen del sector, Dividend King) pero sin entrada fuerte marcada por
+  # el riesgo legal fresco y sin resolver. ---
+  - symbol: "MCD"
+    kind: "stock"
+    source_id: "MCD"
+    name: "McDonald's"
+    levels:
+      - price: 229.2
+        direction: "cae"
+        note: "⚠️ Sin entrada fuerte marcada (6-oct-2026): mínimo de 52 semanas, tras la racha de 8 semanas consecutivas a la baja más larga desde la burbuja .com. El propio CEO dijo en el Investor Day (23-sept) que 'la inflación alta y el tráfico plano son la nueva normalidad', y hay una demanda antimonopolio muy reciente (2-oct-2026) por presunta fijación de precios vía IA — esperar claridad antes de entrar fuerte pese al negocio de calidad real detrás (mejor margen del sector, Dividend King 50 años)."
+      - price: 250
+        direction: "sube"
+        note: "Zona de los objetivos más bajos de consenso tras el Investor Day (Guggenheim, Jefferies y JPMorgan recortaron aquí a finales de sept-2026, citando ventas comparables débiles en EEUU) — recuperar esto confirmaría que el mercado empieza a perdonar el guidance de 'nueva normalidad'."
+      - price: 270
+        direction: "sube"
+        note: "Objetivo de Wells Fargo (recortado desde $300, pero mantiene Overweight, 5-oct-2026)."
+      - price: 300
+        direction: "sube"
+        note: "Cerca de la mediana del consenso de analistas (~$297-306, 34 analistas) — confirmaría que el mercado ha dejado atrás del todo la demanda antimonopolio y el miedo al consumidor de bajos ingresos."
+
 
 # --- Temas de noticias vigilados (Google News, no precios) — se avisa de
 # titulares NUEVOS (publicados en las últimas 12h) a medida que salgan, no
