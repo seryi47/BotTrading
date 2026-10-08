@@ -1471,15 +1471,17 @@ news_watches:
 # con conversión EUR cacheada 1h) a kind "bitvavo" (precio EUR nativo del
 # propio exchange donde está la posición) porque el usuario detectó un
 # desfase de ~0,10-0,15% entre el aviso del bot y lo que veía en Bitvavo —
-# con precio EUR directo ese ruido desaparece del todo. ---
+# con precio EUR directo ese ruido desaparece del todo. Ampliada el mismo
+# día con una compra adicional de 1.000€ al precio de ese momento
+# (2.249,55€, Bitvavo) -> +0,44453335 ETH. ---
 positions:
   - symbol: "ETH"
     kind: "bitvavo"
     source_id: "ETH-EUR"
     name: "Ethereum"
-    shares: 4.34575188
-    invested_eur: 9975.00
-    avg_entry_eur: 2295.345035
+    shares: 4.79028523
+    invested_eur: 10975.00
+    avg_entry_eur: 2291.095304
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:
