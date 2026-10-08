@@ -63,11 +63,19 @@ class Engine:
         self.history_ttl = history_ttl          # cada cuánto se refresca el histórico (s)
         self.digest_hour = digest_hour           # hora (Europe/Madrid) del resumen diario
         self.signal_interval = signal_interval   # cada cuánto se revisan señales RSI/MACD (s)
-        self._last_signal_check = 0.0
         self.news_interval = news_interval       # cada cuánto se revisan las noticias vigiladas (s)
-        self._last_news_check = 0.0
         self.position_interval = position_interval  # cada cuánto se manda el P&L de posiciones reales (s)
-        self._last_position_check = 0.0
+        # Los tres "_last_*_check" arrancan en time.time() (no en 0.0): si
+        # arrancaran en 0.0, CUALQUIER relevo del job (el normal cada ~5h33m,
+        # o uno manual tras un deploy) dispararía el aviso de inmediato en el
+        # primer tick, en vez de esperar el intervalo completo — esto causó
+        # dos avisos de posición de ETH separados por minutos el 8-oct-2026
+        # tras dos redeploys seguidos. No sobreviven a un relevo real (eso
+        # exigiría persistirlos en disco, como last_digest_date), pero ya no
+        # se disparan en falso nada más arrancar.
+        self._last_signal_check = time.time()
+        self._last_news_check = time.time()
+        self._last_position_check = time.time()
         self.positions = []                     # persistente: [{symbol,kind,source_id,name,shares,invested_usd,avg_entry_usd}]
         self.news_watches = []                  # persistente: [{query,label,seen:[],initialized}]
         self.reminders = []                     # persistente: [{key,date,message}]
