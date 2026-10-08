@@ -11,7 +11,7 @@ from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 
 from . import indicators as ind_mod
-from .providers import crypto, stocks, fx, news
+from .providers import crypto, stocks, fx, news, bitvavo
 
 MADRID = ZoneInfo("Europe/Madrid")
 
@@ -274,6 +274,21 @@ class Engine:
                 symbol = cp["symbol"].upper()
                 if symbol in existing:
                     continue
+                if cp["kind"] == "bitvavo":
+                    # Precio EUR nativo del exchange real (ver bitvavo.py) —
+                    # sin pasar por USD, para que no haya ruido de conversión
+                    # frente a lo que el usuario ve en su propia cuenta.
+                    shares = float(cp["shares"])
+                    self.positions.append({
+                        "symbol": symbol,
+                        "kind": cp["kind"],
+                        "source_id": cp["source_id"],
+                        "name": cp.get("name", symbol),
+                        "shares": shares,
+                        "invested_eur": float(cp["invested_eur"]),
+                        "avg_entry_eur": float(cp.get("avg_entry_eur") or (float(cp["invested_eur"]) / shares)),
+                    })
+                    continue
                 shares = float(cp["shares"]) if cp.get("shares") else float(cp["invested_usd"]) / float(cp["avg_entry_usd"])
                 self.positions.append({
                     "symbol": symbol,
@@ -302,6 +317,8 @@ class Engine:
 
     # ---- precios e indicadores ------------------------------------------
     def _provider_for(self, asset):
+        if asset["kind"] == "bitvavo":
+            return bitvavo
         return crypto if asset["kind"] == "crypto" else stocks
 
     def get_price(self, asset):
@@ -476,6 +493,19 @@ class Engine:
         de un nivel, esto no avisa de un cruce puntual, es un marcador
         periódico de "cómo voy ahora mismo" — precio actual, valor de la
         posición completa, y ganancia/pérdida en dólares+euros y en %."""
+        if pos["kind"] == "bitvavo":
+            value_eur = pos["shares"] * price
+            pnl_eur = value_eur - pos["invested_eur"]
+            pnl_pct = (pnl_eur / pos["invested_eur"]) * 100 if pos["invested_eur"] else 0.0
+            emoji = "🟢" if pnl_eur >= 0 else "🔴"
+            pct_txt = ("%+.2f%%" % pnl_pct).replace(".", ",")
+            lines = [
+                "%s <b>%s</b> — tu posición" % (emoji, pos["name"]),
+                "Precio actual: %s" % fx.fmt_eur(price),
+                "Valor de tu posición: %s" % fx.fmt_eur(value_eur),
+                "%s — %s" % (fx.fmt_signed_eur(pnl_eur), pct_txt),
+            ]
+            return "\n".join(lines)
         value_usd = pos["shares"] * price
         pnl_usd = value_usd - pos["invested_usd"]
         pnl_pct = (pnl_usd / pos["invested_usd"]) * 100 if pos["invested_usd"] else 0.0

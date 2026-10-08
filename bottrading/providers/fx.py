@@ -39,5 +39,16 @@ def fmt_signed_usd_eur(value_usd):
     return "%s%s $ (%s%s €)" % (signo, _fmt(abs(value_usd)), signo, _fmt(abs(eur)))
 
 
+def fmt_eur(value_eur):
+    """Para posiciones con precio EUR nativo (p.ej. Bitvavo) — sin pasar por
+    conversión, así que no mete el ruido de fmt_usd_eur frente al exchange real."""
+    return "%s €" % _fmt(value_eur)
+
+
+def fmt_signed_eur(value_eur):
+    signo = "+" if value_eur >= 0 else "-"
+    return "%s%s €" % (signo, _fmt(abs(value_eur)))
+
+
 def _fmt(n):
     return "{:,.2f}".format(n).replace(",", "@").replace(".", ",").replace("@", ".")
