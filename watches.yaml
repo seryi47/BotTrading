@@ -1463,7 +1463,21 @@ news_watches:
 # nada nuevo a 228,38$ clavado durante horas fuera de sesión). La
 # infraestructura (positions/seed_positions_from_config/_maybe_check_positions)
 # se queda en el código por si se quiere volver a usar con otra posición. ---
-positions: []
+# --- Posiciones reales: informe de beneficio/pérdida cada ~30 min (no es
+# un aviso de evento, es un marcador periódico de "cómo voy ahora mismo").
+# ETH añadido 8-oct-2026 a partir de la foto de la posición real del
+# usuario: 4,34575188 ETH, coste base 9.975,00 € (valor-ganancia a esa
+# fecha), convertido a USD con el tipo de cambio del momento (1 EUR =
+# 1,1177 USD, frankfurter.app) porque el bot calcula todo en USD y
+# convierte a EUR solo para mostrar. ---
+positions:
+  - symbol: "ETH"
+    kind: "crypto"
+    source_id: "ethereum"
+    name: "Ethereum"
+    shares: 4.34575188
+    invested_usd: 11149.06
+    avg_entry_usd: 2565.5071
 
 # --- Recordatorios de fecha concreta (un aviso único ese día) ---
 reminders:

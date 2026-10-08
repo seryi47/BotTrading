@@ -654,11 +654,14 @@ class Engine:
             print("[%s] %s -> %s%s" % (stamp, asset["symbol"], price,
                                        "  (%d aviso/s)" % len(fired) if fired else ""))
         self._save()
+        # El informe de posiciones reales NO es ruido de "señal/noticia": es
+        # un marcador periódico que el usuario pidió explícitamente seguir
+        # recibiendo aunque only_level_alerts esté activo (8-oct-2026).
+        self._maybe_check_positions()
         if not self.only_level_alerts:
             self._maybe_check_signals()
             self._maybe_check_news()
             self._maybe_check_reminders()
-            self._maybe_check_positions()
             self._maybe_send_digest()
 
     def check_once(self):
