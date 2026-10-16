@@ -74,6 +74,8 @@ def main():
         only_level_alerts=bool(cfg.get("only_level_alerts", False)),
         granmago_interval=int(cfg.get("granmago_check_interval", 14400)),
         granmago_symbols=cfg.get("granmago_symbols"),
+        turtle_interval=int(cfg.get("turtle_check_interval", 86400)),
+        turtle_symbols=cfg.get("turtle_symbols"),
     )
     engine.seed_from_config(cfg.get("assets"))
     engine.seed_news_from_config(cfg.get("news_watches"))

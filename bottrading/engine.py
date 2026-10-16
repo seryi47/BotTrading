@@ -12,7 +12,8 @@ from zoneinfo import ZoneInfo
 
 from . import indicators as ind_mod
 from . import granmago
-from .providers import crypto, stocks, fx, news, bitvavo
+from . import turtle
+from .providers import crypto, stocks, fx, news, bitvavo, binance
 
 MADRID = ZoneInfo("Europe/Madrid")
 
@@ -52,7 +53,8 @@ class Engine:
                  state_file="watches.json", history_ttl=14400, digest_hour=9,
                  digest_state_file=None, signal_interval=1800, news_interval=600,
                  position_interval=1800, only_level_alerts=False,
-                 granmago_interval=14400, granmago_symbols=None):
+                 granmago_interval=14400, granmago_symbols=None,
+                 turtle_interval=86400, turtle_symbols=None):
         self.notifier = notifier
         # Desde el 6-oct-2026, a petición expresa: si está activo, tick() NO
         # manda resumen diario, señal proactiva RSI/MACD, noticias vigiladas
@@ -72,6 +74,11 @@ class Engine:
         self.granmago_symbols = granmago_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
         self._granmago_last_sweep = {}  # runtime (no persiste a relevos): {symbol: sweep_idx} para no repetir aviso
         self._last_granmago_check = time.time()
+        self.turtle_interval = turtle_interval  # cada ~24h (self.turtle_interval): el sistema opera en velas
+        # DIARIAS (ver bottrading/turtle.py), no tiene sentido mirarlo más a menudo que una vez al día.
+        self.turtle_symbols = turtle_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
+        self._turtle_last_entry = {}  # runtime: {(symbol, sistema): entry_idx} para no repetir el aviso de entrada
+        self._last_turtle_check = time.time()
         # Los tres "_last_*_check" arrancan en time.time() (no en 0.0): si
         # arrancaran en 0.0, CUALQUIER relevo del job (el normal cada ~5h33m,
         # o uno manual tras un deploy) dispararía el aviso de inmediato en el
@@ -608,6 +615,73 @@ class Engine:
             chat = cfg.get("chat_id") or self.default_chat_id
             self.notifier.telegram(chat, self._granmago_setup_text(setup))
 
+    def _turtle_entry_text(self, symbol, name, system_name, pos):
+        """Aviso de nueva entrada del sistema Turtle (ver memoria
+        metodologia-trading-granmago.md para GranMago; Turtle es
+        bottrading/turtle.py, reglas públicas de Dennis/Eckhardt). Modo
+        HÍBRIDO igual que GranMago: propone, el usuario ejecuta a mano."""
+        arrow = "🟢" if pos["direction"] == "long" else "🔴"
+        eur = fx.usd_to_eur()
+        risk = abs(pos["entry_price"] - pos["stop"])
+        lines = [
+            "🐢 %s <b>%s — %s</b> (%s)" % (arrow, symbol, pos["direction"].upper(), system_name),
+            "Entrada: %s" % fx.fmt_eur(pos["entry_price"] * eur),
+            "Stop inicial: %s (2N = %s de riesgo)" % (fx.fmt_eur(pos["stop"] * eur), fx.fmt_eur(risk * eur)),
+            "",
+            "Salida: por regla, cuando el precio cierre fuera del canal contrario (no hay take profit fijo — "
+            "el sistema deja correr la ganancia hasta que el precio dé la vuelta de verdad).",
+            "",
+            "⚠️ Esto es una PROPUESTA — revísalo y ejecútalo tú mismo, el bot no manda ninguna orden.",
+        ]
+        return "\n".join(lines)
+
+    def _turtle_exit_text(self, symbol, name, system_name, trade):
+        eur = fx.usd_to_eur()
+        emoji = "🟢" if trade["ganadora"] else "🔴"
+        lines = [
+            "🐢 %s <b>%s — cierre de %s</b> (%s)" % (emoji, symbol, trade["direction"].upper(), system_name),
+            "Entrada: %s → Salida: %s" % (fx.fmt_eur(trade["entry_price"] * eur), fx.fmt_eur(trade["exit_price"] * eur)),
+            "Resultado: %+.2fR" % trade["r_multiple"],
+        ]
+        return "\n".join(lines)
+
+    def _maybe_check_turtle(self):
+        """Cada ~24h (self.turtle_interval): revisa el sistema Turtle Traders
+        (bottrading/turtle.py, velas DIARIAS) para cada símbolo configurado,
+        con los dos sistemas (20/10 con skip, 55/20 sin skip). Avisa de
+        entradas nuevas y de cierres de posiciones que ya se habían avisado
+        — dedup por (symbol, sistema) guardando el índice de la última
+        entrada vista, igual que el dedup de GranMago por barrido."""
+        now = time.time()
+        if now - self._last_turtle_check < self.turtle_interval:
+            return
+        self._last_turtle_check = now
+        for i, cfg in enumerate(self.turtle_symbols):
+            if i > 0:
+                time.sleep(1.2)
+            symbol, name = cfg["symbol"], cfg.get("name", cfg["symbol"])
+            chat = cfg.get("chat_id") or self.default_chat_id
+            try:
+                daily = binance.get_klines_deep(symbol, "1d", 5000)
+            except Exception as e:
+                print("  [turtle %s] error al descargar velas: %s" % (symbol, e))
+                continue
+            for system_name, sys_cfg in [("Sistema 1 (20/10)", turtle.SYSTEM_1), ("Sistema 2 (55/20)", turtle.SYSTEM_2)]:
+                key = (symbol, system_name)
+                try:
+                    signal = turtle.current_signal(daily, sys_cfg["entry"], sys_cfg["exit"], sys_cfg["skip_filter"])
+                except Exception as e:
+                    print("  [turtle %s/%s] error: %s" % (symbol, system_name, e))
+                    continue
+                if signal["just_closed"] and self._turtle_last_entry.get(key) == signal["just_closed"]["entry_idx"]:
+                    self.notifier.telegram(chat, self._turtle_exit_text(symbol, name, system_name, signal["just_closed"]))
+                    self._turtle_last_entry[key] = None
+                if signal["is_new_entry"]:
+                    entry_idx = signal["open_position"]["entry_idx"]
+                    if self._turtle_last_entry.get(key) != entry_idx:
+                        self._turtle_last_entry[key] = entry_idx
+                        self.notifier.telegram(chat, self._turtle_entry_text(symbol, name, system_name, signal["open_position"]))
+
     def _news_alert_text(self, watch, item):
         lines = [
             "📰 <b>%s</b>" % watch["label"],
@@ -766,6 +840,7 @@ class Engine:
         # silenciar el 6-oct — tampoco se gatean por only_level_alerts.
         self._maybe_check_positions()
         self._maybe_check_granmago()
+        self._maybe_check_turtle()
         if not self.only_level_alerts:
             self._maybe_check_signals()
             self._maybe_check_news()

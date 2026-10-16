@@ -1481,6 +1481,27 @@ news_watches:
 granmago_check_interval: 14400
 granmago_symbols: []
 
+# --- Sistema Turtle Traders (reglas públicas de Dennis/Eckhardt, 1983 —
+# ver bottrading/turtle.py), activado 16-oct-2026. A diferencia de GranMago,
+# aquí las reglas son números literales documentados del propio sistema
+# (ruptura de 20/55 días, stop a 2N de ATR, salida por canal contrario), no
+# interpretación visual. Backtest honesto (sin lookahead, velas diarias
+# reales desde 2017, recorrido secuencial sin mezclar temporalidades):
+# ETH Sistema 1 +59,28R/109 ops, Sistema 2 +53,34R/56 ops; BTC Sistema 1
+# +75,45R/115 ops, Sistema 2 +86,03R/61 ops — todos con win rate bajo
+# (35-48%) pero ganadoras mucho mayores que perdedoras, la forma típica y
+# saludable de un sistema de tendencia real. Validado también en cesta de
+# 17 cripto (+732,89R y +1.850,23R agregados, 16/17 y 17/17 activos en
+# positivo). Modo HÍBRIDO: el bot avisa de entrada y de cierre, el usuario
+# decide y ejecuta — nunca manda órdenes. Revisa una vez al día (opera en
+# velas diarias, no tiene sentido mirarlo más a menudo). ---
+turtle_check_interval: 86400
+turtle_symbols:
+  - symbol: "ETH"
+    name: "Ethereum"
+  - symbol: "BTC"
+    name: "Bitcoin"
+
 # --- Posiciones reales: informe de beneficio/pérdida cada ~30 min (no es
 # un aviso de evento, es un marcador periódico de "cómo voy ahora mismo").
 # ETH añadido 8-oct-2026 a partir de la foto de la posición real del
