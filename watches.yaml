@@ -1464,23 +1464,22 @@ news_watches:
 # infraestructura (positions/seed_positions_from_config/_maybe_check_positions)
 # se queda en el código por si se quiere volver a usar con otra posición. ---
 # --- Setups de trading, metodología GranMago (curso de 14 clases, ver
-# memoria metodologia-trading-granmago.md), revisados cada ~4h (una vela de
-# 4h, no tiene sentido mirarlo más a menudo). Modo HÍBRIDO acordado el
-# 16-oct-2026: el bot propone entrada/stop/take profit completos por
-# Telegram, el usuario revisa y ejecuta a mano — el bot NUNCA manda órdenes.
-#
-# Backtest DEFINITIVO 16-oct-2026 (step=1, cada vela de 4h sin saltos, ~9
-# años de histórico real, sin lookahead): ETH +87,50R en 996 operaciones
-# resueltas (66,5% acierto) — ventaja real y robusta. BTC -16,34R en 919
-# operaciones (56,1% acierto) — SIN ventaja real; un backtest anterior con
-# un muestreo más grueso (step=40) había dado +9,43R para BTC, pero era un
-# artefacto de saltarse la mayoría de los barridos reales, no una ventaja de
-# verdad. Por eso BTC se ha quitado de aquí — se sigue vigilando su precio y
-# la posición normal, solo no genera setups de entrada/stop/TP. ---
+# memoria metodologia-trading-granmago.md). DESACTIVADO el 16-oct-2026: el
+# primer backtest (step=1, ~9 años, sin deduplicar bien) dio ETH +87,50R
+# — parecía una ventaja real y robusta. Al auditar el código a fondo se
+# encontró un bug de lookahead grave en el backtest: al decidir si la
+# semana era alcista o bajista (la decisión que fija todo lo demás), se
+# colaba el cierre FINAL de una semana que en la fecha simulada aún no
+# había terminado (hasta 6 días de información del futuro). Corregido ese
+# bug, el resultado real es ETH -14,43R y BTC -64,06R — SIN ventaja
+# demostrada en ninguno de los dos. Coincide con lo que encontró la
+# investigación de la comunidad de trading sobre metodologías ICT/Smart
+# Money Concepts (edge negativo en el backtest independiente más riguroso
+# encontrado). granmago_symbols: [] desactiva los avisos sin borrar el
+# código (bottrading/granmago.py, backtest_granmago.py) por si se retoma
+# más adelante con otro enfoque. ---
 granmago_check_interval: 14400
-granmago_symbols:
-  - symbol: "ETH"
-    name: "Ethereum"
+granmago_symbols: []
 
 # --- Posiciones reales: informe de beneficio/pérdida cada ~30 min (no es
 # un aviso de evento, es un marcador periódico de "cómo voy ahora mismo").

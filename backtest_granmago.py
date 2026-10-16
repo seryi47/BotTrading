@@ -29,7 +29,14 @@ BASKET = ["BTC", "ETH", "BNB", "LTC", "XRP", "ADA", "TRX", "ETC", "XLM",
 
 
 def slice_as_of(candles, as_of_ms):
-    return [c for c in candles if c["open_time"] <= as_of_ms]
+    """Solo velas YA CERRADAS a fecha `as_of_ms` — filtrar por open_time (como
+    se hacía antes del 16-oct-2026) es un bug de lookahead real: una vela
+    semanal/diaria cuyo open_time es anterior a as_of_ms pero que TODAVÍA NO
+    HABÍA CERRADO en esa fecha simulada se colaba igualmente, y su "close" en
+    los datos es el cierre FINAL de todo el periodo (hasta 6 días de
+    información del futuro en semanal) — justo lo que decidía si el setup
+    era long o short. Filtrar por close_time lo arregla."""
+    return [c for c in candles if c["close_time"] <= as_of_ms]
 
 
 def outcome(h4_full, start_idx, direction, stop, tp, horizon=FORWARD_HORIZON):

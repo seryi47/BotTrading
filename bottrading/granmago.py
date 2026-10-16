@@ -195,7 +195,13 @@ def compute_setup(weekly, daily, h4, symbol, name, closes_needed=1):
     para poder explicar qué falta) con la clave 'setup_valido': bool."""
     bias_w, ema_w = ema50_bias(weekly)
     bias_d, ema_d = ema50_bias(daily)
-    bias_4h, ema_4h = ema50_bias(h4)
+    # h4[:-1]: la convención en todo este módulo es que el último elemento de
+    # `h4` es la vela EN CURSO (ver `price` más abajo, que usa h4[-2]) — bias_4h
+    # tiene que mirar la misma última vela CERRADA, no la que aún se está
+    # formando (inconsistencia real encontrada en la auditoría del 16-oct-2026;
+    # no afectaba al resultado del backtest porque bias_4h es solo informativo,
+    # no decide la dirección, pero sí hacía el dato mostrado incorrecto).
+    bias_4h, ema_4h = ema50_bias(h4[:-1])
 
     swings_daily = swing_points(daily)
     swings_4h = swing_points(h4)
