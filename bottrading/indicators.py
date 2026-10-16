@@ -11,12 +11,21 @@ def sma(values, window):
 
 
 def ema_series(values, window):
+    """EMA con semilla estándar (media simple de las primeras `window`
+    muestras, no un único punto) — arrancar con un solo valor, como hacía
+    esta función antes (bug encontrado el 16-oct-2026), tarda muchísimo en
+    converger con ventanas largas (ej. EMA50 semanal con pocas decenas de
+    velas) y puede dar una media equivocada en varios puntos porcentuales,
+    cambiando incluso el signo de la tendencia detectada."""
     if not values:
         return []
     k = 2 / (window + 1)
-    out = [values[0]]
-    for v in values[1:]:
-        out.append(v * k + out[-1] * (1 - k))
+    out = []
+    for i, v in enumerate(values):
+        if i < window:
+            out.append(sum(values[:i + 1]) / (i + 1))  # calentamiento: SMA expansiva
+        else:
+            out.append(v * k + out[-1] * (1 - k))
     return out
 
 
@@ -53,6 +62,68 @@ def macd(values, fast=12, slow=26, signal=9):
     macd_line = [f - s for f, s in zip(ema_fast, ema_slow)]
     signal_line = ema_series(macd_line, signal)
     return macd_line[-1], signal_line[-1], macd_line[-1] - signal_line[-1]
+
+
+def _sma_series(values, window):
+    """Serie de media móvil simple (no solo el último valor) — la usan el
+    estocástico y el ADX para suavizar su propia serie interna."""
+    out = []
+    for i in range(len(values)):
+        if i + 1 < window:
+            out.append(sum(values[:i + 1]) / (i + 1))
+        else:
+            out.append(sum(values[i - window + 1:i + 1]) / window)
+    return out
+
+
+def stochastic(highs, lows, closes, k_period=14, k_smooth=3, d_smooth=3):
+    """Oscilador estocástico (config 14,3,3 — la que usa GranMago en la clase
+    3 del curso). Devuelve (%K, %D) o (None, None) si no hay histórico suficiente."""
+    if len(closes) < k_period:
+        return None, None
+    raw_k = []
+    for i in range(k_period - 1, len(closes)):
+        hh = max(highs[i - k_period + 1:i + 1])
+        ll = min(lows[i - k_period + 1:i + 1])
+        raw_k.append(50.0 if hh == ll else (closes[i] - ll) / (hh - ll) * 100)
+    k_line = _sma_series(raw_k, k_smooth)
+    d_line = _sma_series(k_line, d_smooth)
+    return k_line[-1], d_line[-1]
+
+
+def adx(highs, lows, closes, period=14):
+    """ADX de Wilder + DI+/DI-. Devuelve (adx, plus_di, minus_di) o
+    (None, None, None) si no hay histórico suficiente. Mide fuerza de
+    tendencia (ADX) y qué lado domina (DI+/DI-) — clase 4 del curso GranMago."""
+    n = len(closes)
+    if n < period * 2:
+        return None, None, None
+    plus_dm, minus_dm, tr = [0.0], [0.0], [0.0]
+    for i in range(1, n):
+        up = highs[i] - highs[i - 1]
+        down = lows[i - 1] - lows[i]
+        plus_dm.append(up if (up > down and up > 0) else 0.0)
+        minus_dm.append(down if (down > up and down > 0) else 0.0)
+        tr.append(max(highs[i] - lows[i], abs(highs[i] - closes[i - 1]), abs(lows[i] - closes[i - 1])))
+
+    def wilder_smooth(values):
+        out = [sum(values[1:period + 1])]
+        for v in values[period + 1:]:
+            out.append(out[-1] - out[-1] / period + v)
+        return out
+
+    atr = wilder_smooth(tr)
+    plus_sm = wilder_smooth(plus_dm)
+    minus_sm = wilder_smooth(minus_dm)
+    plus_di = [100 * p / a if a else 0.0 for p, a in zip(plus_sm, atr)]
+    minus_di = [100 * m / a if a else 0.0 for m, a in zip(minus_sm, atr)]
+    dx = [100 * abs(p - m) / (p + m) if (p + m) else 0.0 for p, m in zip(plus_di, minus_di)]
+    if len(dx) < period:
+        return None, None, None
+    adx_series = [sum(dx[:period]) / period]
+    for v in dx[period:]:
+        adx_series.append((adx_series[-1] * (period - 1) + v) / period)
+    return adx_series[-1], plus_di[-1], minus_di[-1]
 
 
 def read(closes):

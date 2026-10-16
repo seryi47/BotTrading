@@ -1463,6 +1463,22 @@ news_watches:
 # nada nuevo a 228,38$ clavado durante horas fuera de sesión). La
 # infraestructura (positions/seed_positions_from_config/_maybe_check_positions)
 # se queda en el código por si se quiere volver a usar con otra posición. ---
+# --- Setups de trading, metodología GranMago (curso de 14 clases, ver
+# memoria metodologia-trading-granmago.md), revisados cada ~4h (una vela de
+# 4h, no tiene sentido mirarlo más a menudo). Modo HÍBRIDO acordado el
+# 16-oct-2026: el bot propone entrada/stop/take profit completos por
+# Telegram, el usuario revisa y ejecuta a mano — el bot NUNCA manda órdenes.
+# Backtest honesto (~14 meses, 4h, sin lookahead) antes de activarlo: ETH
+# +0,75R en 17 operaciones resueltas (76,5% acierto), BTC +1,63R en 18
+# operaciones (77,8% acierto) — ventaja real pero modesta, no una máquina de
+# hacer dinero garantizada (ver backtest_granmago.py para reproducirlo). ---
+granmago_check_interval: 14400
+granmago_symbols:
+  - symbol: "ETH"
+    name: "Ethereum"
+  - symbol: "BTC"
+    name: "Bitcoin"
+
 # --- Posiciones reales: informe de beneficio/pérdida cada ~30 min (no es
 # un aviso de evento, es un marcador periódico de "cómo voy ahora mismo").
 # ETH añadido 8-oct-2026 a partir de la foto de la posición real del

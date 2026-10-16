@@ -72,6 +72,8 @@ def main():
         news_interval=int(cfg.get("news_check_interval", 600)),
         position_interval=int(cfg.get("position_check_interval", 1800)),
         only_level_alerts=bool(cfg.get("only_level_alerts", False)),
+        granmago_interval=int(cfg.get("granmago_check_interval", 14400)),
+        granmago_symbols=cfg.get("granmago_symbols"),
     )
     engine.seed_from_config(cfg.get("assets"))
     engine.seed_news_from_config(cfg.get("news_watches"))

@@ -11,6 +11,7 @@ from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 
 from . import indicators as ind_mod
+from . import granmago
 from .providers import crypto, stocks, fx, news, bitvavo
 
 MADRID = ZoneInfo("Europe/Madrid")
@@ -50,7 +51,8 @@ class Engine:
     def __init__(self, notifier, poll_interval=300, default_chat_id=None,
                  state_file="watches.json", history_ttl=14400, digest_hour=9,
                  digest_state_file=None, signal_interval=1800, news_interval=600,
-                 position_interval=1800, only_level_alerts=False):
+                 position_interval=1800, only_level_alerts=False,
+                 granmago_interval=14400, granmago_symbols=None):
         self.notifier = notifier
         # Desde el 6-oct-2026, a petición expresa: si está activo, tick() NO
         # manda resumen diario, señal proactiva RSI/MACD, noticias vigiladas
@@ -65,6 +67,11 @@ class Engine:
         self.signal_interval = signal_interval   # cada cuánto se revisan señales RSI/MACD (s)
         self.news_interval = news_interval       # cada cuánto se revisan las noticias vigiladas (s)
         self.position_interval = position_interval  # cada cuánto se manda el P&L de posiciones reales (s)
+        self.granmago_interval = granmago_interval  # cada cuánto se revisan setups GranMago (s) — 4h por defecto,
+        # no tiene sentido mirarlo más a menudo que la propia vela de 4h sobre la que opera la metodología.
+        self.granmago_symbols = granmago_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
+        self._granmago_last_sweep = {}  # runtime (no persiste a relevos): {symbol: sweep_idx} para no repetir aviso
+        self._last_granmago_check = time.time()
         # Los tres "_last_*_check" arrancan en time.time() (no en 0.0): si
         # arrancaran en 0.0, CUALQUIER relevo del job (el normal cada ~5h33m,
         # o uno manual tras un deploy) dispararía el aviso de inmediato en el
@@ -542,6 +549,65 @@ class Engine:
                 continue
             self.notifier.telegram(self.default_chat_id, self._position_report_text(pos, price))
 
+    def _granmago_setup_text(self, setup):
+        """Mensaje del setup propuesto (metodología GranMago, ver memoria
+        metodologia-trading-granmago.md) — modo HÍBRIDO acordado el
+        16-oct-2026: el bot propone entrada/stop/take profit completos, el
+        usuario decide y ejecuta a mano, el bot NUNCA manda órdenes."""
+        arrow = "🟢" if setup["direction"] == "long" else "🔴"
+        rr = setup.get("riesgo_beneficio")
+        confluencia = setup.get("take_profit_touches", 0)
+        eur = fx.usd_to_eur()  # setup["price"] etc. vienen de Binance en USD — el usuario pidió siempre euros
+        rr_txt = "%.2f" % rr if rr is not None else "N/D"
+        lines = [
+            "%s <b>SETUP %s — %s</b> (metodología GranMago)" % (arrow, setup["symbol"], setup["direction"].upper()),
+            "Precio de referencia: %s" % fx.fmt_eur(setup["price"] * eur),
+            "",
+            "Stop loss: %s" % fx.fmt_eur(setup["stop_loss"] * eur),
+            "Take profit: %s (%d toque%s de confluencia)" % (
+                fx.fmt_eur(setup["take_profit"] * eur), confluencia, "" if confluencia == 1 else "s"),
+            "Ratio riesgo/beneficio: %s" % rr_txt,
+            "",
+            "Tendencia: semanal %s, diario %s, 4h %s" % (setup["bias_semanal"], setup["bias_diario"], setup["bias_4h"]),
+            "Barrido confirmado: %s de %s barrido a %s, %d vela(s) de 4h cerrando de vuelta dentro" % (
+                "mínimo" if setup["sweep"]["type"] == "low" else "máximo",
+                fx.fmt_eur(setup["sweep"]["swing_price"] * eur), fx.fmt_eur(setup["sweep"]["pierce_price"] * eur),
+                setup["n_cierres_confirmacion"]),
+        ]
+        if setup.get("confluencia_baja"):
+            lines.append("⚠️ El take profit solo tiene 1 toque de confluencia (zona más débil).")
+        lines.append("")
+        lines.append("⚠️ Esto es una PROPUESTA — revísalo y ejecútalo tú mismo, el bot no manda ninguna orden.")
+        return "\n".join(lines)
+
+    def _maybe_check_granmago(self):
+        """Cada ~4h (self.granmago_interval): revisa la checklist de GranMago
+        (bottrading/granmago.py) para cada símbolo configurado y, si hay un
+        setup completo nuevo (barrido + confirmación, no visto ya), lo manda
+        por Telegram. Dedup por índice de la vela del barrido: el mismo
+        barrido no se vuelve a avisar en cada sondeo mientras siga vigente."""
+        now = time.time()
+        if now - self._last_granmago_check < self.granmago_interval:
+            return
+        self._last_granmago_check = now
+        for i, cfg in enumerate(self.granmago_symbols):
+            if i > 0:
+                time.sleep(1.2)
+            symbol, name = cfg["symbol"], cfg.get("name", cfg["symbol"])
+            try:
+                setup = granmago.build_setup(symbol, name)
+            except Exception as e:
+                print("  [granmago %s] error: %s" % (symbol, e))
+                continue
+            if not setup["setup_valido"]:
+                continue
+            sweep_idx = setup["sweep"]["idx"]
+            if self._granmago_last_sweep.get(symbol) == sweep_idx:
+                continue  # mismo barrido que la última vez, no repetir aviso
+            self._granmago_last_sweep[symbol] = sweep_idx
+            chat = cfg.get("chat_id") or self.default_chat_id
+            self.notifier.telegram(chat, self._granmago_setup_text(setup))
+
     def _news_alert_text(self, watch, item):
         lines = [
             "📰 <b>%s</b>" % watch["label"],
@@ -694,8 +760,12 @@ class Engine:
         self._save()
         # El informe de posiciones reales NO es ruido de "señal/noticia": es
         # un marcador periódico que el usuario pidió explícitamente seguir
-        # recibiendo aunque only_level_alerts esté activo (8-oct-2026).
+        # recibiendo aunque only_level_alerts esté activo (8-oct-2026). Los
+        # setups de GranMago (16-oct-2026, modo híbrido) son del mismo tipo:
+        # una funcionalidad pedida expresamente, no el ruido que se quiso
+        # silenciar el 6-oct — tampoco se gatean por only_level_alerts.
         self._maybe_check_positions()
+        self._maybe_check_granmago()
         if not self.only_level_alerts:
             self._maybe_check_signals()
             self._maybe_check_news()
