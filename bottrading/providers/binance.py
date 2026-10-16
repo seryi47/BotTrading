@@ -11,6 +11,10 @@ BASE = "https://api.binance.com/api/v3"
 SYMBOLS = {
     "ETH": "ETHUSDT", "ethereum": "ETHUSDT",
     "BTC": "BTCUSDT", "bitcoin": "BTCUSDT",
+    "BNB": "BNBUSDT", "LTC": "LTCUSDT", "XRP": "XRPUSDT", "ADA": "ADAUSDT",
+    "TRX": "TRXUSDT", "ETC": "ETCUSDT", "XLM": "XLMUSDT", "EOS": "EOSUSDT",
+    "LINK": "LINKUSDT", "MATIC": "MATICUSDT", "DOGE": "DOGEUSDT",
+    "BCH": "BCHUSDT", "SOL": "SOLUSDT", "DOT": "DOTUSDT", "AVAX": "AVAXUSDT",
 }
 
 

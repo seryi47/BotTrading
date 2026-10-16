@@ -1468,16 +1468,19 @@ news_watches:
 # 4h, no tiene sentido mirarlo más a menudo). Modo HÍBRIDO acordado el
 # 16-oct-2026: el bot propone entrada/stop/take profit completos por
 # Telegram, el usuario revisa y ejecuta a mano — el bot NUNCA manda órdenes.
-# Backtest honesto (~14 meses, 4h, sin lookahead) antes de activarlo: ETH
-# +0,75R en 17 operaciones resueltas (76,5% acierto), BTC +1,63R en 18
-# operaciones (77,8% acierto) — ventaja real pero modesta, no una máquina de
-# hacer dinero garantizada (ver backtest_granmago.py para reproducirlo). ---
+#
+# Backtest DEFINITIVO 16-oct-2026 (step=1, cada vela de 4h sin saltos, ~9
+# años de histórico real, sin lookahead): ETH +87,50R en 996 operaciones
+# resueltas (66,5% acierto) — ventaja real y robusta. BTC -16,34R en 919
+# operaciones (56,1% acierto) — SIN ventaja real; un backtest anterior con
+# un muestreo más grueso (step=40) había dado +9,43R para BTC, pero era un
+# artefacto de saltarse la mayoría de los barridos reales, no una ventaja de
+# verdad. Por eso BTC se ha quitado de aquí — se sigue vigilando su precio y
+# la posición normal, solo no genera setups de entrada/stop/TP. ---
 granmago_check_interval: 14400
 granmago_symbols:
   - symbol: "ETH"
     name: "Ethereum"
-  - symbol: "BTC"
-    name: "Bitcoin"
 
 # --- Posiciones reales: informe de beneficio/pérdida cada ~30 min (no es
 # un aviso de evento, es un marcador periódico de "cómo voy ahora mismo").
