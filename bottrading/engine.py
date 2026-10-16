@@ -72,13 +72,19 @@ class Engine:
         self.granmago_interval = granmago_interval  # cada cuánto se revisan setups GranMago (s) — 4h por defecto,
         # no tiene sentido mirarlo más a menudo que la propia vela de 4h sobre la que opera la metodología.
         self.granmago_symbols = granmago_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
-        self._granmago_last_sweep = {}  # runtime (no persiste a relevos): {symbol: sweep_idx} para no repetir aviso
+        self._granmago_last_sweep = {}  # {symbol: sweep_idx} — persiste vía digest_state_file (ver nota abajo)
         self._last_granmago_check = time.time()
         self.turtle_interval = turtle_interval  # cada ~24h (self.turtle_interval): el sistema opera en velas
         # DIARIAS (ver bottrading/turtle.py), no tiene sentido mirarlo más a menudo que una vez al día.
         self.turtle_symbols = turtle_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
-        self._turtle_last_entry = {}  # runtime: {(symbol, sistema): entry_idx} para no repetir el aviso de entrada
+        self._turtle_last_entry = {}  # {"symbol|sistema": entry_idx} — persiste vía digest_state_file
         self._last_turtle_check = time.time()
+        # BUG real encontrado el 16-oct-2026: _last_turtle_check/_last_granmago_check arrancaban en
+        # time.time() para no disparar en falso en cada relevo (ver nota de _last_position_check más abajo)
+        # — pero el job se releva cada ~5h33m (MAX_RUNTIME_SECONDS) y turtle_interval es de 24h: el contador
+        # NUNCA llegaba a cumplirse, así que el aviso no se mandaba JAMÁS. Arreglado persistiendo estos
+        # contadores (y los dedup) en digest_state_file, igual que ya se hace con last_digest_date.
+        self.state_just_changed = False  # runtime: para que run.py sepa si debe commitear el estado compartido
         # Los tres "_last_*_check" arrancan en time.time() (no en 0.0): si
         # arrancaran en 0.0, CUALQUIER relevo del job (el normal cada ~5h33m,
         # o uno manual tras un deploy) dispararía el aviso de inmediato en el
@@ -135,6 +141,18 @@ class Engine:
                 # tiene que sobrevivir a los relevos del job (commiteado a git),
                 # si no cada relevo reenviaría el mismo recordatorio
                 self.sent_reminders = set(d.get("sent_reminders", []))
+                # contadores de turtle/granmago: si el archivo compartido trae un
+                # valor, manda sobre el time.time() recién inicializado — si no,
+                # el contador nunca llegaría a cumplir intervalos largos (24h)
+                # frente a un job que se releva cada ~5h33m (bug real, 16-oct-2026)
+                if d.get("last_turtle_check"):
+                    self._last_turtle_check = d["last_turtle_check"]
+                if d.get("last_granmago_check"):
+                    self._last_granmago_check = d["last_granmago_check"]
+                self._turtle_last_entry = {
+                    tuple(k.split("|", 1)): v for k, v in d.get("turtle_last_entry", {}).items()
+                }
+                self._granmago_last_sweep = d.get("granmago_last_sweep", {})
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.digest_state_file, e))
 
@@ -154,7 +172,11 @@ class Engine:
                 os.makedirs(os.path.dirname(self.digest_state_file) or ".", exist_ok=True)
                 with open(self.digest_state_file, "w", encoding="utf-8") as fh:
                     json.dump({"last_digest_date": self.last_digest_date,
-                              "sent_reminders": sorted(self.sent_reminders)}, fh)
+                              "sent_reminders": sorted(self.sent_reminders),
+                              "last_turtle_check": self._last_turtle_check,
+                              "last_granmago_check": self._last_granmago_check,
+                              "turtle_last_entry": {"|".join(k): v for k, v in self._turtle_last_entry.items()},
+                              "granmago_last_sweep": self._granmago_last_sweep}, fh)
             except Exception as e:
                 print("[engine] no se pudo guardar %s: %s" % (self.digest_state_file, e))
 
@@ -597,6 +619,7 @@ class Engine:
         if now - self._last_granmago_check < self.granmago_interval:
             return
         self._last_granmago_check = now
+        self.state_just_changed = True
         for i, cfg in enumerate(self.granmago_symbols):
             if i > 0:
                 time.sleep(1.2)
@@ -614,6 +637,10 @@ class Engine:
             self._granmago_last_sweep[symbol] = sweep_idx
             chat = cfg.get("chat_id") or self.default_chat_id
             self.notifier.telegram(chat, self._granmago_setup_text(setup))
+        # self._save() AL FINAL, no nada más entrar: si se guardara antes del
+        # bucle, el dedup de _granmago_last_sweep que se actualiza DENTRO del
+        # bucle se perdería (bug real encontrado probando el fix del 16-oct-2026).
+        self._save()
 
     def _turtle_entry_text(self, symbol, name, system_name, pos):
         """Aviso de nueva entrada del sistema Turtle (ver memoria
@@ -656,6 +683,7 @@ class Engine:
         if now - self._last_turtle_check < self.turtle_interval:
             return
         self._last_turtle_check = now
+        self.state_just_changed = True
         for i, cfg in enumerate(self.turtle_symbols):
             if i > 0:
                 time.sleep(1.2)
@@ -681,6 +709,10 @@ class Engine:
                     if self._turtle_last_entry.get(key) != entry_idx:
                         self._turtle_last_entry[key] = entry_idx
                         self.notifier.telegram(chat, self._turtle_entry_text(symbol, name, system_name, signal["open_position"]))
+        # self._save() AL FINAL (mismo motivo que en _maybe_check_granmago):
+        # si se guardara antes del bucle, los dedup actualizados dentro del
+        # bucle no se persistirían hasta el siguiente ciclo.
+        self._save()
 
     def _news_alert_text(self, watch, item):
         lines = [

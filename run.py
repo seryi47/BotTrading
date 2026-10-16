@@ -32,9 +32,12 @@ def load_config(path=None):
 
 def save_and_commit_digest_state(engine):
     """En GitHub Actions cada relevo del job arranca de cero: sin esto, el
-    resumen diario se repetiría en cada relevo posterior a digest_hour. El
-    archivo no lleva datos personales (solo la fecha), así que es seguro
-    commitearlo a un repo público."""
+    resumen diario (y, desde el 16-oct-2026, también los contadores de
+    turtle/granmago y sus avisos ya enviados) se repetirían o, peor, no
+    llegarían NUNCA a dispararse si el intervalo es más largo que la vida
+    del job (bug real: turtle_interval=24h > ~5h33m de vida del job). El
+    archivo no lleva datos personales, así que es seguro commitearlo a un
+    repo público."""
     if os.environ.get("GITHUB_ACTIONS") != "true" or not engine.digest_state_file:
         return
     import subprocess
@@ -46,7 +49,7 @@ def save_and_commit_digest_state(engine):
     run("git", "config", "user.email", "bot@users.noreply.github.com")
     run("git", "config", "user.name", "BotTrading")
     run("git", "add", "-f", engine.digest_state_file)
-    if run("git", "commit", "-m", "chore: resumen diario enviado (%s)" % engine.last_digest_date).returncode != 0:
+    if run("git", "commit", "-m", "chore: estado del bot actualizado").returncode != 0:
         return
     run("git", "fetch", "origin", branch)
     if run("git", "rebase", "origin/" + branch).returncode != 0:
@@ -129,8 +132,10 @@ def main():
             if _t.time() - last_check >= interval:
                 try:
                     engine.tick()
-                    if engine.digest_just_sent or engine.reminder_just_sent:
+                    if engine.digest_just_sent or engine.reminder_just_sent or engine.state_just_changed:
                         save_and_commit_digest_state(engine)
+                        engine.state_just_changed = False  # flag compartido entre turtle/granmago,
+                        # se resetea aquí (no dentro de cada check) para que uno no borre el aviso del otro
                 except Exception as e:
                     print("  error en pasada:", e)
                 last_check = _t.time()
