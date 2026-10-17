@@ -122,12 +122,17 @@ def backtest_system(candles, entry_window, exit_window, skip_filter, min_lookbac
 
 def current_signal(candles, entry_window, exit_window, skip_filter, min_lookback=100):
     """Para el bot EN VIVO: corre la misma simulación sobre el histórico
-    completo hasta ahora y devuelve el estado actual: si hay una posición
-    "viva" (según el sistema) a fecha de la última vela CERRADA, y si esa
-    posición se abrió justo en esa última vela (señal de entrada nueva) o
-    ya venía de antes (posición en curso, solo informativo)."""
+    completo hasta ahora y devuelve el estado actual (posición abierta, si
+    la hay, y el historial de operaciones cerradas). A propósito NO decide
+    aquí si una entrada/cierre es "nueva" — eso depende de qué se avisó la
+    última vez (estado del bot, no del mercado), y vivía mal aquí: la
+    versión anterior solo marcaba "nueva" una entrada si coincidía con la
+    ÚLTIMA vela cerrada justo en el momento de mirar, pero el chequeo diario
+    no corre sincronizado con el cierre de la vela de Binance — si el
+    chequeo llegaba unas horas tarde, la señal real "caducaba" sin haberse
+    avisado nunca (bug real, encontrado el 17-oct-2026: ETH y BTC tenían
+    señal real el 16-oct y nunca llegó el aviso). La decisión de "es nueva"
+    ahora vive en Engine._maybe_check_turtle, comparando contra su propio
+    dedup persistente, no contra la hora exacta del sondeo."""
     trades, open_pos = backtest_system(candles, entry_window, exit_window, skip_filter, min_lookback)
-    last_closed_idx = len(candles) - 2  # -1 es la vela en curso, -2 la última cerrada
-    just_closed = trades[-1] if trades and trades[-1]["exit_idx"] == last_closed_idx else None
-    is_new_entry = bool(open_pos and open_pos["entry_idx"] == last_closed_idx)
-    return {"open_position": open_pos, "is_new_entry": is_new_entry, "just_closed": just_closed}
+    return {"open_position": open_pos, "trades": trades}

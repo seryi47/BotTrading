@@ -701,14 +701,23 @@ class Engine:
                 except Exception as e:
                     print("  [turtle %s/%s] error: %s" % (symbol, system_name, e))
                     continue
-                if signal["just_closed"] and self._turtle_last_entry.get(key) == signal["just_closed"]["entry_idx"]:
-                    self.notifier.telegram(chat, self._turtle_exit_text(symbol, name, system_name, signal["just_closed"]))
+                open_pos = signal["open_position"]
+                last_known_entry = self._turtle_last_entry.get(key)
+                if open_pos:
+                    # cualquier posición abierta cuyo índice de entrada no coincida con lo
+                    # último que avisamos es "nueva" para nosotros — da igual si se abrió
+                    # hoy mismo o hace unos días y nos lo perdimos por timing del sondeo.
+                    if last_known_entry != open_pos["entry_idx"]:
+                        self._turtle_last_entry[key] = open_pos["entry_idx"]
+                        self.notifier.telegram(chat, self._turtle_entry_text(symbol, name, system_name, open_pos))
+                elif last_known_entry is not None:
+                    # antes había una posición avisada y ahora ya no hay ninguna abierta:
+                    # se cerró. Buscamos en el historial la operación con esa entrada para
+                    # reportar el resultado real (puede llevar cerrada más de un día).
+                    closed_trade = next((t for t in reversed(signal["trades"]) if t["entry_idx"] == last_known_entry), None)
+                    if closed_trade:
+                        self.notifier.telegram(chat, self._turtle_exit_text(symbol, name, system_name, closed_trade))
                     self._turtle_last_entry[key] = None
-                if signal["is_new_entry"]:
-                    entry_idx = signal["open_position"]["entry_idx"]
-                    if self._turtle_last_entry.get(key) != entry_idx:
-                        self._turtle_last_entry[key] = entry_idx
-                        self.notifier.telegram(chat, self._turtle_entry_text(symbol, name, system_name, signal["open_position"]))
         # self._save() AL FINAL (mismo motivo que en _maybe_check_granmago):
         # si se guardara antes del bucle, los dedup actualizados dentro del
         # bucle no se persistirían hasta el siguiente ciclo.
