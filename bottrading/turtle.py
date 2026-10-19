@@ -20,6 +20,8 @@ SYSTEM_1 = {"entry": 20, "exit": 10, "skip_filter": True}
 SYSTEM_2 = {"entry": 55, "exit": 20, "skip_filter": False}
 N_PERIOD = 20          # EMA del True Range (ATR-like), igual que el original
 STOP_N_MULT = 2.0      # stop inicial a 2N de la entrada (regla original)
+PYRAMID_STEP_N = 0.5   # añadir una unidad cada 0.5N a favor (regla original)
+PYRAMID_MAX_UNITS = 4  # máximo de unidades por mercado (regla original)
 
 
 def true_range_series(candles):
@@ -120,6 +122,94 @@ def backtest_system(candles, entry_window, exit_window, skip_filter, min_lookbac
     return trades, position
 
 
+def backtest_system_pyramided(candles, entry_window, exit_window, skip_filter, min_lookback=100):
+    """Como backtest_system, pero CON la pirámide de unidades del sistema
+    original (19-oct-2026): añade una unidad más cada vez que el precio se
+    mueve PYRAMID_STEP_N (0.5N) a favor desde la ÚLTIMA unidad añadida,
+    hasta PYRAMID_MAX_UNITS (4). Cada vez que se añade una unidad, el stop
+    de TODA la posición se recoloca a 2N desde esa última entrada (así el
+    stop "sube" con la posición, igual que en el sistema real).
+
+    R-multiple reportado: P&L total de todas las unidades (desde su propio
+    precio de entrada hasta el cierre común) dividido entre el riesgo de la
+    PRIMERA unidad (su 2N inicial) — es decir, "cuánto saqué de más gracias
+    a la pirámide, medido en unidades del riesgo que asumí al entrar la
+    primera vez". No es una contabilidad de capital real (eso exigiría
+    simular tamaño de posición en dinero, fuera del alcance de este
+    backtest), pero es comparable de forma justa contra backtest_system()
+    sin pirámide, que usa la misma convención de una sola unidad."""
+    n = n_series(candles)
+    trades = []
+    position = None  # {"direction", "units": [...], "stop", "initial_risk"}
+    last_signal_won = {"long": None, "short": None}
+
+    for i in range(min_lookback, len(candles) - 1):
+        c = candles[i]
+        n_i = n[i]
+        if n_i is None or n_i <= 0:
+            continue
+
+        if position:
+            direction = position["direction"]
+            stop = position["stop"]
+            exit_level = donchian(candles, i, exit_window, "low" if direction == "long" else "high")
+            hit_stop = (c["low"] <= stop) if direction == "long" else (c["high"] >= stop)
+            hit_exit = exit_level is not None and (
+                (c["low"] <= exit_level) if direction == "long" else (c["high"] >= exit_level))
+            if hit_stop or hit_exit:
+                exit_price = stop if hit_stop else exit_level
+                first_unit = position["units"][0]
+                pnl_total = sum(
+                    (exit_price - u["entry_price"]) if direction == "long" else (u["entry_price"] - exit_price)
+                    for u in position["units"]
+                )
+                r_multiple = pnl_total / position["initial_risk"] if position["initial_risk"] > 0 else 0.0
+                trades.append({
+                    "direction": direction, "entry_idx": first_unit["entry_idx"],
+                    "entry_price": first_unit["entry_price"], "exit_idx": i,
+                    "exit_price": exit_price, "r_multiple": r_multiple,
+                    "ganadora": r_multiple > 0, "unidades": len(position["units"]),
+                })
+                last_signal_won[direction] = r_multiple > 0
+                position = None
+                continue
+            elif len(position["units"]) < PYRAMID_MAX_UNITS:
+                last_unit = position["units"][-1]
+                step = PYRAMID_STEP_N * last_unit["n_at_entry"]
+                moved_favorable = ((c["close"] - last_unit["entry_price"]) if direction == "long"
+                                    else (last_unit["entry_price"] - c["close"]))
+                if moved_favorable >= step:
+                    new_entry = c["close"]
+                    position["units"].append({"entry_price": new_entry, "entry_idx": i, "n_at_entry": n_i})
+                    position["stop"] = (new_entry - STOP_N_MULT * n_i) if direction == "long" else (new_entry + STOP_N_MULT * n_i)
+
+        if not position:
+            hh = donchian(candles, i, entry_window, "high")
+            ll = donchian(candles, i, entry_window, "low")
+            if hh is not None and c["high"] > hh:
+                if skip_filter and last_signal_won["long"] is True:
+                    last_signal_won["long"] = None
+                else:
+                    stop = c["close"] - STOP_N_MULT * n_i
+                    # entry_price/entry_idx a nivel de posición (no solo dentro de
+                    # "units"): son la referencia de la PRIMERA unidad, usada por
+                    # el dedup del bot en vivo (Engine._maybe_check_turtle) y por
+                    # el mensaje de Telegram — nunca cambian aunque se piramide.
+                    position = {"direction": "long", "entry_price": c["close"], "entry_idx": i,
+                               "units": [{"entry_price": c["close"], "entry_idx": i, "n_at_entry": n_i}],
+                               "stop": stop, "initial_risk": STOP_N_MULT * n_i}
+            elif ll is not None and c["low"] < ll:
+                if skip_filter and last_signal_won["short"] is True:
+                    last_signal_won["short"] = None
+                else:
+                    stop = c["close"] + STOP_N_MULT * n_i
+                    position = {"direction": "short", "entry_price": c["close"], "entry_idx": i,
+                               "units": [{"entry_price": c["close"], "entry_idx": i, "n_at_entry": n_i}],
+                               "stop": stop, "initial_risk": STOP_N_MULT * n_i}
+
+    return trades, position
+
+
 def current_signal(candles, entry_window, exit_window, skip_filter, min_lookback=100):
     """Para el bot EN VIVO: corre la misma simulación sobre el histórico
     completo hasta ahora y devuelve el estado actual (posición abierta, si
@@ -133,6 +223,16 @@ def current_signal(candles, entry_window, exit_window, skip_filter, min_lookback
     avisado nunca (bug real, encontrado el 17-oct-2026: ETH y BTC tenían
     señal real el 16-oct y nunca llegó el aviso). La decisión de "es nueva"
     ahora vive en Engine._maybe_check_turtle, comparando contra su propio
-    dedup persistente, no contra la hora exacta del sondeo."""
-    trades, open_pos = backtest_system(candles, entry_window, exit_window, skip_filter, min_lookback)
+    dedup persistente, no contra la hora exacta del sondeo.
+
+    Usa backtest_system_pyramided (19-oct-2026): backtest honesto en ETH y
+    BTC, los dos únicos activos que vigila este bot, mostró mejora con
+    pirámide en los 4 casos (los 2 sistemas x los 2 activos) — ver memoria
+    y el commit de esta fecha para los números exactos. En la cesta de 17
+    criptos el resultado es más mixto (el Sistema 2 pyramided empeora en
+    agregado por un único caso extremo, la burbuja de DOGE 2020-21, donde
+    el stop que sube con cada unidad corta la racha antes de tiempo) — pero
+    ETH/BTC no han hecho nunca un movimiento de ese tipo, así que no se
+    considera un riesgo relevante para estos dos activos en concreto."""
+    trades, open_pos = backtest_system_pyramided(candles, entry_window, exit_window, skip_filter, min_lookback)
     return {"open_position": open_pos, "trades": trades}

@@ -78,6 +78,7 @@ class Engine:
         # DIARIAS (ver bottrading/turtle.py), no tiene sentido mirarlo más a menudo que una vez al día.
         self.turtle_symbols = turtle_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
         self._turtle_last_entry = {}  # {"symbol|sistema": entry_idx} — persiste vía digest_state_file
+        self._correlated_warned = set()  # runtime, NO persiste: combos (dirección, símbolos) ya avisados
         self._last_turtle_check = time.time()
         # BUG real encontrado el 16-oct-2026: _last_turtle_check/_last_granmago_check arrancaban en
         # time.time() para no disparar en falso en cada relevo (ver nota de _last_position_check más abajo)
@@ -657,10 +658,14 @@ class Engine:
         arrow = "🟢" if pos["direction"] == "long" else "🔴"
         eur = fx.usd_to_eur()
         risk = abs(pos["entry_price"] - pos["stop"])
+        n_units = len(pos.get("units", [{}]))
         lines = [
             "🐢 %s <b>%s — %s</b> (%s)" % (arrow, symbol, pos["direction"].upper(), system_name),
             "Entrada: %s" % fx.fmt_eur(pos["entry_price"] * eur),
             "Stop inicial: %s (2N = %s de riesgo)" % (fx.fmt_eur(pos["stop"] * eur), fx.fmt_eur(risk * eur)),
+            "",
+            "Pirámide: el sistema añade hasta 4 entradas más si el precio sigue a favor (cada 0,5N), moviendo el "
+            "stop hacia arriba con cada una — ahora mismo va por %d de 4 unidad(es)." % n_units,
             "",
             "Salida: por regla, cuando el precio cierre fuera del canal contrario (no hay take profit fijo — "
             "el sistema deja correr la ganancia hasta que el precio dé la vuelta de verdad).",
@@ -672,10 +677,11 @@ class Engine:
     def _turtle_exit_text(self, symbol, name, system_name, trade):
         eur = fx.usd_to_eur()
         emoji = "🟢" if trade["ganadora"] else "🔴"
+        unidades = trade.get("unidades", 1)
         lines = [
             "🐢 %s <b>%s — cierre de %s</b> (%s)" % (emoji, symbol, trade["direction"].upper(), system_name),
             "Entrada: %s → Salida: %s" % (fx.fmt_eur(trade["entry_price"] * eur), fx.fmt_eur(trade["exit_price"] * eur)),
-            "Resultado: %+.2fR" % trade["r_multiple"],
+            "Resultado: %+.2fR (%d unidad%s)" % (trade["r_multiple"], unidades, "" if unidades == 1 else "es"),
         ]
         return "\n".join(lines)
 
@@ -691,6 +697,7 @@ class Engine:
             return
         self._last_turtle_check = now
         self.state_just_changed = True
+        open_directions = {}  # {symbol: direction} — para el aviso de riesgo correlacionado al final
         for i, cfg in enumerate(self.turtle_symbols):
             if i > 0:
                 time.sleep(1.2)
@@ -714,6 +721,7 @@ class Engine:
                     symbol, system_name,
                     ("posición %s @ %.2f" % (open_pos["direction"], open_pos["entry_price"])) if open_pos else "sin posición"))
                 if open_pos:
+                    open_directions.setdefault(symbol, set()).add(open_pos["direction"])
                     # cualquier posición abierta cuyo índice de entrada no coincida con lo
                     # último que avisamos es "nueva" para nosotros — da igual si se abrió
                     # hoy mismo o hace unos días y nos lo perdimos por timing del sondeo.
@@ -728,6 +736,35 @@ class Engine:
                     if closed_trade:
                         self.notifier.telegram(chat, self._turtle_exit_text(symbol, name, system_name, closed_trade))
                     self._turtle_last_entry[key] = None
+
+        # Aviso de riesgo correlacionado (19-oct-2026, investigación sobre las
+        # reglas originales de Turtle para mercados correlacionados): si DOS
+        # símbolos vigilados tienen la MISMA dirección abierta a la vez, avisar
+        # de que no hay que arriesgar el 100% normal en cada uno. No persiste
+        # a relevos (self._correlated_warned vive solo en memoria) — es un
+        # recordatorio de bajo riesgo repetirlo alguna vez de más tras un
+        # relevo, a diferencia de las entradas/salidas reales.
+        same_direction = {}
+        for sym, dirs in open_directions.items():
+            for d in dirs:
+                same_direction.setdefault(d, set()).add(sym)
+        for direction, symbols in same_direction.items():
+            if len(symbols) < 2:
+                continue
+            combo = (direction, frozenset(symbols))
+            if combo in self._correlated_warned:
+                continue
+            self._correlated_warned.add(combo)
+            texto = (
+                "⚠️ <b>Riesgo correlacionado</b>: %s tienen señal %s a la vez (Turtle).\n\n"
+                "Según las reglas originales del sistema, mercados estrechamente correlacionados "
+                "(como ETH/BTC) no deben sumar riesgo como si fueran independientes — la "
+                "recomendación es no superar ~1,3-1,5%% de riesgo combinado entre ambos, no el 1%% "
+                "normal en cada uno. Si vas a abrir las dos, recorta la segunda a un 30-50%% del "
+                "tamaño habitual."
+            ) % (" y ".join(sorted(symbols)), direction.upper())
+            self.notifier.telegram(self.default_chat_id, texto)
+
         # self._save() AL FINAL (mismo motivo que en _maybe_check_granmago):
         # si se guardara antes del bucle, los dedup actualizados dentro del
         # bucle no se persistirían hasta el siguiente ciclo.
