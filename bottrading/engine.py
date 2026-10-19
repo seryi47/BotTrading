@@ -682,6 +682,7 @@ class Engine:
         now = time.time()
         if now - self._last_turtle_check < self.turtle_interval:
             return
+        print("  [turtle] chequeo disparado, %d símbolo(s) configurados" % len(self.turtle_symbols))
         self._last_turtle_check = now
         self.state_just_changed = True
         for i, cfg in enumerate(self.turtle_symbols):
@@ -691,6 +692,7 @@ class Engine:
             chat = cfg.get("chat_id") or self.default_chat_id
             try:
                 daily = kraken.get_klines(symbol, "1d")  # Binance bloquea (451) desde GitHub Actions — ver kraken.py
+                print("  [turtle %s] %d velas descargadas de Kraken" % (symbol, len(daily)))
             except Exception as e:
                 print("  [turtle %s] error al descargar velas: %s" % (symbol, e))
                 continue
@@ -703,6 +705,10 @@ class Engine:
                     continue
                 open_pos = signal["open_position"]
                 last_known_entry = self._turtle_last_entry.get(key)
+                print("  [turtle %s/%s] posicion_abierta=%s dedup_previo=%s" % (
+                    symbol, system_name,
+                    ("%s@%.2f(idx%d)" % (open_pos["direction"], open_pos["entry_price"], open_pos["entry_idx"])) if open_pos else "ninguna",
+                    last_known_entry))
                 if open_pos:
                     # cualquier posición abierta cuyo índice de entrada no coincida con lo
                     # último que avisamos es "nueva" para nosotros — da igual si se abrió
