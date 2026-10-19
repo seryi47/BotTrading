@@ -1493,9 +1493,13 @@ granmago_symbols: []
 # saludable de un sistema de tendencia real. Validado también en cesta de
 # 17 cripto (+732,89R y +1.850,23R agregados, 16/17 y 17/17 activos en
 # positivo). Modo HÍBRIDO: el bot avisa de entrada y de cierre, el usuario
-# decide y ejecuta — nunca manda órdenes. Revisa una vez al día (opera en
-# velas diarias, no tiene sentido mirarlo más a menudo). ---
-turtle_check_interval: 86400
+# decide y ejecuta — nunca manda órdenes. El sistema opera en velas DIARIAS
+# (la señal en sí no cambia más de una vez al día), pero desde el
+# 19-oct-2026 se revisa cada 4h en vez de cada 24h: mirar más a menudo no
+# da datos nuevos la mayor parte del día, pero SÍ reduce el retraso máximo
+# entre que una señal real aparece y que el usuario se entera (de hasta 24h
+# a hasta 4h) — el dedup ya evita avisar dos veces de la misma señal. ---
+turtle_check_interval: 14400
 turtle_symbols:
   - symbol: "ETH"
     name: "Ethereum"
