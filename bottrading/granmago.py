@@ -15,7 +15,9 @@ ajustarlos con la experiencia real del bot, tal como se hizo con el resto
 de BotTrading."""
 
 from . import indicators as ind_mod
-from .providers import binance
+from .providers import kraken  # Binance bloquea (451) desde GitHub Actions — ver bottrading/providers/kraken.py.
+# GranMago está desactivado (granmago_symbols: [] en watches.yaml, 16-oct-2026) pero si se
+# reactiva algún día, que arranque ya con la fuente de datos que SÍ funciona en vivo (19-oct-2026).
 
 SWING_WINDOW = 3          # velas a cada lado para que un punto cuente como swing high/low (decisión propia)
 SWEEP_LOOKBACK = 12       # nº de velas (en la temporalidad operativa) donde buscar una manipulación reciente
@@ -175,9 +177,9 @@ def build_setup(symbol, name, closes_needed=1):
     # la semilla sea correcta (bug verificado el 16-oct-2026: con 60 velas
     # semanales daba 2.642 en vez de ~2.422 reales) — 300 velas da margen de
     # sobra en las tres temporalidades.
-    weekly = binance.get_klines(symbol, "1w", 300)
-    daily = binance.get_klines(symbol, "1d", 300)
-    h4 = binance.get_klines(symbol, "4h", 300)
+    weekly = kraken.get_klines(symbol, "1w", 300)
+    daily = kraken.get_klines(symbol, "1d", 300)
+    h4 = kraken.get_klines(symbol, "4h", 300)
     return compute_setup(weekly, daily, h4, symbol, name, closes_needed)
 
 

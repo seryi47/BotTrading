@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 from . import indicators as ind_mod
 from . import granmago
 from . import turtle
-from .providers import crypto, stocks, fx, news, bitvavo, binance
+from .providers import crypto, stocks, fx, news, bitvavo, kraken
 
 MADRID = ZoneInfo("Europe/Madrid")
 
@@ -690,7 +690,7 @@ class Engine:
             symbol, name = cfg["symbol"], cfg.get("name", cfg["symbol"])
             chat = cfg.get("chat_id") or self.default_chat_id
             try:
-                daily = binance.get_klines_deep(symbol, "1d", 5000)
+                daily = kraken.get_klines(symbol, "1d")  # Binance bloquea (451) desde GitHub Actions — ver kraken.py
             except Exception as e:
                 print("  [turtle %s] error al descargar velas: %s" % (symbol, e))
                 continue
