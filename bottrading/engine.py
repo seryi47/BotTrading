@@ -144,10 +144,17 @@ class Engine:
                 # contadores de turtle/granmago: si el archivo compartido trae un
                 # valor, manda sobre el time.time() recién inicializado — si no,
                 # el contador nunca llegaría a cumplir intervalos largos (24h)
-                # frente a un job que se releva cada ~5h33m (bug real, 16-oct-2026)
-                if d.get("last_turtle_check"):
+                # frente a un job que se releva cada ~5h33m (bug real, 16-oct-2026).
+                # OJO: "is not None", NO "if d.get(...)" a secas — 0 es un valor
+                # válido (forzarlo a 0 para disparar ya) pero es FALSY en Python,
+                # así que el chequeo de verdad ("if d.get(...)") lo ignoraba en
+                # silencio y el contador seguía con el time.time() del arranque
+                # — bug real encontrado el 19-oct-2026 que invalidó TODAS las
+                # pruebas "forzando a 0" hechas hasta ahora, el gate de 24h
+                # nunca llegó a desactivarse de verdad en ningún job real.
+                if d.get("last_turtle_check") is not None:
                     self._last_turtle_check = d["last_turtle_check"]
-                if d.get("last_granmago_check"):
+                if d.get("last_granmago_check") is not None:
                     self._last_granmago_check = d["last_granmago_check"]
                 self._turtle_last_entry = {
                     tuple(k.split("|", 1)): v for k, v in d.get("turtle_last_entry", {}).items()
