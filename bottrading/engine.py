@@ -78,7 +78,7 @@ class Engine:
         # DIARIAS (ver bottrading/turtle.py), no tiene sentido mirarlo más a menudo que una vez al día.
         self.turtle_symbols = turtle_symbols or []  # [{"symbol":"ETH","name":"Ethereum","chat_id":...}, ...]
         self._turtle_last_entry = {}  # {"symbol|sistema": entry_idx} — persiste vía digest_state_file
-        self._correlated_warned = set()  # runtime, NO persiste: combos (dirección, símbolos) ya avisados
+        self._correlated_warned = set()  # combos (dirección, símbolos) ya avisados — persiste vía digest_state_file
         self._last_turtle_check = time.time()
         # BUG real encontrado el 16-oct-2026: _last_turtle_check/_last_granmago_check arrancaban en
         # time.time() para no disparar en falso en cada relevo (ver nota de _last_position_check más abajo)
@@ -161,6 +161,10 @@ class Engine:
                     tuple(k.split("|", 1)): v for k, v in d.get("turtle_last_entry", {}).items()
                 }
                 self._granmago_last_sweep = d.get("granmago_last_sweep", {})
+                self._correlated_warned = set()
+                for item in d.get("correlated_warned", []):
+                    direction, syms = item.split("|", 1)
+                    self._correlated_warned.add((direction, frozenset(syms.split(","))))
             except Exception as e:
                 print("[engine] no se pudo leer %s: %s" % (self.digest_state_file, e))
 
@@ -184,7 +188,9 @@ class Engine:
                               "last_turtle_check": self._last_turtle_check,
                               "last_granmago_check": self._last_granmago_check,
                               "turtle_last_entry": {"|".join(k): v for k, v in self._turtle_last_entry.items()},
-                              "granmago_last_sweep": self._granmago_last_sweep}, fh)
+                              "granmago_last_sweep": self._granmago_last_sweep,
+                              "correlated_warned": ["%s|%s" % (direction, ",".join(sorted(syms)))
+                                                     for direction, syms in self._correlated_warned]}, fh)
             except Exception as e:
                 print("[engine] no se pudo guardar %s: %s" % (self.digest_state_file, e))
 
@@ -740,10 +746,11 @@ class Engine:
         # Aviso de riesgo correlacionado (19-oct-2026, investigación sobre las
         # reglas originales de Turtle para mercados correlacionados): si DOS
         # símbolos vigilados tienen la MISMA dirección abierta a la vez, avisar
-        # de que no hay que arriesgar el 100% normal en cada uno. No persiste
-        # a relevos (self._correlated_warned vive solo en memoria) — es un
-        # recordatorio de bajo riesgo repetirlo alguna vez de más tras un
-        # relevo, a diferencia de las entradas/salidas reales.
+        # de que no hay que arriesgar el 100% normal en cada uno. Persiste en
+        # digest_state_file (fix 21-oct-2026: antes self._correlated_warned
+        # vivía solo en memoria y el job se relevaba cada pocas horas en GH
+        # Actions, así que el aviso se repetía en cada proceso nuevo mientras
+        # la situación no cambiara — spam real, no una señal nueva).
         same_direction = {}
         for sym, dirs in open_directions.items():
             for d in dirs:
